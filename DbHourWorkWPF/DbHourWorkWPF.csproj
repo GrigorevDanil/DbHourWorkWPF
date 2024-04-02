@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <LangVersion Condition="'$(MSBuildProjectExtension)'=='.csproj'">preview</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{82AC3DA3-23B4-48C1-A306-239A9F9EA764}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>DbHourWorkWPF</RootNamespace>
+    <AssemblyName>DbHourWorkWPF</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=7.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.7.0.1\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="MySqlConnector, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d33d3e53aa5f8c92, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySqlConnector.2.3.6\lib\net48\MySqlConnector.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=7.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.7.0.2\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="ContextAccount.xaml.cs">
+      <DependentUpon>ContextAccount.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContextDay.xaml.cs">
+      <DependentUpon>ContextDay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContextEmployee.xaml.cs">
+      <DependentUpon>ContextEmployee.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContextPost.xaml.cs">
+      <DependentUpon>ContextPost.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBForm.xaml.cs">
+      <DependentUpon>DBForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Items\ItemUser.cs" />
+    <Compile Include="Items\ItemDay.cs" />
+    <Compile Include="Items\ItemPost.cs" />
+    <Compile Include="MainForm.xaml.cs">
+      <DependentUpon>MainForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AccountModel.cs" />
+    <Compile Include="Model\EmployeeModel.cs" />
+    <Compile Include="Model\PageModel.cs" />
+    <Compile Include="Items\ItemEmployee.cs" />
+    <Compile Include="PostForm.xaml.cs">
+      <DependentUpon>PostForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SplashScreen.xaml.cs">
+      <DependentUpon>SplashScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Btn.cs" />
+    <Compile Include="Utilities\Database.cs" />
+    <Compile Include="Utilities\DatabaseService.cs" />
+    <Compile Include="Utilities\RelayCommand.cs" />
+    <Compile Include="Utilities\RoundedBorder.xaml.cs">
+      <DependentUpon>RoundedBorder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\RoundProgressPathConverter.cs" />
+    <Compile Include="Utilities\Setting.cs" />
+    <Compile Include="Utilities\ViewModelBase.cs" />
+    <Compile Include="ViewModel\AccountVM.cs" />
+    <Compile Include="ViewModel\ConnectionVM.cs" />
+    <Compile Include="ViewModel\CopyVM.cs" />
+    <Compile Include="ViewModel\DayVM.cs" />
+    <Compile Include="ViewModel\EmployeeVM.cs" />
+    <Compile Include="ViewModel\NavigationVM.cs" />
+    <Compile Include="ViewModel\TimeVM.cs" />
+    <Compile Include="View\Account.xaml.cs">
+      <DependentUpon>Account.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Connection.xaml.cs">
+      <DependentUpon>Connection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Copy.xaml.cs">
+      <DependentUpon>Copy.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Day.xaml.cs">
+      <DependentUpon>Day.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Employee.xaml.cs">
+      <DependentUpon>Employee.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\StaticImage.cs" />
+    <Compile Include="View\Time.xaml.cs">
+      <DependentUpon>Time.xaml</DependentUpon>
+    </Compile>
+    <Page Include="ContextAccount.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContextDay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContextEmployee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContextPost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DBForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginContext.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LoginContext.xaml.cs">
+      <DependentUpon>LoginContext.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="MainForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PostForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\DateTimePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\MenuItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ScrollBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Utilities\DataTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Account.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Connection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Copy.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Day.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Employee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Button.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\DataGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\TextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Utilities\RoundedBorder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Time.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Resource Include="Fonts\Nautilus.otf" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\Back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\Swipe.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\capEnable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\cross.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\inVisible.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\exit1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\Visible.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconUser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\Time.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\TimeEnable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\addEmpEnable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\BackupEnable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\DBEnable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconUserPanel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconPrint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconAdmin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\Add1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\Edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\addPostEnable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\addDayEnable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\ImageDB.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\Default.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconCopy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\BackupCreate1.png" />
+    <Resource Include="Pictures\BackupDelete.png" />
+    <Resource Include="Pictures\BackupSet1.png" />
+    <Resource Include="Pictures\BackupTime.png" />
+    <Resource Include="Pictures\Find.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconBIP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconClose.png" />
+    <Resource Include="Pictures\IconPlace.png" />
+    <Resource Include="Pictures\IconTurn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\Arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\ClearFilter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\ImageEmployee.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\Accept.png" />
+    <Resource Include="Pictures\crossWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconMainPost.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconMainDay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconProgramm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\ArrowDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconPalitra.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconKey.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

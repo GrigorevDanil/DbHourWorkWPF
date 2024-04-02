@@ -1,0 +1,264 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:DbHourWorkWPF">
+
+    <Style x:Key="MenuItemStyleDefault"
+       TargetType="MenuItem">
+        <Setter Property="Margin" Value="0 0 10 0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type MenuItem}">
+                    <Border x:Name="border"
+                        BorderThickness="0"
+                        CornerRadius="7">
+
+                        <Border.Background>
+                            <SolidColorBrush x:Name="BorderBackground" Color="#093A5C" />
+                        </Border.Background>
+
+                        <Grid>
+                            
+                            <Border x:Name="Indicator"
+                                Height="2"
+                                Width="60"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Background="#FFFFFF"
+                                Visibility="Collapsed"
+                                CornerRadius="2" />
+                            
+                            <!--// Icon //-->
+                            <ContentPresenter ContentSource="Icon"
+                                          HorizontalAlignment="Left"
+                                          VerticalAlignment="Center"
+                                          Height="25"
+                                          Width="25"
+                                          Margin="8,0,0,0" />
+                            <!--// Text //-->
+                            <ContentPresenter ContentSource="Header"
+                                          TextBlock.Foreground="#D9D9D9"
+                                          TextBlock.FontFamily="Nautilus Pompilius"
+                                          TextBlock.FontSize="16"
+                                          HorizontalAlignment="Left"
+                                          VerticalAlignment="Center"
+                                          Margin="40,0,15,0" />
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter Property="Visibility"
+                                TargetName="Indicator"
+                                Value="Visible" />
+                        </Trigger>
+                        <EventTrigger RoutedEvent="Border.MouseEnter" SourceName="border">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="BorderBackground"
+                                         Storyboard.TargetProperty="Color"
+                                         From="#093A5C"
+                                         To="#0E5B8E"
+                                         Duration="0:0:0.3" />
+                                </Storyboard>
+                            </BeginStoryboard>
+
+                        </EventTrigger>
+
+                        <EventTrigger RoutedEvent="Border.MouseLeave" SourceName="border">
+
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="BorderBackground"
+                                Storyboard.TargetProperty="Color"
+                     From="#0E5B8E"
+                     To="#093A5C"
+                     Duration="0:0:0.3" />
+                                </Storyboard>
+                            </BeginStoryboard>
+
+                        </EventTrigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MenuItemStyleWithDropDown"
+   TargetType="MenuItem">
+        <Setter Property="Margin" Value="0 0 10 0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type MenuItem}">
+                    <Border x:Name="border"
+                    BorderThickness="0"
+                    CornerRadius="7">
+
+                        <Border.Background>
+                            <SolidColorBrush x:Name="BorderBackground" Color="#093A5C" />
+                        </Border.Background>
+
+                        <Grid>
+
+                            <Border x:Name="Indicator"
+                            Height="2"
+                            Width="60"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Background="#FFFFFF"
+                            Visibility="Collapsed"
+                            CornerRadius="2" />
+
+                            <!--// Icon //-->
+                            <ContentPresenter ContentSource="Icon"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      Height="25"
+                                      Width="25"
+                                      Margin="8,0,0,0" />
+                            <!--// Text //-->
+                            <ContentPresenter ContentSource="Header"
+                                      TextBlock.Foreground="#D9D9D9"
+                                      TextBlock.FontFamily="Nautilus Pompilius"
+                                      TextBlock.FontSize="16"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"
+                                      Margin="40,0,35,0" />
+                            <!--// Dropdown Icon //-->
+                            <Image Source="/Pictures/ArrowDown.png"
+                                   Stretch="None"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,15,0" />
+                            <!--// Popup //-->
+                            <Popup x:Name="PART_Popup"
+                                   AllowsTransparency="True"
+                                   IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Placement="Bottom"
+                                   PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">    
+
+                                <Border x:Name="SubMenuBorder"
+                                        Background="#093A5C"
+                                        BorderBrush="#093A5C"
+                                        CornerRadius="5"
+                                        Padding="5">
+
+                                    <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer,TypeInTargetAssembly={x:Type FrameworkElement}}}">
+
+                                        <Grid RenderOptions.ClearTypeHint="Enabled">
+
+                                            <Canvas HorizontalAlignment="Left"
+                                                    VerticalAlignment="Top" />
+
+                                            <ItemsPresenter x:Name="ItemsPresenter" />
+
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter Property="Visibility"
+                            TargetName="Indicator"
+                            Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsSuspendingPopupAnimation"
+                                Value="True">
+                            <Setter Property="PopupAnimation"
+                                     TargetName="PART_Popup"
+                                     Value="None" />
+                        </Trigger>
+                        <EventTrigger RoutedEvent="Border.MouseEnter" SourceName="border">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="BorderBackground"
+                                     Storyboard.TargetProperty="Color"
+                                     From="#093A5C"
+                                     To="#0E5B8E"
+                                     Duration="0:0:0.3" />
+                                </Storyboard>
+                            </BeginStoryboard>
+
+                        </EventTrigger>
+
+                        <EventTrigger RoutedEvent="Border.MouseLeave" SourceName="border">
+
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="BorderBackground"
+                            Storyboard.TargetProperty="Color"
+                 From="#0E5B8E"
+                 To="#093A5C"
+                 Duration="0:0:0.3" />
+                                </Storyboard>
+                            </BeginStoryboard>
+
+                        </EventTrigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Services_Sub_MenuItem"
+       TargetType="MenuItem">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type MenuItem}">
+                    <Border x:Name="border"
+                        Background="#093A5C"
+                        BorderThickness="0"
+                            Padding="5">
+                        <Grid>
+                            <!--// Icon //-->
+                            <ContentPresenter ContentSource="Icon"
+                                          HorizontalAlignment="Left"
+                                          VerticalAlignment="Center"
+                                          Height="18"
+                                          Width="18"
+                                          Margin="8,0,0,0" />
+                            <!--// Text //-->
+                            <ContentPresenter ContentSource="Header"
+                                          TextBlock.Foreground="#D3D7DC"
+                                          TextBlock.FontFamily="Rubik Medium"
+                                          TextBlock.FontSize="15"
+                                          HorizontalAlignment="Left"
+                                          VerticalAlignment="Center"
+                                          Margin="35,0,0,0" />
+
+                            <Grid x:Name="Highlighter"
+                              Height="35"
+                              Width="2"
+                              Background="#FFFFFF"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center"
+                              Visibility="Collapsed" />
+
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted"
+                             Value="True">
+                            <Setter Property="Background"
+                                TargetName="border"
+                                Value="#0C517F" />
+                            <Setter Property="BorderBrush"
+                                TargetName="border"
+                                Value="#0C517F" />
+                            <Setter Property="Visibility"
+                                TargetName="Highlighter"
+                                Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>
