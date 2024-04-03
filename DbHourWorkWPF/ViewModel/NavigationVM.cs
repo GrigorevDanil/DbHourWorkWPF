@@ -1,5 +1,10 @@
-﻿using DbHourWorkWPF.Utilities;
+﻿using DbHourWorkWPF.Items;
+using DbHourWorkWPF.Utilities;
+using MySqlConnector;
+using System.IO;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 
 namespace DbHourWorkWPF.ViewModel
@@ -7,11 +12,13 @@ namespace DbHourWorkWPF.ViewModel
     class NavigationVM : ViewModelBase
     {
         private object _currentView;
+        ItemUser curAccount;
         public object CurrentView
         {
             get { return _currentView; }
             set { _currentView = value; OnPropertyChanged(); }
         }
+
 
         public ICommand EmployeeCommand { get; set; }
         public ICommand TimeCommand { get; set; }
@@ -19,6 +26,7 @@ namespace DbHourWorkWPF.ViewModel
         public ICommand CopyCommand { get; set; }
         public ICommand ConnectionCommand { get; set; }
         public ICommand DayCommand { get; set; }
+        public ICommand AdminCommand { get; set; }
 
 
 
@@ -28,6 +36,7 @@ namespace DbHourWorkWPF.ViewModel
         private void Copy(object obj) => CurrentView = new CopyVM();
         private void Connection(object obj) => CurrentView = new ConnectionVM();
         private void Day(object obj) => CurrentView = new DayVM();
+        private void Admin(object obj) => CurrentView = new AdminVM();
 
 
         public NavigationVM()
@@ -38,9 +47,12 @@ namespace DbHourWorkWPF.ViewModel
             CopyCommand = new RelayCommand(Copy);
             ConnectionCommand = new RelayCommand(Connection);
             DayCommand = new RelayCommand(Day);
+            AdminCommand = new RelayCommand(Admin);
 
             // Startup Page
             CurrentView = new TimeVM();
         }
+
+        
     }
 }

@@ -35,7 +35,24 @@ namespace DBHourWorkWPF.Utilities
             return database.connection;
         }
 
-       
+
+        public T LoadRecordFromServer<T>(string com, Func<MySqlDataReader, T> createItem)
+        {
+            T item = default(T);
+            openConnection();
+            using (MySqlCommand command = new MySqlCommand(com, getConnection()))
+            {
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        item = createItem(reader);
+                    }
+                }
+            }
+            closeConnection();
+            return item;
+        }
 
         public List<T> LoadListFromServer<T>(string com, Func<MySqlDataReader, T> createItem)
         {
@@ -114,7 +131,27 @@ namespace DBHourWorkWPF.Utilities
             openConnection();
             using (MySqlCommand command = new MySqlCommand(com, getConnection()))
             {
+
                 for (int i = 0; i < parametrs.Length; i++) command.Parameters.AddWithValue(parametrs[i], values[i]);
+                try { command.ExecuteNonQuery(); }
+                catch (Exception exp)
+                {
+
+                    MessageBox.Show($"При выполнении операции произошла ошибка: {exp.Message}", "Произошла ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+            closeConnection();
+        }
+
+        public void OperationOnRecord(string com, string[] values, byte[] img)
+        {
+            string[] parametrs = FindParametrsInCommand(com);
+            openConnection();
+            using (MySqlCommand command = new MySqlCommand(com, getConnection()))
+            {
+                command.Parameters.AddWithValue(parametrs[0], img);
+                for (int i = 1; i < parametrs.Length; i++) command.Parameters.AddWithValue(parametrs[i], values[i]);
                 try { command.ExecuteNonQuery(); }
                 catch (Exception exp)
                 {

@@ -9,7 +9,7 @@ namespace DbHourWorkWPF.Items
     {
         ImageSource image;
         int id;
-        string name, surname, login, role;
+        string name, surname, login, role, fullname;
         bool isLock, isSelected;
         DateTime dateLock;
 
@@ -53,13 +53,25 @@ namespace DbHourWorkWPF.Items
             }
         }
 
+        public string FullName
+        {
+            get { return fullname; }
+            set
+            {
+                fullname = value;
+                OnPropertyChanged(nameof(FullName));
+            }
+        }
+
         public string Name
         {
             get { return name; }
             set
             {
                 name = value;
+                fullname = surname + " " + name;
                 OnPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(FullName));
             }
         }
 
@@ -69,7 +81,9 @@ namespace DbHourWorkWPF.Items
             set
             {
                 surname = value;
+                fullname = surname + " " + name;
                 OnPropertyChanged(nameof(Surname));
+                OnPropertyChanged(nameof(FullName));
             }
         }
 

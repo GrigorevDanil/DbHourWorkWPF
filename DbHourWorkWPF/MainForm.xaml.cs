@@ -1,6 +1,9 @@
-﻿using System;
+﻿using DbHourWorkWPF.Items;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,7 +24,6 @@ namespace DbHourWorkWPF
     public partial class MainForm : Window
     {
 
-
         private void butResizeWindow_Click(object sender, RoutedEventArgs e)
         {
             if (WindowState == WindowState.Maximized) WindowState = WindowState.Normal;
@@ -37,6 +39,8 @@ namespace DbHourWorkWPF
         {
             InitializeComponent();
 
+            App.txtNick = tbNick;
+            App.imgUser = iconUser;
 
             //Setting Time
             lDateTime.Content = $"Дата: {DateTime.Now:dd.MM.yyyy} Время: {DateTime.Now:HH:mm}";
@@ -45,14 +49,15 @@ namespace DbHourWorkWPF
             timer.Tick += Timer_Tick;
             timer.Start();
 
+            if (LoginContext.flagChangeUserServer)
+            {
+                tbNick.Text = App.Account.Login;
+            }
+            else
+            {
+                tbNick.Text = App.Account.Surname + " " + App.Account.Name;
+            }
 
-            /*
-            if (UserName != null) lUser.Content = UserName;
-            else lUser.Content = UserLogin;
-
-            if (IconUser == null) iconUser.ImageSource = IconUser;
-            else IconUser = new BitmapImage(new Uri("ImageEmployee.png", UriKind.Relative));
-            */
         }
 
         private void Timer_Tick(object sender, EventArgs e) => lDateTime.Content = $"Дата: {DateTime.Now:dd.MM.yyyy} Время: {DateTime.Now:HH:mm}";
@@ -63,6 +68,14 @@ namespace DbHourWorkWPF
         private void butExit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
     }
 }

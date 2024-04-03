@@ -8,6 +8,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace DbHourWorkWPF
 {
@@ -19,6 +21,8 @@ namespace DbHourWorkWPF
         public static Database db;
         public static Setting settingJson;
         public static DatabaseService serviceDb;
-        public static ItemUser Account { get; set; }
+        public static ItemUser Account;
+        public static TextBlock txtNick;
+        public static ImageBrush imgUser;
     }
 }

@@ -92,6 +92,9 @@
     <Compile Include="ContextAccount.xaml.cs">
       <DependentUpon>ContextAccount.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ContextChangeKey.xaml.cs">
+      <DependentUpon>ContextChangeKey.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ContextDay.xaml.cs">
       <DependentUpon>ContextDay.xaml</DependentUpon>
     </Compile>
@@ -131,6 +134,7 @@
     <Compile Include="Utilities\Setting.cs" />
     <Compile Include="Utilities\ViewModelBase.cs" />
     <Compile Include="ViewModel\AccountVM.cs" />
+    <Compile Include="ViewModel\AdminVM.cs" />
     <Compile Include="ViewModel\ConnectionVM.cs" />
     <Compile Include="ViewModel\CopyVM.cs" />
     <Compile Include="ViewModel\DayVM.cs" />
@@ -139,6 +143,9 @@
     <Compile Include="ViewModel\TimeVM.cs" />
     <Compile Include="View\Account.xaml.cs">
       <DependentUpon>Account.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Admin.xaml.cs">
+      <DependentUpon>Admin.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Connection.xaml.cs">
       <DependentUpon>Connection.xaml</DependentUpon>
@@ -157,6 +164,10 @@
       <DependentUpon>Time.xaml</DependentUpon>
     </Compile>
     <Page Include="ContextAccount.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContextChangeKey.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -225,6 +236,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Account.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -418,6 +433,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Pictures\IconKey.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconKeyContext.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

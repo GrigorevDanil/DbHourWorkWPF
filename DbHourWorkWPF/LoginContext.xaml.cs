@@ -187,7 +187,7 @@ namespace DbHourWorkWPF
 
                     BitmapImage bitmapImage = new BitmapImage();
 
-                    if (row["Image"] != null)
+                    if (row["Image"] != DBNull.Value)
                     {
                         using (MemoryStream ms = new MemoryStream((byte[])row["Image"]))
                         {
@@ -200,12 +200,14 @@ namespace DbHourWorkWPF
                             bitmapImage.StreamSource = ms;
                             bitmapImage.EndInit();
                         }
+                        bitmapImage.Freeze();
+                        App.Account.Image = bitmapImage;
                     }
+                    else App.Account.Image = new BitmapImage(new Uri("ImageEmployee.png", UriKind.Relative));
 
-                    bitmapImage.Freeze();
+
 
                     App.Account.Id = int.Parse(row["IdUser"].ToString());
-                    App.Account.Image = bitmapImage;
                     App.Account.Login = row["Login"].ToString();
                     App.Account.Role = row["Role"].ToString();
                     App.Account.Surname = row["Surname"].ToString();
@@ -271,6 +273,7 @@ namespace DbHourWorkWPF
                     App.serviceDb.closeConnection();
                 }
                 App.Account.Login = comboBoxLogin.SelectedItem.ToString();
+                App.Account.Image = new BitmapImage(new Uri("ImageEmployee.png", UriKind.Relative));
                 buttonEnter.Content = "Успешно!";
                 await Task.Delay(500);
                 MainForm form = new MainForm();

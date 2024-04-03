@@ -1,48 +1,133 @@
 ﻿using DbHourWorkWPF.Items;
 using DbHourWorkWPF.Model;
 using DbHourWorkWPF.Utilities;
+using System.IO;
+using System.Windows;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.Windows.Controls;
+using System;
+using System.Collections.ObjectModel;
+using MySqlConnector;
+using System.ComponentModel.Design;
 
 namespace DbHourWorkWPF.ViewModel
 {
     class AccountVM : Utilities.ViewModelBase
     {
-
-        string cmdEdit = "UPDATE user SET Image = @img, Name = @nam, Surname = @surn, Login = @log, Password = @pass WHERE IdUser = @_idUser";
+        public static ImageSource defaultImageSource = new BitmapImage(new Uri("ImageEmployee.png", UriKind.RelativeOrAbsolute));
+        public static bool defaultImageFlag = true, changePassFlag = false;
+        
+        string cmdEdit = "UPDATE user SET Image = @img, Name = @nam, Surname = @surn, Login = @log WHERE IdUser = @_idUser";
 
         private readonly AccountModel _accountModel;
 
-        public ItemUser Account { get; set; }
+        ItemUser curAccount;
 
+        public ItemUser CurAccount
+        {
+            get 
+            {
+                return curAccount;
+            }
+            set
+            {
+                curAccount = value;
+                App.txtNick.Text = curAccount.FullName;
+                App.imgUser.ImageSource = curAccount.Image;
+                OnPropertyChanged(nameof(CurAccount));
+            }
+        }
         RelayCommand? editCommand;
         RelayCommand? deleteCommand;
 
+
+        void UpdateAccount()
+        {
+            CurAccount = App.serviceDb.LoadRecordFromServer($"SELECT Image,Name,Surname,Login,Role,IdUser FROM user WHERE IdUser = {CurAccount.Id}", reader =>
+            {
+                ItemUser user = new ItemUser
+                {
+                    Name = reader.GetString(1),
+                    Surname = reader.GetString(2),
+                    Login = reader.GetString(3),
+                    Role = reader.GetString(4),
+                    Id = reader.GetInt32(5),
+                };
+
+                if (!reader.IsDBNull(reader.GetOrdinal("Image")))
+                {
+                    user.Image = BytesToImageSource(reader, "Image");
+                }
+                else user.Image = defaultImageSource;
+
+                return user;
+            });
+
+            App.Account = CurAccount;
+            OnPropertyChanged(nameof(CurAccount));
+        }
 
 
         public AccountVM()
         {
             _accountModel = new AccountModel();
 
-            Account = App.Account;
-            /*
-            if (MainForm.UserName != null) CurrentName = MainForm.UserName;
-            if (MainForm.UserLogin != null) CurrentLogin = MainForm.UserLogin;
-            if (MainForm.UserRole != null) CurrentRole = MainForm.UserRole;
-            if (MainForm.IconUser != null) CurrentIcon = MainForm.IconUser;
-            */
+            CurAccount = App.Account;
+            
         }
 
-        /*
-        string[] FillParam(ItemAccount item)
+
+        string[] FillParam(ItemUser item)
         {
-            string[] param = new string[6];
+            string[] param = new string[5];
             param[1] = item.Name;
             param[2] = item.Surname;
             param[3] = item.Login;
-            param[4] = item.Password;
-            
+
             return param;
         }
 
+        public byte[] ImageSourceToBytes(BitmapEncoder encoder, ImageSource imageSource)
+        {
+            byte[] bytes = null;
+            var bitmapSource = imageSource as BitmapSource;
+            if (bitmapSource != null)
+            {
+                encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+                using (var stream = new MemoryStream())
+                {
+                    encoder.Save(stream);
+                    bytes = stream.ToArray();
+                }
+            }
+            return bytes;
+        }
+
+        public ImageSource BytesToImageSource(MySqlDataReader reader, string columnName)
+        {
+            int columnIndex = reader.GetOrdinal(columnName);
+            if (!reader.IsDBNull(columnIndex))
+            {
+                long blobSize = reader.GetBytes(columnIndex, 0, null, 0, 0); // Получаем размер BLOB данных.
+                byte[] buffer = new byte[blobSize];
+                reader.GetBytes(columnIndex, 0, buffer, 0, (int)blobSize); // Считываем BLOB в буфер.
+
+                using (MemoryStream memoryStream = new MemoryStream(buffer))
+                {
+                    var image = new BitmapImage();
+                    memoryStream.Position = 0; //Важно перейти к началу потока
+                    image.BeginInit();
+                    image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = memoryStream;
+                    image.EndInit();
+                    image.Freeze(); // Оптимально для использования в UI
+                    return image;
+                }
+            }
+            return null; // Или возвращайте изображение по умолчанию, если BLOB пустой.
+        }
 
         // команда редактирования
         public RelayCommand EditCommand
@@ -52,13 +137,13 @@ namespace DbHourWorkWPF.ViewModel
                 return editCommand ??
                   (editCommand = new RelayCommand((o) =>
                   {
-                      ItemAccount vm = new ItemAccount
+                      ItemUser vm = new ItemUser
                       {
-                          Image = Account.Image,
-                          Surname = Account.Surname,
-                          Name = Account.Name,
-                          Login = Account.Login,
-                          Password = Account.Password
+                          Image = CurAccount.Image,
+                          Surname = CurAccount.Surname,
+                          Name = CurAccount.Name,
+                          Login = CurAccount.Login,
+                          Id = CurAccount.Id
                       };
                       ContextAccount contextAccount = new ContextAccount(vm);
 
@@ -66,9 +151,14 @@ namespace DbHourWorkWPF.ViewModel
                       if (contextAccount.ShowDialog() == true)
                       {
                           string[] param = FillParam(contextAccount.Account);
-                          param[5] = Account.Id.ToString();
-                          App.serviceDb.OperationOnRecord(cmdEdit, param);
-                          UpdateListEmployee();
+                          param[4] = CurAccount.Id.ToString();
+
+                          if (!defaultImageFlag) App.serviceDb.OperationOnRecord(cmdEdit, param, ImageSourceToBytes(new PngBitmapEncoder(), contextAccount.Account.Image));
+                          else App.serviceDb.OperationOnRecord(cmdEdit, param);
+
+                          if (changePassFlag) App.serviceDb.OperationOnRecord("Update user SET Password = @pass WHERE IdUser = @id", [contextAccount.newPassword, param[4]]);
+                          changePassFlag = false;
+                          UpdateAccount();
                       }
                   }));
             }
@@ -83,17 +173,14 @@ namespace DbHourWorkWPF.ViewModel
                 return deleteCommand ??
                   (deleteCommand = new RelayCommand((selectedItem) =>
                   {
-                      // получаем выделенный объект
-                      ItemEmployee? emp = selectedItem as ItemEmployee;
-                      if (emp == null) return;
                       if (MessageBox.Show("Вы уверены что хотите удалить данную запись?", "Удаление сотрудника", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                       {
-                          App.serviceDb.DeleteRecord(emp.Id.ToString(), "DELETE FROM employee WHERE employee.IdEmployee = @id");
-                          UpdateListEmployee();
+                          App.serviceDb.DeleteRecord(CurAccount.Id.ToString(), "DELETE FROM user WHERE user.IdUser = @id");
+                          System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                          Application.Current.Shutdown();
                       }
                   }));
             }
         }
-        */
     }
 }

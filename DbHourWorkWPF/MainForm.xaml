@@ -100,11 +100,11 @@ WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoRes
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Grid.ColumnSpan="2" Grid.Column="2" Width="185" Margin="0,0,250,0">
             <Border CornerRadius="15" Margin="0,0,25,0" Width="35" Height="35">
                 <Border.Background>
-                    <ImageBrush x:Name="iconUser" Stretch="Fill" ImageSource="Pictures/IconUser.png"/>
+                    <ImageBrush x:Name="iconUser" Stretch="Fill" ImageSource="{Binding Source={x:Static local:App.Account}, Path=Image}"/>
                 </Border.Background>
             </Border>
 
-            <Label x:Name="lUser" Content="Пользователь" FontSize="20" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="tbNick"  FontSize="20" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
         </StackPanel>
 
