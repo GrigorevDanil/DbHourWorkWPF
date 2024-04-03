@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows.Controls;
 
 
 namespace DbHourWorkWPF.ViewModel
@@ -12,12 +13,13 @@ namespace DbHourWorkWPF.ViewModel
     class NavigationVM : ViewModelBase
     {
         private object _currentView;
-        ItemUser curAccount;
+        private bool _currentButtonChecked;
         public object CurrentView
         {
             get { return _currentView; }
             set { _currentView = value; OnPropertyChanged(); }
         }
+
 
 
         public ICommand EmployeeCommand { get; set; }
@@ -30,7 +32,7 @@ namespace DbHourWorkWPF.ViewModel
 
 
 
-        private void Employee(object obj) => CurrentView = new EmployeeVM();
+        private void Employee(object obj) =>CurrentView = new EmployeeVM();
         private void Time(object obj) => CurrentView = new TimeVM();
         private void Account(object obj) => CurrentView = new AccountVM();
         private void Copy(object obj) => CurrentView = new CopyVM();

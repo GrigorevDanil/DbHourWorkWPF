@@ -36,12 +36,15 @@ namespace DbHourWorkWPF
         public LoginContext()
         {
             InitializeComponent();
+
+            //Инициализация базы данных
             App.settingJson = JsonConvert.DeserializeObject<Setting>(File.ReadAllText("Setting.json"));
             var connection = new MySqlConnection(App.settingJson.StringConnection);
             var stringConnection = new MySqlConnectionStringBuilder(connection.ConnectionString);
             App.db = new Database(connection, stringConnection);
             App.serviceDb = new DatabaseService(App.db);
 
+            //Проверка подключения
             try
             {
                 App.serviceDb.openConnection();
@@ -56,6 +59,7 @@ namespace DbHourWorkWPF
 
             App.serviceDb.openConnection();
 
+            //Взятие всех пользователей на сервере
             using (MySqlCommand command = new MySqlCommand("SELECT User, Host FROM mysql.user", App.serviceDb.getConnection()))
             {
                 using (MySqlDataReader reader = command.ExecuteReader())
@@ -73,10 +77,11 @@ namespace DbHourWorkWPF
 
         private async void buttonEnter_Click(object sender, RoutedEventArgs e)
         {
+            //Текущий пользователь
             App.Account = new ItemUser();
+
             //Проверка подключения
             try { App.serviceDb.openConnection(); }
-
             //База данных не найдена
             catch (MySqlException exp)
             {
@@ -122,15 +127,14 @@ namespace DbHourWorkWPF
 
                 return;
             }
-            finally
-            {
-                App.serviceDb.closeConnection();
-            }
+            finally { App.serviceDb.closeConnection(); }
 
             //Взятие пароля
             string curPass = buttonEye.IsChecked == true ? textBoxPass.Text : passwordBox.Password;
 
             App.serviceDb.openConnection();
+
+            //Проверка на то что пользователь с сервера
             if (checkBoxServer.IsChecked == false)
             {
                 if (textBoxLog.Text == "" && textBoxPass.Text == "" || passwordBox.Password == "")
@@ -144,17 +148,15 @@ namespace DbHourWorkWPF
                     flagChangeUserServer = false;
                 }
 
+                //Вспомогательные таблицы
                 DataTable table, tableCheckPass;
 
+                //Попытка найти пользователя в таблице
+                table = App.serviceDb.OperationSelect("SELECT * FROM user WHERE Login = @login;", [ textBoxLog.Text, curPass ]);
 
-
-
-
-                table = App.serviceDb.OperationSelect("SELECT Surname, Name, Image, Login, Role, IsLock, IdUser, CountAttemp, DateLock FROM user WHERE Login = @login;", new string[] { textBoxLog.Text, curPass });
 
                 if (table.Rows.Count > 0)
                 {
-
                     DataRow row = table.Rows[0];
 
                     if ((bool)row["IsLock"] == true)
@@ -162,6 +164,7 @@ namespace DbHourWorkWPF
                         MessageBox.Show("Пользователь заблокирован. Обратитесь к администратору!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
+
                     if (row["DateLock"] != DBNull.Value)
                     {
                         DateTime tempTimeDB = (DateTime)row["DateLock"];
@@ -174,19 +177,17 @@ namespace DbHourWorkWPF
                         }
                         else
                         {
-                            App.serviceDb.OperationOnRecord("UPDATE user SET DateLock = @date, CountAttemp = @count WHERE Login = @login;", new string[] { textBoxLog.Text, null, "3" });
-                            table = App.serviceDb.OperationSelect("SELECT Login, Role, IsLock, IdUser, CountAttemp, DateLock FROM user WHERE Login = @login;", new string[] { textBoxLog.Text, curPass });
+                            //Разблокировка пользователя и установка счетчика на 3 попытки
+                            App.serviceDb.OperationOnRecord("UPDATE user SET DateLock = @date, CountAttemp = @count WHERE Login = @login;", [ null, "3", textBoxLog.Text]);
+                            table = App.serviceDb.OperationSelect("SELECT * FROM user WHERE Login = @login;", [ textBoxLog.Text]);
                             row = table.Rows[0];
                         }
                     }
 
                     int tempCount = int.Parse(row["CountAttemp"].ToString());
 
-
-
-
+                    //Получение иконки пользователя или установка обычной аватарки
                     BitmapImage bitmapImage = new BitmapImage();
-
                     if (row["Image"] != DBNull.Value)
                     {
                         using (MemoryStream ms = new MemoryStream((byte[])row["Image"]))
@@ -206,7 +207,6 @@ namespace DbHourWorkWPF
                     else App.Account.Image = new BitmapImage(new Uri("ImageEmployee.png", UriKind.Relative));
 
 
-
                     App.Account.Id = int.Parse(row["IdUser"].ToString());
                     App.Account.Login = row["Login"].ToString();
                     App.Account.Role = row["Role"].ToString();
@@ -214,21 +214,26 @@ namespace DbHourWorkWPF
                     App.Account.Name = row["Name"].ToString();
                     if (row["DateLock"].ToString() != "") App.Account.DateLock = DateTime.Parse(row["DateLock"].ToString());
                     App.Account.IsLock = bool.Parse(row["IsLock"].ToString());
+                    App.Account.PasswordHash = row["PasswordHash"].ToString();
+                    App.Account.Salt = row["Salt"].ToString();
 
-                    tableCheckPass = App.serviceDb.OperationSelect("SELECT Login FROM user WHERE Login = @login AND Password = @pass;", new string[] { textBoxLog.Text, curPass });
+                    //Проверка логина и пароля
+                    
+                    string tempPassHash = App.HashPassword(curPass, App.Account.Salt);
 
-                    if (tableCheckPass.Rows.Count == 0)
+                    if (App.Account.PasswordHash != tempPassHash)
                     {
                         if (tempCount == 0)
                         {
-                            App.serviceDb.OperationOnRecord("UPDATE user SET DateLock = @date WHERE IdUser = @idUser;", new string[] { App.Account.Id.ToString(), DateTime.Now.ToString("yyyy-MM-dd") });
+                            //Блокировка пользователя
+                            App.serviceDb.OperationOnRecord("UPDATE user SET DateLock = @date WHERE IdUser = @idUser;", [  DateTime.Now.ToString("yyyy-MM-dd"), App.Account.Id.ToString() ]);
                             App.serviceDb.openConnection();
                             MessageBox.Show($"Пользователь {textBoxLog.Text} был заблокирован на 1 минуту. Повторите попытку позже ", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                             return;
                         }
 
-
-                        App.serviceDb.OperationOnRecord("UPDATE user SET CountAttemp = CountAttemp-1 WHERE IdUser = @idUser;", new string[] { App.Account.Id.ToString() });
+                        //Уменьшение счетчика на 1 при неправильном пароле
+                        App.serviceDb.OperationOnRecord("UPDATE user SET CountAttemp = CountAttemp-1 WHERE IdUser = @idUser;", [ App.Account.Id.ToString() ]);
                         App.serviceDb.openConnection();
                         MessageBox.Show($"Неверный пароль! Осталось попыток входа: {tempCount}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;

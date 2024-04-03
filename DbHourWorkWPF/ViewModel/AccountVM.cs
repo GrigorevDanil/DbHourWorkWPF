@@ -10,6 +10,7 @@ using System;
 using System.Collections.ObjectModel;
 using MySqlConnector;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 
 namespace DbHourWorkWPF.ViewModel
 {
@@ -33,7 +34,7 @@ namespace DbHourWorkWPF.ViewModel
             set
             {
                 curAccount = value;
-                App.txtNick.Text = curAccount.FullName;
+                App.txtNick.Text = curAccount.Surname + " " + curAccount.Name;
                 App.imgUser.ImageSource = curAccount.Image;
                 OnPropertyChanged(nameof(CurAccount));
             }
@@ -129,6 +130,8 @@ namespace DbHourWorkWPF.ViewModel
             return null; // Или возвращайте изображение по умолчанию, если BLOB пустой.
         }
 
+        
+
         // команда редактирования
         public RelayCommand EditCommand
         {
@@ -176,7 +179,14 @@ namespace DbHourWorkWPF.ViewModel
                       if (MessageBox.Show("Вы уверены что хотите удалить данную запись?", "Удаление сотрудника", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                       {
                           App.serviceDb.DeleteRecord(CurAccount.Id.ToString(), "DELETE FROM user WHERE user.IdUser = @id");
-                          System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+
+                          // Создаем новый процесс (новый экземпляр приложения)
+                          ProcessStartInfo startInfo = new ProcessStartInfo(Process.GetCurrentProcess().MainModule.FileName);
+
+                          // Запускаем новый процесс
+                          Process.Start(startInfo);
+
+                          // Закрываем текущее приложение
                           Application.Current.Shutdown();
                       }
                   }));

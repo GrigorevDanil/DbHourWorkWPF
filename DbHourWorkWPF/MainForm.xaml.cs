@@ -77,5 +77,10 @@ namespace DbHourWorkWPF
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
+
+        private void butAdmin_Click(object sender, RoutedEventArgs e)
+        {
+            foreach(RadioButton but in panelButton.Children) but.IsChecked = false;
+        }
     }
 }

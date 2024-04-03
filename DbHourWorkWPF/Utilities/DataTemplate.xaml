@@ -28,4 +28,8 @@
         <view:Day />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm:AdminVM}">
+        <view:Admin />
+    </DataTemplate>
+
 </ResourceDictionary>

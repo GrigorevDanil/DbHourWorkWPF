@@ -5,15 +5,131 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DbHourWorkWPF.View"
              xmlns:vm="clr-namespace:DbHourWorkWPF.ViewModel"
+             xmlns:ut="clr-namespace:DbHourWorkWPF.Utilities"
              mc:Ignorable="d" 
              Style="{StaticResource Page_Style}"
              d:DesignHeight="747"
-             d:DesignWidth="1470">
+             d:DesignWidth="1470"
+             Background="AliceBlue">
     <UserControl.DataContext>
         <vm:AdminVM />
     </UserControl.DataContext>
 
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="87*"/>
+            <ColumnDefinition Width="404*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="73*"/>
+            <RowDefinition Height="45*"/>
+            <RowDefinition Height="555*"/>
+            <RowDefinition Height="74*"/>
+        </Grid.RowDefinitions>
+
+        <!--Post-->
+
+        <Grid Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="102*"/>
+                <ColumnDefinition Width="98*"/>
+                <ColumnDefinition Width="409*"/>
+                <ColumnDefinition Width="358*"/>
+                <ColumnDefinition Width="503*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Background="#093A5C"  CornerRadius="18"   Margin="5,5,5,5" Grid.ColumnSpan="5"/>
+            <Border Background="AliceBlue"  CornerRadius="15"  Margin="10,10,10,10" Grid.ColumnSpan="5"/>
+            <CheckBox x:Name="checkBoxPost" Style="{StaticResource chkBullet}" Background="#DB4B4B" Content="Выкл" Tag="Вкл" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Nautilus Pompilius" Height="30" Width="70" />
+            <TextBlock Text="Роль:" VerticalAlignment="Center" FontSize="28" FontFamily="Nautilus Pompilius" HorizontalAlignment="Center" Grid.Column="1"/>
+            <ComboBox x:Name="comboBoxPost" IsEnabled="False" Style="{StaticResource ComboboxStyle}" FontSize="16" IsReadOnly="True" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Nautilus Pompilius" Grid.Column="2" Width="310" Height="30" ItemsSource="{Binding Posts}" DisplayMemberPath="Title" SelectedItem="{Binding SelectedPost}" />
+
+        </Grid>
+
+        <!--Employee-->
+
+        <TextBox Style="{StaticResource HintTextBox}" Text="{Binding InputTextFilter, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Tag="Поиск" FontFamily="Times New Roman" FontSize="20" Margin="5,5,5,5" Grid.ColumnSpan="2">
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+
+        <DataGrid x:Name="dataGridDay" Grid.Row="2" Margin="5,5,5,15" ItemsSource="{Binding Users}" Grid.ColumnSpan="2">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn CanUserResize="False" MinWidth="30">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox Style="{StaticResource CheckBoxStyle}"
+                              IsChecked="{Binding Path=IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Аватар" CanUserResize="False" Width="0.5*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="15" Margin="0,0,25,0" Width="35" Height="35">
+                                <Border.Background>
+                                    <ImageBrush x:Name="iconUser" Stretch="Fill" />
+                                </Border.Background>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Роль"  IsReadOnly="True" Width="1*" Binding="{Binding Role}"/>
+                <DataGridTextColumn Header="Логин"  IsReadOnly="True" Width="1*" Binding="{Binding Login}"/>
+                <DataGridTextColumn Header="Фамилия"  IsReadOnly="True" Width="1*" Binding="{Binding Surname}"/>
+                <DataGridTextColumn Header="Имя"  IsReadOnly="True" Width="1*" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Дата блокировки"  IsReadOnly="True" Width="1*" Binding="{Binding DateLock}"/>
+                <DataGridTemplateColumn Header="Операции" Width="1*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button  Style="{StaticResource RoundCorner}" Margin="5,5,5,5" Width="48" Height="48" Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}"  >
+                                    <ut:StaticImage Source="/Pictures/Edit.png" Width="18" Height="18"/>
+                                </Button>
+                                <Button  Style="{StaticResource RoundCorner}" Margin="5,5,5,5" Width="48" Height="48" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}" >
+                                    <ut:StaticImage Source="/Pictures/Delete.png" Width="18" Height="18"/>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <!-- Operation Button -->
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Grid.ColumnSpan="2">
+            <ut:StaticImage Source="/Pictures/Arrow.png" Width="59" Height="53"  VerticalAlignment="Top" Margin="25,0,0,0" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5"/>
+            <TextBlock Text="С отмеченными:" Margin="0,0,25,0" FontSize="22" VerticalAlignment="Center" FontFamily="Nautilus Pompilius"/>
+        </StackPanel>
+
+        <Border Background="#093A5C"  CornerRadius="18"   Margin="5,5,5,5" Grid.Column="1" Grid.Row="3"/>
+        <Border Background="AliceBlue"  CornerRadius="15"  Margin="10,10,10,10" Grid.Column="1" Grid.Row="3"/>
+
+        <Grid Grid.Row="3" Grid.Column="1" Margin="15,15,15,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Style="{StaticResource RoundCorner}" Foreground="#E53434" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="5,0,5,0" HorizontalAlignment="Left" Command="{Binding MultiplyDeleteCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <ut:StaticImage Source="/Pictures/Delete.png" Margin="0,2,25,0" Width="35" Height="35"/>
+                    <TextBlock Text="Удалить" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            <Button Grid.Column="1" Style="{StaticResource RoundCorner}" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="5,0,5,0" HorizontalAlignment="Right" Command="{Binding AddCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <ut:StaticImage Source="/Pictures/Add1.png" Margin="0,2,25,0" Width="35" Height="35"/>
+                    <TextBlock Text="Добавить пользователя" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+
     </Grid>
 </UserControl>

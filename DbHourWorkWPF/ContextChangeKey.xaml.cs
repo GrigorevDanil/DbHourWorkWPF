@@ -37,8 +37,12 @@ namespace DbHourWorkWPF
                 MessageBox.Show("Поля не заполнены!", "Произошла ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            var table = App.serviceDb.OperationSelect("Select Password FROM user WHERE IdUser = @id", [IdUser.ToString()]);
-            if (table.Rows[0][0].ToString() != textBoxCurrentKey.Password)
+            var table = App.serviceDb.OperationSelect("Select PasswordHash,Salt FROM user WHERE IdUser = @id", [IdUser.ToString()]);
+            string 
+                curHash = table.Rows[0][0].ToString(),
+                salt = table.Rows[0][1].ToString();
+
+            if (curHash != App.HashPassword(textBoxCurrentKey.Password, salt))
             {
                 MessageBox.Show("Текущий пароль задан неверно!", "Произошла ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;

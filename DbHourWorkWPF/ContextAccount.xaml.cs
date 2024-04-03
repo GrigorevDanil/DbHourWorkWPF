@@ -60,7 +60,7 @@ namespace DbHourWorkWPF
 
             if (dlg.ShowDialog() == true)
             {
-                Account.Image = new BitmapImage(new Uri(dlg.FileName, UriKind.Relative));
+                Account.Image = ReduceBitmapImageSize(new BitmapImage(new Uri(dlg.FileName, UriKind.Relative)));
                 AccountVM.defaultImageFlag = false;
             }
         }
@@ -80,6 +80,56 @@ namespace DbHourWorkWPF
                 newPassword = contextChangeKey.textBoxNewKey.Password;
                 curPassword = contextChangeKey.textBoxCurrentKey.Password;
             }
+        }
+
+        public static BitmapImage ReduceBitmapImageSize(BitmapImage originalImage)
+        {
+            const long targetSizeKilobytes = 64;
+            const long targetSize = targetSizeKilobytes * 1024;
+
+            MemoryStream memoryStream = new MemoryStream();
+            BitmapImage resizedImage = new BitmapImage();
+
+            // Сначала попробуем изменить размер изображения
+            for (double scale = 1.0; scale > 0.1; scale -= 0.1)
+            {
+                memoryStream.SetLength(0); // Сбросить memoryStream
+
+                // Масштабируем изображение
+                TransformedBitmap scaledBitmap = new TransformedBitmap(
+                    originalImage,
+                    new ScaleTransform(scale, scale)
+                );
+
+                // Проверяем, требуется ли нам сохранять в формате PNG
+                if (originalImage.Format == PixelFormats.Bgra32 ||
+                    originalImage.Format == PixelFormats.Pbgra32 ||
+                    originalImage.Format == PixelFormats.Bgr32)
+                {
+                    PngBitmapEncoder pngEncoder = new PngBitmapEncoder();
+                    pngEncoder.Frames.Add(BitmapFrame.Create(scaledBitmap));
+                    pngEncoder.Save(memoryStream);
+                }
+                else // Иначе используем JPEG
+                {
+                    JpegBitmapEncoder jpegEncoder = new JpegBitmapEncoder { QualityLevel = 50 }; // Выбираем среднее значение качества
+                    jpegEncoder.Frames.Add(BitmapFrame.Create(scaledBitmap));
+                    jpegEncoder.Save(memoryStream);
+                }
+
+                // Если размер файла удовлетворяет требованиям, загружаем его как BitmapImage
+                if (memoryStream.Length <= targetSize)
+                {
+                    resizedImage.BeginInit();
+                    resizedImage.StreamSource = new MemoryStream(memoryStream.ToArray()); // Делаем копию потока
+                    resizedImage.CacheOption = BitmapCacheOption.OnLoad;
+                    resizedImage.EndInit();
+                    resizedImage.Freeze(); // Замораживаем для использования в других потоках
+                    return resizedImage;
+                }
+            }
+
+            throw new InvalidOperationException("Невозможно уменьшить размер изображения до желаемого размера.");
         }
     }
 }
