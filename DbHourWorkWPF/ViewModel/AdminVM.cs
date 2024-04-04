@@ -1,14 +1,19 @@
 ﻿using DbHourWorkWPF.Items;
 using DbHourWorkWPF.Model;
 using DbHourWorkWPF.Utilities;
+using DbHourWorkWPF.View;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -16,28 +21,35 @@ namespace DbHourWorkWPF.ViewModel
 {
     class AdminVM : Utilities.ViewModelBase
     {
+        public static ImageSource defaultImageSource = new BitmapImage(new Uri("ImageEmployee.png", UriKind.RelativeOrAbsolute));
         private readonly PageModel _pageModel;
 
+        string cmdEmp = "SELECT * FROM user",
+          cmdAdd = "INSERT INTO user VALUES (NULL,@img,@_name,@_surn,@log, @passHash, @_salt, @_role, 3, @_lock,@date);",
+          cmdEdit = "UPDATE user SET Image = @img, Name = @_name, Surname = @_surn, Login = @log,PasswordHash = @passHash,Salt = @_salt, Role = @_role, IsLock = @lock, DateLock = @date WHERE IdUser = @id";
         public ObservableCollection<ItemUser> Users { get; set; }
 
         RelayCommand? addCommand;
         RelayCommand? editCommand;
         RelayCommand? deleteCommand;
+        RelayCommand? multiplydeleteCommand;
 
-        private string inputTextFilter, selectedRole;
-        /*
-        public string SelectedRole
+        private string inputTextFilter;
+        ComboBoxItem selectedRole;
+        public static bool defaultImageFlag = true, changePassFlag, resetPassFlag;
+
+        public ComboBoxItem SelectedRole
         {
             get { return selectedRole; }
             set
             {
                 selectedRole = value;
-                if (selectedRole == null && (inputTextFilter == null || inputTextFilter == "")) cmdEmp = "SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost";
-                else if (selectedRole == null && (inputTextFilter != null || inputTextFilter != "")) cmdEmp = $"SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE Lower(CONCAT(NumEmployee,Surname,Name,Lastname)) LIKE '%{inputTextFilter}%'";
-                else if (selectedRole != null && (inputTextFilter == null || inputTextFilter == "")) cmdEmp = $"SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE manualpost.IdPost = {selectedPost.Id}";
-                else cmdEmp = $"SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE manualpost.IdPost = {selectedPost.Id} AND Lower(CONCAT(NumEmployee,Surname,Name,Lastname)) LIKE '%{inputTextFilter}%'";
-                UpdateListEmployee();
-                OnPropertyChanged("SelectedPost");
+                if (selectedRole == null && (inputTextFilter == null || inputTextFilter == "")) cmdEmp = "SELECT * FROM user";
+                else if (selectedRole == null && (inputTextFilter != null || inputTextFilter != "")) cmdEmp = $"SELECT * FROM user WHERE Lower(CONCAT(Login,Surname,Name)) LIKE '%{inputTextFilter}%'";
+                else if (selectedRole != null && (inputTextFilter == null || inputTextFilter == "")) cmdEmp = $"SELECT * FROM user WHERE Role = '{selectedRole.Content}'";
+                else cmdEmp = $"SELECT * FROM user WHERE Role = '{selectedRole.Content}' AND Lower(CONCAT(Login,Surname,Name)) LIKE '%{inputTextFilter}%'";
+                UpdateListUsers();
+                OnPropertyChanged(nameof(SelectedRole));
 
             }
         }
@@ -51,27 +63,31 @@ namespace DbHourWorkWPF.ViewModel
             set
             {
                 inputTextFilter = value;
-                if (selectedPost == null && inputTextFilter == "") cmdEmp = "SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost";
-                else if (selectedPost == null && inputTextFilter != "") cmdEmp = $"SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE Lower(CONCAT(NumEmployee,Surname,Name,Lastname)) LIKE '%{inputTextFilter}%'";
-                else cmdEmp = $"SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE manualpost.IdPost = {selectedPost.Id} AND Lower(CONCAT(NumEmployee,Surname,Name,Lastname)) LIKE '%{inputTextFilter}%'";
-                UpdateListEmployee();
+                if (selectedRole == null && (inputTextFilter == null || inputTextFilter == "")) cmdEmp = "SELECT * FROM user";
+                else if (selectedRole == null && (inputTextFilter != null || inputTextFilter != "")) cmdEmp = $"SELECT * FROM user WHERE Lower(CONCAT(Login,Surname,Name)) LIKE '%{inputTextFilter}%'";
+                else if (selectedRole != null && (inputTextFilter == null || inputTextFilter == "")) cmdEmp = $"SELECT * FROM user WHERE Role = '{selectedRole.Content}'";
+                else cmdEmp = $"SELECT * FROM user WHERE Role = '{selectedRole.Content}' AND Lower(CONCAT(Login,Surname,Name)) LIKE '%{inputTextFilter}%'";
+                UpdateListUsers();
                 OnPropertyChanged("InputTextFilter");
             }
         }
-        */
+
+
         void UpdateListUsers()
         {
-            Users = new ObservableCollection<ItemUser>(App.serviceDb.LoadListFromServer("Select * FROM user", reader =>
+            Users = new ObservableCollection<ItemUser>(App.serviceDb.LoadListFromServer(cmdEmp, reader =>
             {
                 ItemUser user = new ItemUser
                 {
-                    Id = reader.GetInt32("Id"),
+                    Id = reader.GetInt32("IdUser"),
                     Login = reader.GetString("Login"),
                     Name = reader.GetString("Name"),
                     Surname = reader.GetString("Surname"),
                     Role = reader.GetString("Role"),
                     IsLock = reader.GetBoolean("IsLock"),
-                    
+                    PasswordHash = reader.GetString("PasswordHash"),
+                    Salt = reader.GetString("Salt"),
+                    DateLock = reader["DateLock"] != DBNull.Value ? reader.GetDateTime("DateLock").ToString("dd.MM.yyyy HH:mm") : null
                 };
 
                 if (!reader.IsDBNull(reader.GetOrdinal("Image")))
@@ -110,9 +126,154 @@ namespace DbHourWorkWPF.ViewModel
             return null; // Или возвращайте изображение по умолчанию, если BLOB пустой.
         }
 
+        public byte[] ImageSourceToBytes(BitmapEncoder encoder, ImageSource imageSource)
+        {
+            byte[] bytes = null;
+            var bitmapSource = imageSource as BitmapSource;
+            if (bitmapSource != null)
+            {
+                encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+                using (var stream = new MemoryStream())
+                {
+                    encoder.Save(stream);
+                    bytes = stream.ToArray();
+                }
+            }
+            return bytes;
+        }
+
         public AdminVM()
         {
             _pageModel = new PageModel();
+            UpdateListUsers();
+        }
+
+        string[] FillParam(ItemUser item)
+        {
+            string[] param = new string[10];
+            param[1] = item.Name;
+            param[2] = item.Surname;
+            param[3] = item.Login;
+            param[4] = item.PasswordHash;
+            param[5] = item.Salt;
+            param[6] = item.Role;
+            param[7] = item.IsLock ? "1" : "0";
+            param[8] = item.DateLock != null ? DateTime.Parse(item.DateLock).ToString("yyyy-MM-dd HH:mm:ss") : null;
+
+            return param;
+        }
+
+        // команда добавления
+        public RelayCommand AddCommand
+        {
+            get
+            {
+                return addCommand ??
+                  (addCommand = new RelayCommand((o) =>
+                  {
+                      ItemUser user = new ItemUser();
+                      user.Image = defaultImageSource;
+                      ContextUser contextUser = new ContextUser(user, true);
+                      if (contextUser.ShowDialog() == true)
+                      {
+                          string salt = App.CreateSalt(), passHash = App.HashPassword(contextUser.newPassword, salt);
+                          contextUser.User.PasswordHash = passHash;
+                          contextUser.User.Salt = salt;
+                          if (!defaultImageFlag) App.serviceDb.OperationOnRecord(cmdAdd, FillParam(contextUser.User), ImageSourceToBytes(new PngBitmapEncoder(), contextUser.User.Image));
+                          else App.serviceDb.OperationOnRecord(cmdAdd, FillParam(contextUser.User));
+                          resetPassFlag = false;
+                          UpdateListUsers();
+                      }
+                  }));
+            }
+        }
+
+        // команда редактирования
+        public RelayCommand EditCommand
+        {
+            get
+            {
+                return editCommand ??
+                  (editCommand = new RelayCommand((selectedItem) =>
+                  {
+                      ItemUser? user = selectedItem as ItemUser;
+                      if (user == null) return;
+
+                      ItemUser vm = new ItemUser
+                      {
+                          Image = user.Image,
+                          Surname = user.Surname,
+                          Name = user.Name,
+                          Login = user.Login,
+                          Id = user.Id,
+                          IsLock = user.IsLock,
+                          DateLock = user.DateLock,
+                          Role = user.Role
+                      };
+                      ContextUser contextUser = new ContextUser(vm);
+
+
+                      if (contextUser.ShowDialog() == true)
+                      {
+                          string[] param = FillParam(contextUser.User);
+                          param[9] = vm.Id.ToString();
+
+                          if (!defaultImageFlag) App.serviceDb.OperationOnRecord(cmdEdit, param, ImageSourceToBytes(new PngBitmapEncoder(), contextUser.User.Image));
+                          else App.serviceDb.OperationOnRecord(cmdEdit, param);
+
+                          if (changePassFlag)
+                          {
+                              string passHash = App.HashPassword(contextUser.newPassword, user.Salt);
+                              App.serviceDb.OperationOnRecord("Update user SET PasswordHash = @pass WHERE IdUser = @id", [passHash, param[7]]);
+                          }
+                          if (resetPassFlag)
+                          {
+                              string salt = App.CreateSalt(), passHash = App.HashPassword(contextUser.newPassword, salt);
+                              App.serviceDb.OperationOnRecord("Update user SET PasswordHash = @pass, Salt = @_salt WHERE IdUser = @id", [passHash,salt, param[7]]);
+                          }
+                          changePassFlag = false;
+                          resetPassFlag = false;
+                          UpdateListUsers();
+                      }
+                  }));
+            }
+        }
+
+
+        // команда удаления
+        public RelayCommand DeleteCommand
+        {
+            get
+            {
+                return deleteCommand ??
+                  (deleteCommand = new RelayCommand((selectedItem) =>
+                  {
+                      if (MessageBox.Show("Вы уверены что хотите удалить данную запись?", "Удаление сотрудника", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                      {
+                          ItemUser? user = selectedItem as ItemUser;
+                          if (user == null) return;
+                          App.serviceDb.DeleteRecord(user.Id.ToString(), "DELETE FROM user WHERE user.IdUser = @id");
+                          UpdateListUsers();
+                      }
+                  }));
+            }
+        }
+
+        // команда множественного удаления
+        public RelayCommand MultiplyDeleteCommand
+        {
+            get
+            {
+                return multiplydeleteCommand ??
+                  (multiplydeleteCommand = new RelayCommand((obj) =>
+                  {
+                      if (MessageBox.Show("Вы уверены что хотите удалить выбранные записи?", "Удаление сотрудника", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                      {
+                          foreach (var user in Users.Where(u => u.IsSelected).ToList()) App.serviceDb.DeleteRecord(user.Id.ToString(), "DELETE FROM user WHERE user.IdUser = @id");
+                          UpdateListUsers();
+                      }
+                  }));
+            }
         }
     }
 }

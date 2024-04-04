@@ -212,7 +212,7 @@ namespace DbHourWorkWPF
                     App.Account.Role = row["Role"].ToString();
                     App.Account.Surname = row["Surname"].ToString();
                     App.Account.Name = row["Name"].ToString();
-                    if (row["DateLock"].ToString() != "") App.Account.DateLock = DateTime.Parse(row["DateLock"].ToString());
+                    if (row["DateLock"].ToString() != "") App.Account.DateLock = DateTime.Parse(row["DateLock"].ToString()).ToString("dd.MM.yyyy");
                     App.Account.IsLock = bool.Parse(row["IsLock"].ToString());
                     App.Account.PasswordHash = row["PasswordHash"].ToString();
                     App.Account.Salt = row["Salt"].ToString();

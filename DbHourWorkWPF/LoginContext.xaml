@@ -6,12 +6,13 @@
         xmlns:local="clr-namespace:DbHourWorkWPF"
         xmlns:ut="clr-namespace:DbHourWorkWPF.Utilities"
         mc:Ignorable="d"
+        Style="{StaticResource SpringAnimation}"
         Title="MainWindow" Height="400" Width="700" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" WindowStyle="None" Background="Transparent" Closed="Window_Closed">
     <WindowChrome.WindowChrome>
         <WindowChrome/>
     </WindowChrome.WindowChrome>
 
-
+    
 
     <Grid>
         <Grid.RowDefinitions>

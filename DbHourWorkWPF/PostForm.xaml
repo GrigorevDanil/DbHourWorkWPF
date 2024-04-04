@@ -7,6 +7,7 @@
         xmlns:ut="clr-namespace:DbHourWorkWPF.Utilities"
         xmlns:vm="clr-namespace:DbHourWorkWPF.ViewModel"
         mc:Ignorable="d"
+        Style="{StaticResource SpringAnimation}"
         WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" WindowStyle="None" Background="Transparent"
         Height="500" Width="700">
     <WindowChrome.WindowChrome>

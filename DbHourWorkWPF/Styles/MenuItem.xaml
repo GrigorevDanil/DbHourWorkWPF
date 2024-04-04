@@ -232,7 +232,7 @@
                                           Margin="35,0,0,0" />
 
                             <Grid x:Name="Highlighter"
-                              Height="35"
+                              Height="25"
                               Width="2"
                               Background="#FFFFFF"
                               HorizontalAlignment="Left"

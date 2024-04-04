@@ -16,6 +16,7 @@
                 <ResourceDictionary Source="Styles/ScrollBar.xaml" />
                 <ResourceDictionary Source="Styles/DateTimePicker.xaml" />
                 <ResourceDictionary Source="Styles/MenuItem.xaml" />
+                <ResourceDictionary Source="Styles/SpringAnimation.xaml"/>
                 <ResourceDictionary Source="Utilities/DataTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

@@ -131,8 +131,7 @@ namespace DbHourWorkWPF.ViewModel
         }
 
         
-
-        // команда редактирования
+// команда редактирования
         public RelayCommand EditCommand
         {
             get
@@ -192,5 +191,6 @@ namespace DbHourWorkWPF.ViewModel
                   }));
             }
         }
+        
     }
 }

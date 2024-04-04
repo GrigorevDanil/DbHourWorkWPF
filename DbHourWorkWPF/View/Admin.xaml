@@ -11,6 +11,11 @@
              d:DesignHeight="747"
              d:DesignWidth="1470"
              Background="AliceBlue">
+
+    <UserControl.Resources>
+        <ut:ConditionalConverter x:Key="Converter"/>
+    </UserControl.Resources>
+    
     <UserControl.DataContext>
         <vm:AdminVM />
     </UserControl.DataContext>
@@ -40,9 +45,13 @@
 
             <Border Background="#093A5C"  CornerRadius="18"   Margin="5,5,5,5" Grid.ColumnSpan="5"/>
             <Border Background="AliceBlue"  CornerRadius="15"  Margin="10,10,10,10" Grid.ColumnSpan="5"/>
-            <CheckBox x:Name="checkBoxPost" Style="{StaticResource chkBullet}" Background="#DB4B4B" Content="Выкл" Tag="Вкл" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Nautilus Pompilius" Height="30" Width="70" />
+            <CheckBox x:Name="checkBoxRole" Style="{StaticResource chkBullet}" Background="#DB4B4B" Content="Выкл" Tag="Вкл" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Nautilus Pompilius" Height="30" Width="70" Checked="checkBoxRole_CheckedChange" Unchecked="checkBoxRole_CheckedChange"/>
             <TextBlock Text="Роль:" VerticalAlignment="Center" FontSize="28" FontFamily="Nautilus Pompilius" HorizontalAlignment="Center" Grid.Column="1"/>
-            <ComboBox x:Name="comboBoxPost" IsEnabled="False" Style="{StaticResource ComboboxStyle}" FontSize="16" IsReadOnly="True" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Nautilus Pompilius" Grid.Column="2" Width="310" Height="30" ItemsSource="{Binding Posts}" DisplayMemberPath="Title" SelectedItem="{Binding SelectedPost}" />
+            <ComboBox x:Name="comboBoxRole" IsEnabled="False" Style="{StaticResource ComboboxStyle}" FontSize="16" IsReadOnly="True" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Nautilus Pompilius" Grid.Column="2" Width="310" Height="30" SelectedItem ="{Binding SelectedRole}"  >
+                <ComboBoxItem Content="Администратор"/>
+                <ComboBoxItem Content="Кадровик"/>
+                <ComboBoxItem Content="Пользователь"/>
+            </ComboBox>
 
         </Grid>
 
@@ -74,7 +83,7 @@
                         <DataTemplate>
                             <Border CornerRadius="15" Margin="0,0,25,0" Width="35" Height="35">
                                 <Border.Background>
-                                    <ImageBrush x:Name="iconUser" Stretch="Fill" />
+                                    <ImageBrush Stretch="Fill" ImageSource="{Binding Image}"/>
                                 </Border.Background>
                             </Border>
                         </DataTemplate>
@@ -84,8 +93,9 @@
                 <DataGridTextColumn Header="Логин"  IsReadOnly="True" Width="1*" Binding="{Binding Login}"/>
                 <DataGridTextColumn Header="Фамилия"  IsReadOnly="True" Width="1*" Binding="{Binding Surname}"/>
                 <DataGridTextColumn Header="Имя"  IsReadOnly="True" Width="1*" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Блокировка"  IsReadOnly="True" Width="1*" Binding="{Binding IsLock, Converter={StaticResource Converter}}"/>
                 <DataGridTextColumn Header="Дата блокировки"  IsReadOnly="True" Width="1*" Binding="{Binding DateLock}"/>
-                <DataGridTemplateColumn Header="Операции" Width="1*">
+                <DataGridTemplateColumn Header="Операции" Width="0.8*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

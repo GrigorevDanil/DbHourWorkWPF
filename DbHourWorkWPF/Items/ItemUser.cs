@@ -9,9 +9,8 @@ namespace DbHourWorkWPF.Items
     {
         ImageSource image;
         int id;
-        string name, surname, login, role, salt, passwordHash;
+        string name, surname, login, role, salt, passwordHash, dateLock;
         bool isLock, isSelected;
-        DateTime dateLock;
 
 
         public ImageSource Image
@@ -52,6 +51,7 @@ namespace DbHourWorkWPF.Items
                 OnPropertyChanged(nameof(Id));
             }
         }
+
 
         public string PasswordHash
         {
@@ -114,7 +114,7 @@ namespace DbHourWorkWPF.Items
             }
         }
 
-        public DateTime DateLock
+        public string DateLock
         {
             get { return dateLock; }
             set

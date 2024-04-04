@@ -1,4 +1,4 @@
-﻿<Window x:Class="DbHourWorkWPF.ContextChangeKey"
+﻿<Window x:Class="DbHourWorkWPF.ContextResetKey"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DbHourWorkWPF"
         xmlns:ut="clr-namespace:DbHourWorkWPF.Utilities"
         mc:Ignorable="d"
-        Style="{StaticResource SpringAnimation}"
+        Style="{StaticResource SpringAnimation}" 
         Title="MainWindow" Height="300" Width="700" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" WindowStyle="None" Background="Transparent">
     <WindowChrome.WindowChrome>
         <WindowChrome/>
@@ -33,24 +33,18 @@
         <TextBlock Text="Изменение пароля" TextAlignment="Center" FontSize="32" FontFamily="Nautilus Pompilius" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,15,0,0" Height="43" Width="321" VerticalAlignment="Top" HorizontalAlignment="Center"/>
 
 
-        <Border Background="#093A5C"  CornerRadius="18" Grid.Row="1" Grid.Column="1" Margin="5,65,15,15" />
-        <Border Background="AliceBlue"  CornerRadius="15" Grid.Row="1" Grid.Column="1" Margin="10,70,20,20" />
+        <Border Background="#093A5C"  CornerRadius="18" Grid.Row="1" Grid.Column="1" Margin="5,80,15,45" />
+        <Border Background="AliceBlue"  CornerRadius="15" Grid.Row="1" Grid.Column="1" Margin="10,85,20,50" />
 
-        <Grid Grid.Row="1" Grid.Column="1" Margin="10,70,20,25">
+        <Grid Grid.Row="1" Grid.Column="1" Margin="10,85,20,50">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
 
-            <TextBlock Text="Текущий пароль:" VerticalAlignment="Center" FontSize="20" FontFamily="Nautilus Pompilius" HorizontalAlignment="Left" Margin="20,0,0,0"/>
             <TextBlock Text="Новый пароль:" VerticalAlignment="Center" FontSize="20" FontFamily="Nautilus Pompilius" HorizontalAlignment="Left" Margin="20,0,0,0" Grid.Row="1"/>
 
-            <PasswordBox x:Name="textBoxCurrentKey"  Style="{StaticResource RoundedPasswordBoxStyle}"  Grid.Column="1"  FontSize="18" FontFamily="Times New Roman" Margin="5,5,5,10"/>
-            <PasswordBox x:Name="textBoxNewKey"  Style="{StaticResource RoundedPasswordBoxStyle}" Tag="Название должности"  Grid.Column="1" FontSize="18" FontFamily="Times New Roman" Margin="5,5,5,10" Grid.Row="1" />
+            <PasswordBox x:Name="textBoxNewKey"  Style="{StaticResource RoundedPasswordBoxStyle}" Tag="Название должности"  Grid.Column="1" FontSize="18" FontFamily="Times New Roman" Margin="5,15,5,15" Grid.Row="1" />
 
         </Grid>
 

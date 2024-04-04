@@ -24,5 +24,19 @@ namespace DbHourWorkWPF.View
         {
             InitializeComponent();
         }
+
+        private void checkBoxRole_CheckedChange(object sender, RoutedEventArgs e)
+        {
+            if (checkBoxRole.IsChecked == true)
+            {
+                comboBoxRole.IsEnabled = true;
+                comboBoxRole.SelectedIndex = 0;
+            }
+            else
+            {
+                comboBoxRole.IsEnabled = false;
+                comboBoxRole.SelectedIndex = -1;
+            }
+        }
     }
 }

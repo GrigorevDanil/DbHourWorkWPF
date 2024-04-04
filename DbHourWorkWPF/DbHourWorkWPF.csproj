@@ -104,6 +104,12 @@
     <Compile Include="ContextPost.xaml.cs">
       <DependentUpon>ContextPost.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ContextResetKey.xaml.cs">
+      <DependentUpon>ContextResetKey.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContextUser.xaml.cs">
+      <DependentUpon>ContextUser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DBForm.xaml.cs">
       <DependentUpon>DBForm.xaml</DependentUpon>
     </Compile>
@@ -124,6 +130,7 @@
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Btn.cs" />
+    <Compile Include="Utilities\ConditionalConverter.cs" />
     <Compile Include="Utilities\Database.cs" />
     <Compile Include="Utilities\DatabaseService.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
@@ -163,6 +170,18 @@
     <Compile Include="View\Time.xaml.cs">
       <DependentUpon>Time.xaml</DependentUpon>
     </Compile>
+    <Page Include="ContextResetKey.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContextUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\SpringAnimation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ContextAccount.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
