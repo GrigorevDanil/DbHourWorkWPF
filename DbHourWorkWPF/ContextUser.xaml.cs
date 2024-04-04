@@ -41,6 +41,7 @@ namespace DbHourWorkWPF
             User = user;
             User.DateLock = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             DataContext = User;
+            if (User.Image != null) AdminVM.defaultImageFlag = false;
             this.flagAdd = flagAdd;
             if(flagAdd)
             {

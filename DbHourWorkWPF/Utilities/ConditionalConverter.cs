@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace DbHourWorkWPF.Utilities
@@ -16,6 +17,7 @@ namespace DbHourWorkWPF.Utilities
             if (value is bool boolValue)
             {
                 // Если условие истинно, возвращаем одно значение, иначе - другое
+                
                 return boolValue ? "Заблокирован" : "Разблокирован";
             }
 

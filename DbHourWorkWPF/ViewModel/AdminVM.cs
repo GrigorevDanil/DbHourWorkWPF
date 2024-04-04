@@ -205,6 +205,8 @@ namespace DbHourWorkWPF.ViewModel
                           Surname = user.Surname,
                           Name = user.Name,
                           Login = user.Login,
+                          PasswordHash = user.PasswordHash,
+                          Salt = user.Salt,
                           Id = user.Id,
                           IsLock = user.IsLock,
                           DateLock = user.DateLock,
@@ -224,12 +226,12 @@ namespace DbHourWorkWPF.ViewModel
                           if (changePassFlag)
                           {
                               string passHash = App.HashPassword(contextUser.newPassword, user.Salt);
-                              App.serviceDb.OperationOnRecord("Update user SET PasswordHash = @pass WHERE IdUser = @id", [passHash, param[7]]);
+                              App.serviceDb.OperationOnRecord("Update user SET PasswordHash = @pass WHERE IdUser = @id", [passHash, param[9]]);
                           }
                           if (resetPassFlag)
                           {
                               string salt = App.CreateSalt(), passHash = App.HashPassword(contextUser.newPassword, salt);
-                              App.serviceDb.OperationOnRecord("Update user SET PasswordHash = @pass, Salt = @_salt WHERE IdUser = @id", [passHash,salt, param[7]]);
+                              App.serviceDb.OperationOnRecord("Update user SET PasswordHash = @pass, Salt = @_salt WHERE IdUser = @id", [passHash,salt, param[9]]);
                           }
                           changePassFlag = false;
                           resetPassFlag = false;

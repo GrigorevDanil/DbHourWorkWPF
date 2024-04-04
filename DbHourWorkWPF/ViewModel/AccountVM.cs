@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using MySqlConnector;
 using System.ComponentModel.Design;
 using System.Diagnostics;
+using System.Security.RightsManagement;
 
 namespace DbHourWorkWPF.ViewModel
 {
@@ -19,7 +20,7 @@ namespace DbHourWorkWPF.ViewModel
         public static ImageSource defaultImageSource = new BitmapImage(new Uri("ImageEmployee.png", UriKind.RelativeOrAbsolute));
         public static bool defaultImageFlag = true, changePassFlag = false;
         
-        string cmdEdit = "UPDATE user SET Image = @img, Name = @nam, Surname = @surn, Login = @log WHERE IdUser = @_idUser";
+        string cmdEdit = "UPDATE user SET Image = @img, Name = @nam, Surname = @surn, Login = @log, PasswordHash = @passHash, Salt = @_salt WHERE IdUser = @_idUser";
 
         private readonly AccountModel _accountModel;
 
@@ -81,10 +82,12 @@ namespace DbHourWorkWPF.ViewModel
 
         string[] FillParam(ItemUser item)
         {
-            string[] param = new string[5];
+            string[] param = new string[7];
             param[1] = item.Name;
             param[2] = item.Surname;
             param[3] = item.Login;
+            param[4] = item.PasswordHash;
+            param[5] = item.Salt;
 
             return param;
         }
@@ -145,6 +148,8 @@ namespace DbHourWorkWPF.ViewModel
                           Surname = CurAccount.Surname,
                           Name = CurAccount.Name,
                           Login = CurAccount.Login,
+                          PasswordHash = CurAccount.PasswordHash,
+                          Salt = CurAccount.Salt,
                           Id = CurAccount.Id
                       };
                       ContextAccount contextAccount = new ContextAccount(vm);
@@ -153,12 +158,16 @@ namespace DbHourWorkWPF.ViewModel
                       if (contextAccount.ShowDialog() == true)
                       {
                           string[] param = FillParam(contextAccount.Account);
-                          param[4] = CurAccount.Id.ToString();
+                          param[6] = CurAccount.Id.ToString();
 
                           if (!defaultImageFlag) App.serviceDb.OperationOnRecord(cmdEdit, param, ImageSourceToBytes(new PngBitmapEncoder(), contextAccount.Account.Image));
                           else App.serviceDb.OperationOnRecord(cmdEdit, param);
 
-                          if (changePassFlag) App.serviceDb.OperationOnRecord("Update user SET Password = @pass WHERE IdUser = @id", [contextAccount.newPassword, param[4]]);
+                          if (changePassFlag)
+                          {
+                              string passHash = App.HashPassword(contextAccount.newPassword, vm.Salt);
+                              App.serviceDb.OperationOnRecord("Update user SET PasswordHash = @pass WHERE IdUser = @id", [passHash, param[6]]);
+                          }
                           changePassFlag = false;
                           UpdateAccount();
                       }

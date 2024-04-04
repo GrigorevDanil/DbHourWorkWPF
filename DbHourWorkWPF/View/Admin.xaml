@@ -93,7 +93,20 @@
                 <DataGridTextColumn Header="Логин"  IsReadOnly="True" Width="1*" Binding="{Binding Login}"/>
                 <DataGridTextColumn Header="Фамилия"  IsReadOnly="True" Width="1*" Binding="{Binding Surname}"/>
                 <DataGridTextColumn Header="Имя"  IsReadOnly="True" Width="1*" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Блокировка"  IsReadOnly="True" Width="1*" Binding="{Binding IsLock, Converter={StaticResource Converter}}"/>
+                <DataGridTextColumn Header="Блокировка"  IsReadOnly="True" Width="1*" Binding="{Binding IsLock, Converter={StaticResource Converter}}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLock}" Value="True">
+                                    <Setter Property="Foreground" Value="#E53434"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsLock}" Value="False">
+                                    <Setter Property="Foreground" Value="#79DA62"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Дата блокировки"  IsReadOnly="True" Width="1*" Binding="{Binding DateLock}"/>
                 <DataGridTemplateColumn Header="Операции" Width="0.8*">
                     <DataGridTemplateColumn.CellTemplate>
