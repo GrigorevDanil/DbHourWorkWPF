@@ -32,4 +32,5 @@
         <view:Admin />
     </DataTemplate>
 
+
 </ResourceDictionary>

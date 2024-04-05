@@ -86,43 +86,43 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ContextAccount.xaml.cs">
+    <Compile Include="View\ContextAccount.xaml.cs">
       <DependentUpon>ContextAccount.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ContextChangeKey.xaml.cs">
+    <Compile Include="View\ContextChangeKey.xaml.cs">
       <DependentUpon>ContextChangeKey.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ContextDay.xaml.cs">
+    <Compile Include="View\ContextDay.xaml.cs">
       <DependentUpon>ContextDay.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ContextEmployee.xaml.cs">
+    <Compile Include="View\ContextEmployee.xaml.cs">
       <DependentUpon>ContextEmployee.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ContextPost.xaml.cs">
+    <Compile Include="View\ContextPost.xaml.cs">
       <DependentUpon>ContextPost.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ContextResetKey.xaml.cs">
+    <Compile Include="View\ContextResetKey.xaml.cs">
       <DependentUpon>ContextResetKey.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ContextUser.xaml.cs">
+    <Compile Include="View\ContextUser.xaml.cs">
       <DependentUpon>ContextUser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DBForm.xaml.cs">
+    <Compile Include="View\DBForm.xaml.cs">
       <DependentUpon>DBForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Items\ItemUser.cs" />
     <Compile Include="Items\ItemDay.cs" />
     <Compile Include="Items\ItemPost.cs" />
-    <Compile Include="MainForm.xaml.cs">
+    <Compile Include="View\MainForm.xaml.cs">
       <DependentUpon>MainForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="Model\PageModel.cs" />
     <Compile Include="Items\ItemEmployee.cs" />
-    <Compile Include="PostForm.xaml.cs">
+    <Compile Include="View\PostForm.xaml.cs">
       <DependentUpon>PostForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SplashScreen.xaml.cs">
+    <Compile Include="View\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Btn.cs" />
@@ -166,11 +166,11 @@
     <Compile Include="View\Time.xaml.cs">
       <DependentUpon>Time.xaml</DependentUpon>
     </Compile>
-    <Page Include="ContextResetKey.xaml">
+    <Page Include="View\ContextResetKey.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ContextUser.xaml">
+    <Page Include="View\ContextUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -182,31 +182,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ContextAccount.xaml">
+    <Page Include="View\ContextAccount.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ContextChangeKey.xaml">
+    <Page Include="View\ContextChangeKey.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ContextDay.xaml">
+    <Page Include="View\ContextDay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ContextEmployee.xaml">
+    <Page Include="View\ContextEmployee.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ContextPost.xaml">
+    <Page Include="View\ContextPost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DBForm.xaml">
+    <Page Include="View\DBForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoginContext.xaml">
+    <Page Include="View\LoginContext.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -214,19 +214,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LoginContext.xaml.cs">
+    <Compile Include="View\LoginContext.xaml.cs">
       <DependentUpon>LoginContext.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MainForm.xaml">
+    <Page Include="View\MainForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PostForm.xaml">
+    <Page Include="View\PostForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SplashScreen.xaml">
+    <Page Include="View\SplashScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
