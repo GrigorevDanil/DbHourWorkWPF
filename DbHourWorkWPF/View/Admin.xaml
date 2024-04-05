@@ -123,6 +123,19 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
+            
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="Edit" Command="{Binding Path=PlacementTarget.DataContext.EditCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+  CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+                    <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="Удаление" Command="{Binding DeleteCommand}">
+                        <MenuItem.Icon>
+                            <ut:StaticImage Source="/Pictures/Delete.png" Width="18" Height="18"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <!-- Добавьте другие пункты меню здесь -->
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
         <!-- Operation Button -->
 

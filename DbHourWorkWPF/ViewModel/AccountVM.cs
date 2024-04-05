@@ -22,7 +22,7 @@ namespace DbHourWorkWPF.ViewModel
         
         string cmdEdit = "UPDATE user SET Image = @img, Name = @nam, Surname = @surn, Login = @log, PasswordHash = @passHash, Salt = @_salt WHERE IdUser = @_idUser";
 
-        private readonly AccountModel _accountModel;
+        private readonly PageModel _pageModel;
 
         ItemUser curAccount;
 
@@ -73,10 +73,8 @@ namespace DbHourWorkWPF.ViewModel
 
         public AccountVM()
         {
-            _accountModel = new AccountModel();
-
+            _pageModel = new PageModel();
             CurAccount = App.Account;
-            
         }
 
 
@@ -134,7 +132,7 @@ namespace DbHourWorkWPF.ViewModel
         }
 
         
-// команда редактирования
+        // команда редактирования
         public RelayCommand EditCommand
         {
             get

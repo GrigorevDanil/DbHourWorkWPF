@@ -11,7 +11,7 @@
              d:DesignWidth="1470"
              Style="{StaticResource Page_Style}"
              Background="AliceBlue">
-    
+
     <UserControl.DataContext>
         <vm:ConnectionVM />
     </UserControl.DataContext>
@@ -42,41 +42,25 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="167*"/>
-                <ColumnDefinition Width="829*"/>
+                <ColumnDefinition Width="193*"/>
+                <ColumnDefinition Width="803*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Content="Сервер:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0"  />
-            <Label Content="Порт:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0"  Grid.Row="1"/>
-            <Label Content="База данных:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0"  Grid.Row="2"/>
+            <TextBlock Text="Сервер:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0" Height="45" Width="86"  />
+            <TextBlock Text="Порт:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0"  Grid.Row="1" Height="45" Width="77"/>
+            <TextBlock Text="База данных:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0"  Grid.Row="2"/>
+            <TextBlock Text="Пользователь:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0"  Grid.Row="3"/>
+            <TextBlock Text="Пароль:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0"  Grid.Row="4"/>
 
-            <TextBox x:Name="textBoxServer" Style="{StaticResource HintTextBox}" Tag="Адрес сервера" Grid.Row="0" Grid.Column="1" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" Margin="5,8,5,8" >
-                <TextBox.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </TextBox.Resources>
-            </TextBox>
-
-            <TextBox x:Name="textBoxPort" Style="{StaticResource HintTextBox}" Tag="Номер порта" Grid.Row="1" Grid.Column="1" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" Margin="5,8,5,8" >
-                <TextBox.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </TextBox.Resources>
-            </TextBox>
-
-            <TextBox x:Name="textBoxDB" Style="{StaticResource HintTextBox}" Tag="Название базы данных" Grid.Row="2" Grid.Column="1" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" Margin="5,8,5,8" >
-                <TextBox.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </TextBox.Resources>
-            </TextBox>
-
+            <TextBox x:Name="textBoxServer" Style="{StaticResource HintTextBox}" Text="{Binding Server, UpdateSourceTrigger=PropertyChanged}" Tag="Адрес сервера" Grid.Row="0" Grid.Column="1" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" Margin="5,8,5,8" />
+            <TextBox x:Name="textBoxPort" Style="{StaticResource HintTextBox}" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" Tag="Номер порта" Grid.Row="1" Grid.Column="1" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" Margin="5,8,5,8" />
+            <TextBox x:Name="textBoxDB" Style="{StaticResource HintTextBox}" Text="{Binding DbName, UpdateSourceTrigger=PropertyChanged}"  Tag="Название базы данных" Grid.Row="2" Grid.Column="1" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" Margin="5,8,5,8" />
+            <ComboBox x:Name="comboBoxLogin" Style="{StaticResource ComboboxStyle}" ItemsSource="{Binding Users}" SelectedItem="{Binding User}" IsReadOnly="True"  Margin="5,8,5,8" FontSize="20" FontFamily="Times New Roman" Grid.Row="3" Grid.Column="1" />
+            <PasswordBox x:Name="passwordBox" Style="{StaticResource RoundedPasswordBoxStyle}" PasswordChanged="PasswordBox_PasswordChanged" FontSize="20" FontFamily="Times New Roman" Grid.Row="4" Grid.Column="1" Margin="5,8,5,8"/>
         </Grid>
 
         <!-- Operation Button -->
@@ -92,13 +76,13 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Button  Style="{StaticResource RoundCorner}" Grid.Column="0"  Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" Margin="5,0,5,0">
+            <Button  Style="{StaticResource RoundCorner}" Grid.Column="0"  Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" Margin="5,0,5,0" Command="{Binding EditCommand}">
                 <StackPanel Orientation="Horizontal">
                     <ut:StaticImage Source="/Pictures/Edit.png" Margin="0,2,25,0" Width="35" Height="35"/>
                     <TextBlock Text="Применить изменения" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
-            <Button  Style="{StaticResource RoundCorner}" Grid.Column="1" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="5,0,5,0">
+            <Button  Style="{StaticResource RoundCorner}" Grid.Column="1" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="5,0,5,0" Command="{Binding ResetCommand}">
                 <StackPanel Orientation="Horizontal">
                     <ut:StaticImage Source="/Pictures/Default.png" Margin="0,2,25,0" Width="35" Height="35"/>
                     <TextBlock Text="Установить значения по умолчанию" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>

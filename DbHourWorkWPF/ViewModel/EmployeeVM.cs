@@ -11,43 +11,20 @@ namespace DbHourWorkWPF.ViewModel
 {
     class EmployeeVM : ViewModelBase
     {
-        string cmdEmp = "SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost",
-            cmdAddEmp = "INSERT INTO employee VALUES (NULL,@idPost,@numEmp,@surn,@name,@last,@dateEmp,@dateDis);",
-            cmdEditEmp = "UPDATE employee SET IdPost = @_idPost, NumEmployee = @numEmp, Surname = @surn, Name = @name, Lastname = @last, DateEmployment = @dateEmp, DateDismissal = @dateDis WHERE IdEmployee = @idEmp",
-            cmdAddPost = "INSERT INTO manualpost VALUES (NULL,@titl)",
-            cmdEditPost = "UPDATE manualpost SET Title = @titl WHERE IdPost = @_idPost";
-
-        RelayCommand? addCommand;
-        RelayCommand? editCommand;
-        RelayCommand? deleteCommand;
-
-        RelayCommand? addPostCommand;
-        RelayCommand? editPostCommand;
-        RelayCommand? deletePostCommand;
-
-        RelayCommand? multiplydeleteCommand;
-        RelayCommand? runPostFormCommand;
-
-        ItemPost selectedPost;
-        string inputTextFilter;
-
-
         private readonly EmployeeModel _empModel;
-
-
         public ObservableCollection<ItemEmployee> Employees { get; set; }
         public ObservableCollection<ItemPost> Posts { get; set; }
 
         public ItemPost SelectedPost
         {
-            get { return selectedPost; }
+            get { return _empModel.selectedPost; }
             set
             {
-                selectedPost = value;
-                if (selectedPost == null && (inputTextFilter == null || inputTextFilter == "")) cmdEmp = "SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost";
-                else if (selectedPost == null && (inputTextFilter != null || inputTextFilter != "")) cmdEmp = $"SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE Lower(CONCAT(NumEmployee,Surname,Name,Lastname)) LIKE '%{inputTextFilter}%'";
-                else if (selectedPost != null && (inputTextFilter == null || inputTextFilter == "")) cmdEmp = $"SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE manualpost.IdPost = {selectedPost.Id}";
-                else cmdEmp = $"SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE manualpost.IdPost = {selectedPost.Id} AND Lower(CONCAT(NumEmployee,Surname,Name,Lastname)) LIKE '%{inputTextFilter}%'";
+                _empModel.selectedPost = value;
+                if (_empModel.selectedPost == null && (_empModel.inputTextFilter == null || _empModel.inputTextFilter == "")) _empModel.cmdEmp = "SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost";
+                else if (_empModel.selectedPost == null && (_empModel.inputTextFilter != null || _empModel.inputTextFilter != "")) _empModel.cmdEmp = $"SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE Lower(CONCAT(NumEmployee,Surname,Name,Lastname)) LIKE '%{_empModel.inputTextFilter}%'";
+                else if (_empModel.selectedPost != null && (_empModel.inputTextFilter == null || _empModel.inputTextFilter == "")) _empModel.cmdEmp = $"SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE manualpost.IdPost = {_empModel.selectedPost.Id}";
+                else _empModel.cmdEmp = $"SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE manualpost.IdPost = {_empModel.selectedPost.Id} AND Lower(CONCAT(NumEmployee,Surname,Name,Lastname)) LIKE '%{_empModel.inputTextFilter}%'";
                 UpdateListEmployee();
                 OnPropertyChanged("SelectedPost");
 
@@ -58,14 +35,14 @@ namespace DbHourWorkWPF.ViewModel
         {
             get
             {
-                return inputTextFilter;
+                return _empModel.inputTextFilter;
             }
             set
             {
-                inputTextFilter = value;
-                if (selectedPost == null && inputTextFilter == "") cmdEmp = "SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost";
-                else if (selectedPost == null && inputTextFilter != "") cmdEmp = $"SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE Lower(CONCAT(NumEmployee,Surname,Name,Lastname)) LIKE '%{inputTextFilter}%'";
-                else cmdEmp = $"SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE manualpost.IdPost = {selectedPost.Id} AND Lower(CONCAT(NumEmployee,Surname,Name,Lastname)) LIKE '%{inputTextFilter}%'";
+                _empModel.inputTextFilter = value;
+                if (_empModel.selectedPost == null && _empModel.inputTextFilter == "") _empModel.cmdEmp = "SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost";
+                else if (_empModel.selectedPost == null && _empModel.inputTextFilter != "") _empModel.cmdEmp = $"SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE Lower(CONCAT(NumEmployee,Surname,Name,Lastname)) LIKE '%{_empModel.inputTextFilter}%'";
+                else _empModel.cmdEmp = $"SELECT IdEmployee, employee.IdPost, manualpost.Title, NumEmployee, Surname,Name, Lastname , DateEmployment, DateDismissal FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE manualpost.IdPost = {_empModel.selectedPost.Id} AND Lower(CONCAT(NumEmployee,Surname,Name,Lastname)) LIKE '%{_empModel.inputTextFilter}%'";
                 UpdateListEmployee();
                 OnPropertyChanged("InputTextFilter");
             }
@@ -94,7 +71,7 @@ namespace DbHourWorkWPF.ViewModel
 
         void UpdateListEmployee()
         {
-            Employees = new ObservableCollection<ItemEmployee>(App.serviceDb.LoadListFromServer(cmdEmp, reader =>
+            Employees = new ObservableCollection<ItemEmployee>(App.serviceDb.LoadListFromServer(_empModel.cmdEmp, reader =>
             {
                 return new ItemEmployee()
                 {
@@ -137,13 +114,13 @@ namespace DbHourWorkWPF.ViewModel
         {
             get
             {
-                return addCommand ??
-                  (addCommand = new RelayCommand((o) =>
+                return _empModel.addCommand ??
+                  (_empModel.addCommand = new RelayCommand((o) =>
                   {
                       ContextEmployee contextEmployee = new ContextEmployee(new ItemEmployee());
                       if (contextEmployee.ShowDialog() == true)
                       {
-                          App.serviceDb.OperationOnRecord(cmdAddEmp, FillParam(contextEmployee.Employee));
+                          App.serviceDb.OperationOnRecord(_empModel.cmdAddEmp, FillParam(contextEmployee.Employee));
                           UpdateListEmployee();
                       }
                   }));
@@ -154,8 +131,8 @@ namespace DbHourWorkWPF.ViewModel
         {
             get
             {
-                return editCommand ??
-                  (editCommand = new RelayCommand((selectedItem) =>
+                return _empModel.editCommand ??
+                  (_empModel.editCommand = new RelayCommand((selectedItem) =>
                   {
                       // получаем выделенный объект
                       ItemEmployee? emp = selectedItem as ItemEmployee;
@@ -180,7 +157,7 @@ namespace DbHourWorkWPF.ViewModel
                       {
                           string[] param = FillParam(contextEmployee.Employee);
                           param[7] = emp.Id.ToString();
-                          App.serviceDb.OperationOnRecord(cmdEditEmp, param);
+                          App.serviceDb.OperationOnRecord(_empModel.cmdEditEmp, param);
                           UpdateListEmployee();
                       }
                   }));
@@ -193,8 +170,8 @@ namespace DbHourWorkWPF.ViewModel
         {
             get
             {
-                return deleteCommand ??
-                  (deleteCommand = new RelayCommand((selectedItem) =>
+                return _empModel.deleteCommand ??
+                  (_empModel.deleteCommand = new RelayCommand((selectedItem) =>
                   {
                       // получаем выделенный объект
                       ItemEmployee? emp = selectedItem as ItemEmployee;
@@ -213,8 +190,8 @@ namespace DbHourWorkWPF.ViewModel
         {
             get
             {
-                return multiplydeleteCommand ??
-                  (multiplydeleteCommand = new RelayCommand((obj) =>
+                return _empModel.multiplydeleteCommand ??
+                  (_empModel.multiplydeleteCommand = new RelayCommand((obj) =>
                   {
                       if (MessageBox.Show("Вы уверены что хотите удалить выбранные записи?", "Удаление сотрудника", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                       {
@@ -230,8 +207,8 @@ namespace DbHourWorkWPF.ViewModel
         {
             get
             {
-                return runPostFormCommand ??
-                  (runPostFormCommand = new RelayCommand((obj) =>
+                return _empModel.runPostFormCommand ??
+                  (_empModel.runPostFormCommand = new RelayCommand((obj) =>
                   {
                       PostForm form = new PostForm();
                       UpdateListPosts();
@@ -246,13 +223,13 @@ namespace DbHourWorkWPF.ViewModel
         {
             get
             {
-                return addPostCommand ??
-                  (addPostCommand = new RelayCommand((o) =>
+                return _empModel.addPostCommand ??
+                  (_empModel.addPostCommand = new RelayCommand((o) =>
                   {
                       ContextPost contextPost = new ContextPost(new ItemPost());
                       if (contextPost.ShowDialog() == true)
                       {
-                          App.serviceDb.OperationOnRecord(cmdAddPost, FillParam(contextPost.Post));
+                          App.serviceDb.OperationOnRecord(_empModel.cmdAddPost, FillParam(contextPost.Post));
                           UpdateListPosts();
                       }
                   }));
@@ -264,8 +241,8 @@ namespace DbHourWorkWPF.ViewModel
         {
             get
             {
-                return editPostCommand ??
-                  (editPostCommand = new RelayCommand((selectedItem) =>
+                return _empModel.editPostCommand ??
+                  (_empModel.editPostCommand = new RelayCommand((selectedItem) =>
                   {
                       // получаем выделенный объект
                       ItemPost? post = selectedItem as ItemPost;
@@ -283,7 +260,7 @@ namespace DbHourWorkWPF.ViewModel
                       {
                           string[] param = FillParam(contextPost.Post);
                           param[1] = post.Id.ToString();
-                          App.serviceDb.OperationOnRecord(cmdEditPost, param);
+                          App.serviceDb.OperationOnRecord(_empModel.cmdEditPost, param);
                           UpdateListPosts();
                       }
                   }));
@@ -295,8 +272,8 @@ namespace DbHourWorkWPF.ViewModel
         {
             get
             {
-                return deletePostCommand ??
-                  (deletePostCommand = new RelayCommand((selectedItem) =>
+                return _empModel.deletePostCommand ??
+                  (_empModel.deletePostCommand = new RelayCommand((selectedItem) =>
                   {
                       // получаем выделенный объект
                       ItemPost? post = selectedItem as ItemPost;

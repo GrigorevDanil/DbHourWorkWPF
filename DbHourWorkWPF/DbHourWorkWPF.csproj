@@ -45,9 +45,6 @@
     <Reference Include="MySqlConnector, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d33d3e53aa5f8c92, processorArchitecture=MSIL">
       <HintPath>..\packages\MySqlConnector.2.3.6\lib\net48\MySqlConnector.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -119,7 +116,6 @@
     <Compile Include="MainForm.xaml.cs">
       <DependentUpon>MainForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\AccountModel.cs" />
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="Model\PageModel.cs" />
     <Compile Include="Items\ItemEmployee.cs" />
@@ -133,12 +129,12 @@
     <Compile Include="Utilities\ConditionalConverter.cs" />
     <Compile Include="Utilities\Database.cs" />
     <Compile Include="Utilities\DatabaseService.cs" />
+    <Compile Include="Utilities\INIManager.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
     <Compile Include="Utilities\RoundedBorder.xaml.cs">
       <DependentUpon>RoundedBorder.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\RoundProgressPathConverter.cs" />
-    <Compile Include="Utilities\Setting.cs" />
     <Compile Include="Utilities\ViewModelBase.cs" />
     <Compile Include="ViewModel\AccountVM.cs" />
     <Compile Include="ViewModel\AdminVM.cs" />
@@ -175,6 +171,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ContextUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ContextMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

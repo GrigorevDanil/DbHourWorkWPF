@@ -135,12 +135,15 @@
                                    AllowsTransparency="True"
                                    IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                    Placement="Bottom"
-                                   PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">    
+                                   PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
+
+
 
                                 <Border x:Name="SubMenuBorder"
                                         Background="#093A5C"
-                                        BorderBrush="#093A5C"
                                         CornerRadius="5"
+                                        BorderBrush="AliceBlue"
+                                        BorderThickness="1"
                                         Padding="5">
 
                                     <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer,TypeInTargetAssembly={x:Type FrameworkElement}}}">
@@ -161,6 +164,8 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
+                        
+                        
                         <Trigger Property="IsHighlighted" Value="True">
                             <Setter Property="Visibility"
                             TargetName="Indicator"

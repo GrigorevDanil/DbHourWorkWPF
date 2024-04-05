@@ -131,7 +131,7 @@
 
     <!-- DataGridRow -->
 
-    <Style x:Key="{x:Type DataGridRow}" TargetType="{x:Type DataGridRow}">
+    <Style TargetType="{x:Type DataGridRow}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
         <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="FontFamily" Value="Times New Roman"/>
@@ -232,11 +232,10 @@
                                         </Grid.ColumnDefinitions>
                                         <Border Grid.ColumnSpan="3" Background="{StaticResource Brush_DataGridHeaderBackground}" BorderBrush="{StaticResource Brush_DataGridHeaderBorder}" BorderThickness="0,1" CornerRadius="15"/>
                                         <Button 
-                    Command="{x:Static DataGrid.SelectAllCommand}" 
-                    Width="0"
-                    Focusable="False"
-                    OverridesDefaultStyle="True"
-                   >
+                                            Command="{x:Static DataGrid.SelectAllCommand}" 
+                                            Width="0"
+                                            Focusable="False"
+                                            OverridesDefaultStyle="True">
                                             <Button.Template>
                                                 <ControlTemplate TargetType="{x:Type Button}">
                                                     <Grid>

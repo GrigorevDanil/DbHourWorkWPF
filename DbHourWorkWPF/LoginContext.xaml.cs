@@ -1,8 +1,8 @@
 ﻿using DbHourWorkWPF.Items;
 using DbHourWorkWPF.Properties;
+using DbHourWorkWPF.Utilities;
 using DBHourWorkWPF.Utilities;
 using MySqlConnector;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -38,24 +38,50 @@ namespace DbHourWorkWPF
             InitializeComponent();
 
             //Инициализация базы данных
-            App.settingJson = JsonConvert.DeserializeObject<Setting>(File.ReadAllText("Setting.json"));
-            var connection = new MySqlConnection(App.settingJson.StringConnection);
-            var stringConnection = new MySqlConnectionStringBuilder(connection.ConnectionString);
-            App.db = new Database(connection, stringConnection);
+            
+            var connection = new MySqlConnection(App.manager.GetPrivateString("main", "StringConnection"));
+            App.db = new Database(connection, new MySqlConnectionStringBuilder(connection.ConnectionString));
             App.serviceDb = new DatabaseService(App.db);
 
             //Проверка подключения
-            try
+            try { App.serviceDb.openConnection(); }
+            //База данных не найдена
+            catch (MySqlException exp)
             {
-                App.serviceDb.openConnection();
-            }
-            catch
-            {
-                MessageBox.Show("Отсутствует соединение с базой данных!", "Произошла ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-                Application.Current.Shutdown();
+                if (exp.Message == $"Unknown database \'{App.db.connection.Database}\'")
+                {
+                    if (MessageBox.Show("База данных не найдена? Создать базу данных по умолчанию?", "Отсутствует база данных!", MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.Yes)
+                    {
+                        //Создание базы данных
+                        ProcessStartInfo startInfo = new ProcessStartInfo
+                        {
+                            FileName = "cmd.exe",
+                            RedirectStandardInput = true,
+                            UseShellExecute = false
+                        };
+
+                        string pathXampp = App.manager.GetPrivateString("main", "PathXampp");
+
+                        if (!Directory.Exists(pathXampp))
+                        {
+                            pathXampp = App.FindXamppMysqlBin();
+                            App.manager.WritePrivateString("main", "PathXampp", pathXampp);
+                        }
+
+                        Process process = new Process { StartInfo = startInfo };
+
+                        process.Start();
+                        process.StandardInput.WriteLine($"ResetDB.bat {pathXampp} {Directory.GetCurrentDirectory()}");
+                        process.WaitForExit();
+                    }
+                }
+                else
+                {
+                    //Форма настройки базы данных
+                    if (MessageBox.Show("Перейти к настройкам подключения с базой данных?", "Отсутствует соединение с сервером MySql!", MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.Yes) new DBForm().ShowDialog();
+                }
             }
             finally { App.serviceDb.closeConnection(); }
-
 
             App.serviceDb.openConnection();
 
@@ -80,54 +106,7 @@ namespace DbHourWorkWPF
             //Текущий пользователь
             App.Account = new ItemUser();
 
-            //Проверка подключения
-            try { App.serviceDb.openConnection(); }
-            //База данных не найдена
-            catch (MySqlException exp)
-            {
-                if (exp.Message == $"Unknown database \'{App.db.connection.Database}\'")
-                {
-                    if (MessageBox.Show("База данных не найдена? Создать базу данных по умолчанию?", "Отсутствует база данных!", MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.Yes)
-                    {
-                        //Создание базы данных
-                        var stringConnection = new MySqlConnectionStringBuilder(App.db.connection.ConnectionString);
-                        stringConnection.Database = "mysql";
-                        App.db.connection.ConnectionString = stringConnection.ConnectionString;
-                        App.serviceDb.openConnection();
-                        using (MySqlCommand commandExist = new MySqlCommand("CREATE DATABASE dbhrtime", App.serviceDb.getConnection() )) commandExist.ExecuteNonQuery();
-                        App.serviceDb.closeConnection();
-
-                        ProcessStartInfo startInfo = new ProcessStartInfo
-                        {
-                            FileName = "xampp_shell.bat",
-                            RedirectStandardInput = true,
-                            UseShellExecute = false
-                        };
-
-                        Process process = new Process { StartInfo = startInfo };
-
-                        process.Start();
-                        process.StandardInput.WriteLine("chcp 65001");
-                        process.StandardInput.WriteLine("CD C:\\Users\\Default.WIN-UIOHH4MJ9D8\\Desktop\\C#\\DBHourWork\\DBHourWork\\bin\\Debug\\net8.0-windows");
-                        process.StandardInput.WriteLine("set path=%PATH%;C:\\xampp\\mysql\\bin;");
-                        process.StandardInput.WriteLine($"mysql -u root dbhrtime < DefaultDB.sql");
-                        process.StandardInput.WriteLine($"exit");
-                        process.WaitForExit();
-
-
-                        stringConnection.Database = "dbhrtime";
-                        App.db.connection.ConnectionString = stringConnection.ConnectionString;
-                    }
-                }
-                else
-                {
-                    //Форма настройки базы данных
-                    if (MessageBox.Show("Перейти к настройкам подключения с базой данных?", "Отсутствует соединение с сервером MySql!", MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.Yes) new DBForm().ShowDialog();
-                }
-
-                return;
-            }
-            finally { App.serviceDb.closeConnection(); }
+            
 
             //Взятие пароля
             string curPass = buttonEye.IsChecked == true ? textBoxPass.Text : passwordBox.Password;
