@@ -86,7 +86,7 @@ namespace DBHourWorkWPF.Utilities
                     while (reader.Read())
                     {
                         item = "";
-                        for (int i = startCol; i <= countCol - 1; i++) item += reader[i].ToString();
+                        for (int i = startCol; i <= countCol - 1; i++) item += reader[i].ToString() + " ";
                         item += reader[countCol].ToString();
                         comboBox.Items.Add(item);
                         list.Add(reader.GetInt32(0));

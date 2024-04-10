@@ -51,7 +51,7 @@ namespace DbHourWorkWPF
             for (int i = 0; i <= 100; i++)
             {
                 ((BackgroundWorker)sender).ReportProgress(i);
-                Thread.Sleep(20);
+                Thread.Sleep(30);
             }
         }
     }

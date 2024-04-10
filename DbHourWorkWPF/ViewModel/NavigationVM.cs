@@ -13,7 +13,6 @@ namespace DbHourWorkWPF.ViewModel
     class NavigationVM : ViewModelBase
     {
         private object _currentView;
-        private bool _currentButtonChecked;
         public object CurrentView
         {
             get { return _currentView; }

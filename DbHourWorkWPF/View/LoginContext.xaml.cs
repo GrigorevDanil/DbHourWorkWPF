@@ -71,7 +71,7 @@ namespace DbHourWorkWPF
                         Process process = new Process { StartInfo = startInfo };
 
                         process.Start();
-                        process.StandardInput.WriteLine($"ResetDB.bat {pathXampp} {Directory.GetCurrentDirectory()}");
+                        process.StandardInput.WriteLine($"SetBackup.bat {pathXampp} {Directory.GetCurrentDirectory()} DefaultBackup.sql");
                         process.WaitForExit();
                     }
                 }
@@ -344,14 +344,14 @@ namespace DbHourWorkWPF
         {
             if (buttonEye.IsChecked == true)
             {
-                imageEye.Source = new BitmapImage(new Uri("Pictures/Visible.png", UriKind.Relative));
+                imageEye.Source = new BitmapImage(new Uri("/Pictures/Visible.png", UriKind.Relative));
                 passwordBox.Visibility = Visibility.Hidden;
                 textBoxPass.Visibility = Visibility.Visible;
                 textBoxPass.Text = passwordBox.Password;
             }
             else
             {
-                imageEye.Source = new BitmapImage(new Uri("Pictures/inVisible.png", UriKind.Relative));
+                imageEye.Source = new BitmapImage(new Uri("/Pictures/inVisible.png", UriKind.Relative));
                 passwordBox.Visibility = Visibility.Visible;
                 if (passwordBox.Password.Length == 0) textBoxPass.Visibility = Visibility.Visible;
                 else textBoxPass.Visibility = Visibility.Hidden;

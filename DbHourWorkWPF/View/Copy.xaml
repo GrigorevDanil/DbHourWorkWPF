@@ -20,7 +20,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="71*"/>
                 <RowDefinition Height="322*"/>
-                <RowDefinition Height="274*"/>
+                <RowDefinition Height="80*"/>
+                <RowDefinition Height="189*"/>
                 <RowDefinition Height="80*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -28,20 +29,62 @@
                 <ColumnDefinition Width="523*"/>
             </Grid.ColumnDefinitions>
 
-            <Label Content="Список копий" FontSize="30" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="0,5,0,0" />
+            <TextBlock Text="Список копий" FontSize="30" FontFamily="Nautilus Pompilius" VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="0,13,0,0" />
 
-            <ListBox Grid.RowSpan="2" Grid.Row="1" Margin="15,15,15,13">
-                <ListBox.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="15"/>
-                    </Style>
-                </ListBox.Resources>
-            </ListBox>
+            <DataGrid x:Name="dataGridDay" Grid.Row="1" Margin="5,5,5,15" ItemsSource="{Binding Files}" SelectedItem="{Binding CurFile}" Grid.RowSpan="4">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название копии"  IsReadOnly="True" Width="1.5*" Binding="{Binding Name}"/>
+                    <DataGridTemplateColumn Header="Операции" Width="1*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button  Style="{StaticResource RoundCorner}" Margin="5,5,5,5" Width="48" Height="48" Command="{Binding DataContext.SetCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}"  >
+                                        <ut:StaticImage Source="/Pictures/BackupSet1.png" Width="18" Height="18"/>
+                                    </Button>
+                                    <Button  Style="{StaticResource RoundCorner}" Margin="5,5,5,5" Width="48" Height="48" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" CommandParameter="{Binding}" >
+                                        <ut:StaticImage Source="/Pictures/BackupDelete.png" Width="18" Height="18"/>
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+                <DataGrid.ContextMenu>
+                    <ContextMenu FontSize="14">
+
+                        <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="Создать копию" Command="{Binding Path=PlacementTarget.DataContext.AddCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}">
+                            <MenuItem.Icon>
+                                <ut:StaticImage Source="/Pictures/Add1.png" Width="18" Height="18"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="Установить копию" Command="{Binding Path=PlacementTarget.DataContext.EditCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}">
+                            <MenuItem.Icon>
+                                <ut:StaticImage Source="/Pictures/Edit.png" Width="18" Height="18"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem Style="{StaticResource Services_Sub_MenuItem}"  Command="{Binding Path=PlacementTarget.DataContext.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}">
+                            <MenuItem.Icon>
+                                <ut:StaticImage Source="/Pictures/Delete.png" Width="18" Height="18"/>
+                            </MenuItem.Icon>
+                            <MenuItem.Header>
+                                <TextBlock Text="Удалить копию" Foreground="#E53434"/>
+                            </MenuItem.Header>
+                        </MenuItem>
+
+
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+            </DataGrid>
+
 
             <Border Background="#093A5C"  CornerRadius="15"   Margin="10,10,10,10" Grid.Column="1" Grid.RowSpan="2" />
             <Border Background="AliceBlue" CornerRadius="15"  Margin="15,15,15,15" Grid.Column="1" Grid.RowSpan="2"/>
 
-            <Label Content="Информация о копии" FontSize="30" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Center" Margin="0,5,0,0" />
+            <Label Content="Информация о копии" FontSize="30" FontFamily="Nautilus Pompilius" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Center" Margin="0,13,0,0" />
 
             <Grid Grid.Column="1" Margin="25,9,25,25" Grid.Row="1">
                 <Grid.RowDefinitions>
@@ -55,62 +98,34 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Дата/Время создания:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0" Height="34" Width="251"  />
-                <TextBlock Text="Дата/Время последнего изменения:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center"  Grid.Row="1" TextWrapping="Wrap" HorizontalAlignment="Center"/>
-                <TextBlock Text="Копия создается каждые:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0"  Grid.Row="2" TextWrapping="Wrap"/>
-                <TextBlock Text="Путь к текущей папке:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0"  Grid.Row="3"  TextWrapping="Wrap"/>
+                <TextBlock Text="Дата/Время создания:" FontSize="26" FontFamily="Nautilus Pompilius" Margin="15,8,10,8" Height="34" Width="251" HorizontalAlignment="Left"  />
+                <TextBlock Text="Дата/Время последнего изменения:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center"  Grid.Row="1" TextWrapping="Wrap" Margin="15,8,10,8"/>
+                <TextBlock Text="Копия создается каждые:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,8,10,8"  Grid.Row="2" TextWrapping="Wrap"/>
+                <TextBlock Text="Путь к текущей папке:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,8,10,8"  Grid.Row="3"  TextWrapping="Wrap"/>
 
-
-
+                <TextBlock Text="{Binding CreationTime}" FontSize="22" FontFamily="Nautilus Pompilius" Margin="15,8,10,8" Grid.Column="1" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding LastWriteTime}" FontSize="22" FontFamily="Nautilus Pompilius"  Grid.Row="1" TextWrapping="Wrap"  Grid.Column="1" Margin="15,8,10,8" VerticalAlignment="Center"/>
+                <TextBlock Text="" FontSize="22" FontFamily="Nautilus Pompilius" Margin="15,8,10,8"  Grid.Row="2" TextWrapping="Wrap" Grid.Column="1" VerticalAlignment="Center"/>
+                <TextBox Style="{StaticResource HintTextBox}" IsReadOnly="True" Text="{Binding PathCopy}" FontSize="16" FontFamily="Times New Roman" Margin="15,8,10,8"  Grid.Row="3"  TextWrapping="Wrap" Grid.Column="1"/>
             </Grid>
+
+            <Button  Style="{StaticResource RoundCorner}" Grid.Column="1" Grid.Row="2" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" Margin="5,15,20,15" Command="{Binding SetPathCommand}" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <ut:StaticImage Source="/Pictures/Find.png" Margin="0,2,25,0" Width="35" Height="35"/>
+                    <TextBlock Text="Установить папку копий" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
 
             <!-- Operation Button -->
 
-            <Border Background="#093A5C"  CornerRadius="15" Grid.Row="3"  Margin="5,5,5,5" Grid.ColumnSpan="2"/>
-            <Border Background="AliceBlue"  CornerRadius="15" Grid.Row="3" Margin="10,10,10,10" Grid.ColumnSpan="2"/>
+            <Button  Style="{StaticResource RoundCorner}" Grid.Column="1" Grid.Row="4" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" Margin="5,15,20,15" Command="{Binding CreateCommand}" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <ut:StaticImage Source="/Pictures/BackupCreate1.png" Margin="0,2,25,0" Width="35" Height="35"/>
+                    <TextBlock Text="Создать копию" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
 
 
-
-            <Grid Grid.Row="3" Grid.ColumnSpan="2" Margin="15,15,15,15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="1.1*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Button  Style="{StaticResource RoundCorner}" Grid.Column="0"  Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" Margin="5,0,5,0">
-                    <StackPanel Orientation="Horizontal">
-                        <ut:StaticImage Source="/Pictures/BackupCreate1.png" Margin="0,2,25,0" Width="35" Height="35"/>
-                        <TextBlock Text="Создать копию" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
-                <Button  Style="{StaticResource RoundCorner}" Grid.Column="1"  Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" Margin="5,0,5,0">
-                    <StackPanel Orientation="Horizontal">
-                        <ut:StaticImage Source="/Pictures/BackupSet1.png" Margin="0,2,25,0" Width="35" Height="35"/>
-                        <TextBlock Text="Изменить копию" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
-                <Button  Style="{StaticResource RoundCorner}" Grid.Column="2" Foreground="#E53434" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="5,0,5,0">
-                    <StackPanel Orientation="Horizontal">
-                        <ut:StaticImage Source="/Pictures/BackupDelete.png" Margin="0,2,25,0" Width="35" Height="35"/>
-                        <TextBlock Text="Удалить копию" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
-                <Button  Style="{StaticResource RoundCorner}" Grid.Column="3"  Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" Margin="5,0,5,0">
-                    <StackPanel Orientation="Horizontal">
-                        <ut:StaticImage Source="/Pictures/BackupTime.png" Margin="0,2,25,0" Width="35" Height="35"/>
-                        <TextBlock Text="Установить время создания" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
-                <Button  Style="{StaticResource RoundCorner}" Grid.Column="4"  Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" Margin="5,0,5,0">
-                    <StackPanel Orientation="Horizontal">
-                        <ut:StaticImage Source="/Pictures/Find.png" Margin="0,2,25,0" Width="35" Height="35"/>
-                        <TextBlock Text="Установить папку копий" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
-            </Grid>
 
         </Grid>
     </Grid>

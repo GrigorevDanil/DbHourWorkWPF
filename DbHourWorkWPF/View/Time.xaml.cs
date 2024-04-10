@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DbHourWorkWPF.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,31 @@ namespace DbHourWorkWPF.View
         public Time()
         {
             InitializeComponent();
+            comboBoxMoth.Items.Add("Январь");
+            comboBoxMoth.Items.Add("Февраль");
+            comboBoxMoth.Items.Add("Март");
+            comboBoxMoth.Items.Add("Апрель");
+            comboBoxMoth.Items.Add("Май");
+            comboBoxMoth.Items.Add("Июнь");
+            comboBoxMoth.Items.Add("Июль");
+            comboBoxMoth.Items.Add("Август");
+            comboBoxMoth.Items.Add("Сентябрь");
+            comboBoxMoth.Items.Add("Октябрь");
+            comboBoxMoth.Items.Add("Ноябрь");
+            comboBoxMoth.Items.Add("Декабрь");
+            comboBoxMoth.SelectedIndex = 0;
+        }
+
+        private void dataGridCard_CurrentCellChanged(object sender, EventArgs e)
+        {
+            var grid = sender as DataGrid;
+
+            try
+            {
+                var currentColumnIndex = grid.CurrentCell.Column.DisplayIndex;
+                ((TimeVM)DataContext).SelectedCellIndex = currentColumnIndex;
+            }
+            catch { }
         }
     }
 }

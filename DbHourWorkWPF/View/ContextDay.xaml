@@ -47,7 +47,7 @@
             </Grid.RowDefinitions>
 
             <TextBlock Text="Краткое обозначение:" VerticalAlignment="Center" FontSize="20" FontFamily="Nautilus Pompilius" HorizontalAlignment="Left" Margin="20,0,0,0" Height="26" Width="180"/>
-            <TextBlock Text="Должность:" VerticalAlignment="Center" FontSize="20" FontFamily="Nautilus Pompilius" HorizontalAlignment="Left" Margin="20,0,0,0" Grid.Row="1" Height="26" Width="102"/>
+            <TextBlock Text="Описание:" VerticalAlignment="Center" FontSize="20" FontFamily="Nautilus Pompilius" HorizontalAlignment="Left" Margin="20,0,0,0" Grid.Row="1" Height="26" Width="102"/>
 
             <TextBox x:Name="textBoxShortName" Style="{StaticResource HintTextBox}" Tag="Обозначение" Text="{Binding ShortName}"  Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
             <TextBox x:Name="textBoxTitle" Style="{StaticResource HintTextBox}" Tag="Описание" Text="{Binding Title}"  Grid.Column="0" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="140,5,10,5" Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="Wrap"/>

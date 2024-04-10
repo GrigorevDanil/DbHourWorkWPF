@@ -123,17 +123,34 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
-            
+
             <DataGrid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="Edit" Command="{Binding Path=PlacementTarget.DataContext.EditCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
-  CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
-                    <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="Удаление" Command="{Binding DeleteCommand}">
+                <ContextMenu FontSize="14">
+
+                    <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="Добавить пользователя" Command="{Binding Path=PlacementTarget.DataContext.AddCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}">
+                        <MenuItem.Icon>
+                            <ut:StaticImage Source="/Pictures/Add1.png" Width="18" Height="18"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="Редактировать пользователя" Command="{Binding Path=PlacementTarget.DataContext.EditCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+   CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}">
+                        <MenuItem.Icon>
+                            <ut:StaticImage Source="/Pictures/Edit.png" Width="18" Height="18"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <MenuItem Style="{StaticResource Services_Sub_MenuItem}"  Command="{Binding Path=PlacementTarget.DataContext.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+   CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}">
                         <MenuItem.Icon>
                             <ut:StaticImage Source="/Pictures/Delete.png" Width="18" Height="18"/>
                         </MenuItem.Icon>
+                        <MenuItem.Header>
+                            <TextBlock Text="Удалить пользователя" Foreground="#E53434"/>
+                        </MenuItem.Header>
                     </MenuItem>
-                    <!-- Добавьте другие пункты меню здесь -->
+
+
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

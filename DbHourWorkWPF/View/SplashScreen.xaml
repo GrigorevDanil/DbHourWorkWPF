@@ -25,8 +25,8 @@
         <Border Background="#093A5C" CornerRadius="15" Grid.RowSpan="2"/>
         <TextBlock Text="Автор: Григорьев Д.В. ИП-3" Foreground="#D9D9D9" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="26" FontFamily="Nautilus Pompilius" Grid.Row="1" />
         <Border Background="AliceBlue" CornerRadius="15" />
-        <ut:StaticImage Source="/Pictures/IconBIP.png" Width="200" Height="200" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,50,0,0"/>
-        <ProgressBar x:Name="progressBar" Value="0" IsIndeterminate="True"  Style="{DynamicResource RoundProgressBarStyle}" Foreground="#0E5D91" Background="AliceBlue"  Height="240" VerticalAlignment="Top" HorizontalAlignment="Center" Width="240" Margin="0,30,0,0"/>
+        <MediaElement  Source="bipGif.gif" LoadedBehavior="Play" UnloadedBehavior="Play" Visibility="Visible" Margin="161,58,158,95" />
+        <ProgressBar x:Name="progressBar" Value="0"  Style="{DynamicResource RoundProgressBarStyle}" Foreground="#0E5D91" Background="AliceBlue"  Height="240" VerticalAlignment="Top" HorizontalAlignment="Center" Width="240" Margin="0,30,0,0"/>
         <TextBlock  VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="26" FontFamily="Nautilus Pompilius" TextAlignment="Center"  Margin="0,0,0,10">
     Отдел кадров Учет рабочего времени
         </TextBlock>

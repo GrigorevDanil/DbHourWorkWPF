@@ -9,7 +9,7 @@ namespace DbHourWorkWPF.ViewModel
 {
     class DayVM : Utilities.ViewModelBase
     {
-        string cmdDay = "SELECT IdDay, ShortName AS 'Короткое имя', Title AS 'Обозначение' FROM manualday",
+        string cmdDay = "SELECT * FROM manualday",
             cmdAddDay = "INSERT INTO manualday VALUES (NULL,@_shortname,@_title)",
             cmdEditDay = "UPDATE manualday SET ShortName = @short, Title = @titl WHERE IdDay = @_idDay";
         private readonly PageModel _pageModel;
@@ -51,9 +51,9 @@ namespace DbHourWorkWPF.ViewModel
             {
                 return new ItemDay()
                 {
-                    Id = reader.GetInt32(0),
-                    ShortName = reader.GetString(1),
-                    Title = reader.GetString(2)
+                    Id = reader.GetInt32("IdDay"),
+                    ShortName = reader.GetString("ShortName"),
+                    Title = reader.GetString("Title")
                 };
             }));
             OnPropertyChanged(nameof(Days));

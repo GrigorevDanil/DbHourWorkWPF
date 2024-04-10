@@ -17,6 +17,7 @@ namespace DbHourWorkWPF.ViewModel
 {
     class AccountVM : Utilities.ViewModelBase
     {
+        
         public static ImageSource defaultImageSource = new BitmapImage(new Uri("ImageEmployee.png", UriKind.RelativeOrAbsolute));
         public static bool defaultImageFlag = true, changePassFlag = false;
         
