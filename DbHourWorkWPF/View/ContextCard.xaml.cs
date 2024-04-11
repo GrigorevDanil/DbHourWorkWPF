@@ -67,6 +67,7 @@ namespace DbHourWorkWPF.View
             comboBoxDay.SelectedItem = days[indexDay];
             if (flag)
             {
+                headerText.Text = "Редактирование дня";
                 comboBoxMark.SelectedItem = Card.WorkTimes[indexWork].Day.ShortName;
                 textBoxHour.Text = Card.WorkTimes[indexWork].HourWork.ToString();
             }

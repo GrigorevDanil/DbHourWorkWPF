@@ -29,7 +29,7 @@ namespace DbHourWorkWPF
 
         }
 
-        public ContextEmployee(ItemEmployee emp)
+        public ContextEmployee(ItemEmployee emp,bool flag = false)
         {
             InitializeComponent();
             App.serviceDb.LoadComboBox(ref comboBoxPost, ref idPost, "Select * From manualpost");
@@ -38,6 +38,7 @@ namespace DbHourWorkWPF
             Employee = emp;
             Employee.DateEmployment = DateTime.Now.ToString("yyyy-MM-dd");
             DataContext = Employee;
+            if (flag) headerText.Text = "Редактирование сотрудника";
         }
 
         private void CheckBoxLastname_CheckedChange(object sender, RoutedEventArgs e)

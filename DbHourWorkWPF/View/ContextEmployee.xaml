@@ -31,7 +31,7 @@
 
         <Border Background="#093A5C"  CornerRadius="10" Margin="25,10,25,5" Grid.ColumnSpan="2"/>
 
-        <TextBlock Text="Добавление сотрудника" VerticalAlignment="Top" FontSize="32" FontFamily="Nautilus Pompilius" HorizontalAlignment="Left" Grid.Row="1" Grid.ColumnSpan="2" Margin="189,15,0,0" Height="43" Width="321"/>
+        <TextBlock x:Name="headerText" Text="Добавление сотрудника" VerticalAlignment="Top" FontSize="32" FontFamily="Nautilus Pompilius" HorizontalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,15,0,0" Height="Auto" Width="Auto"/>
 
 
         <Border Background="#093A5C"  CornerRadius="18" Grid.Row="1" Grid.Column="1" Margin="5,75,15,24" />
@@ -61,10 +61,10 @@
             <CheckBox x:Name="checkBoxDateDis" Style="{StaticResource CheckBoxStyle}" IsChecked="False" Content="Дата увольнения:" Grid.Row="6" VerticalAlignment="Center" FontSize="20" FontFamily="Nautilus Pompilius" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="Black" Checked="CheckBoxDismissal_CheckedChange" Unchecked="CheckBoxDismissal_CheckedChange"/>
 
             <ComboBox x:Name="comboBoxPost" Style="{StaticResource ComboboxStyle}" IsReadOnly="True" Grid.Column="1"  Margin="5,5,10,5" FontSize="20" FontFamily="Times New Roman" SelectedItem="{Binding Post}" SelectionChanged="comboBoxPost_SelectionChanged"/>
-            <TextBox x:Name="textBoxNumEmp" Style="{StaticResource HintTextBox}" Tag="Табельный номер" Text="{Binding NumEmployee}" Grid.Row="1" Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
-            <TextBox x:Name="textBoxSurname" Style="{StaticResource HintTextBox}" Tag="Фамилия" Text="{Binding Surname}" Grid.Row="2" Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
-            <TextBox x:Name="textBoxName" Style="{StaticResource HintTextBox}" Tag="Имя" Text="{Binding Name}" Grid.Row="3" Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
-            <TextBox x:Name="textBoxLastname" Style="{StaticResource HintTextBox}" Tag="Отчество" Text="{Binding Lastname}" Grid.Row="4" Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
+            <TextBox x:Name="textBoxNumEmp" MaxLength="10" Style="{StaticResource HintTextBox}" Tag="Табельный номер" Text="{Binding NumEmployee}" Grid.Row="1" Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
+            <TextBox x:Name="textBoxSurname" MaxLength="30" Style="{StaticResource HintTextBox}" Tag="Фамилия" Text="{Binding Surname}" Grid.Row="2" Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
+            <TextBox x:Name="textBoxName" MaxLength="30" Style="{StaticResource HintTextBox}" Tag="Имя" Text="{Binding Name}" Grid.Row="3" Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
+            <TextBox x:Name="textBoxLastname" MaxLength="30" Style="{StaticResource HintTextBox}" Tag="Отчество" Text="{Binding Lastname}" Grid.Row="4" Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
             <DatePicker x:Name="datePickerEmp" Style="{StaticResource DatePickerStyle}" SelectedDate="{x:Static sys:DateTime.Now}" BorderThickness="0.5" Grid.Row="5" Grid.Column="1" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" SelectedDateChanged="datePickerEmp_SelectedDateChanged"/>
             <DatePicker x:Name="datePickerDis" Style="{StaticResource DatePickerStyle}" IsEnabled="False" Grid.Row="6" Grid.Column="1" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" SelectedDateChanged="datePickerDis_SelectedDateChanged"/>
 

@@ -30,7 +30,7 @@
 
         <Border Background="#093A5C"  CornerRadius="10" Margin="25,10,25,5" Grid.ColumnSpan="2"/>
 
-        <TextBlock Text="Добавление дня" VerticalAlignment="Top" FontSize="32" FontFamily="Nautilus Pompilius" HorizontalAlignment="Center" Grid.Row="1" Margin="0,15,0,0" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <TextBlock x:Name="headerText" Text="Добавление дня" VerticalAlignment="Top" FontSize="32" FontFamily="Nautilus Pompilius" HorizontalAlignment="Center" Grid.Row="1" Margin="0,15,0,0" Height="Auto" Width="Auto" Grid.Column="0" Grid.ColumnSpan="2"/>
 
 
         <Border Background="#093A5C"  CornerRadius="18" Grid.Row="1" Grid.Column="1" Margin="5,85,15,25" />
@@ -49,8 +49,8 @@
             <TextBlock Text="Краткое обозначение:" VerticalAlignment="Center" FontSize="20" FontFamily="Nautilus Pompilius" HorizontalAlignment="Left" Margin="20,0,0,0" Height="26" Width="180"/>
             <TextBlock Text="Описание:" VerticalAlignment="Center" FontSize="20" FontFamily="Nautilus Pompilius" HorizontalAlignment="Left" Margin="20,0,0,0" Grid.Row="1" Height="26" Width="102"/>
 
-            <TextBox x:Name="textBoxShortName" Style="{StaticResource HintTextBox}" Tag="Обозначение" Text="{Binding ShortName}"  Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
-            <TextBox x:Name="textBoxTitle" Style="{StaticResource HintTextBox}" Tag="Описание" Text="{Binding Title}"  Grid.Column="0" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="140,5,10,5" Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="Wrap"/>
+            <TextBox x:Name="textBoxShortName" MaxLength="2" Style="{StaticResource HintTextBox}" Tag="Обозначение" Text="{Binding ShortName}"  Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
+            <TextBox x:Name="textBoxTitle" MaxLength="160" Style="{StaticResource HintTextBox}" Tag="Описание" Text="{Binding Title}"  Grid.Column="0" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="140,5,10,5" Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="Wrap"/>
 
         </Grid>
 

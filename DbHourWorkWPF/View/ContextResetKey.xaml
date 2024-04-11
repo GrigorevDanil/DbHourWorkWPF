@@ -30,7 +30,7 @@
 
         <Border Background="#093A5C"  CornerRadius="10" Margin="25,10,25,5" Grid.ColumnSpan="2"/>
 
-        <TextBlock Text="Изменение пароля" TextAlignment="Center" FontSize="32" FontFamily="Nautilus Pompilius" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,15,0,0" Height="43" Width="321" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        <TextBlock x:Name="headerText" Text="Изменение пароля" TextAlignment="Center" FontSize="32" FontFamily="Nautilus Pompilius" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,15,0,0" Height="43" Width="321" VerticalAlignment="Top" HorizontalAlignment="Center"/>
 
 
         <Border Background="#093A5C"  CornerRadius="18" Grid.Row="1" Grid.Column="1" Margin="5,80,15,45" />

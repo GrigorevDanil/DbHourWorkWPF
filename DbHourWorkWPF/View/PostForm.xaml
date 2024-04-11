@@ -35,7 +35,7 @@
         <DataGrid x:Name="dataGridPost" x:FieldModifier="public"  Margin="10,0,10,0" Grid.Row="1" ItemsSource="{Binding Posts}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Должность"  IsReadOnly="True" Width="2.5*" Binding="{Binding Title}"/>
-                <DataGridTemplateColumn Header="Операции" Width="0.6*">
+                <DataGridTemplateColumn x:Name="ColOp" Header="Операции" Width="0.6*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -51,7 +51,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
-                <ContextMenu FontSize="14">
+                <ContextMenu x:Name="menu" FontSize="14">
 
                     <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="Добавить должность" Command="{Binding Path=PlacementTarget.DataContext.AddPostCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}">
                         <MenuItem.Icon>

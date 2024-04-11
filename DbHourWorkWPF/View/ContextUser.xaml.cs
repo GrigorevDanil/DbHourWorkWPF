@@ -43,12 +43,13 @@ namespace DbHourWorkWPF
             DataContext = User;
             if (User.Image != null) AdminVM.defaultImageFlag = false;
             this.flagAdd = flagAdd;
-            if(flagAdd)
+            if (flagAdd)
             {
-                butChangePass.Visibility= Visibility.Hidden;
+                butChangePass.Visibility = Visibility.Hidden;
                 textResetPass.Text = "Установить пароль";
                 textResetPass.Foreground = new SolidColorBrush(Color.FromRgb(0xD9, 0xD9, 0xD9));
             }
+            else headerText.Text = "Редактирование пользователя";
         }
 
         private void CheckBoxLock_CheckedChange(object sender, RoutedEventArgs e)

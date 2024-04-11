@@ -23,6 +23,13 @@ namespace DbHourWorkWPF.View
         public Day()
         {
             InitializeComponent();
+            if (App.Account.Role == "Пользователь")
+            {
+                butDel.Visibility = Visibility.Collapsed;
+                butAdd.Visibility = Visibility.Collapsed;
+                ColOp.Visibility = Visibility.Collapsed;
+                menu.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

@@ -28,7 +28,7 @@
         <ScrollViewer HorizontalScrollBarVisibility="Visible" Grid.Row="1" Margin="5,5,5,5">
             <DataGrid x:Name="dataGridCard" Width="7000" IsReadOnly="True" FontFamily="Times New Roman" FontSize="20"  AutoGenerateColumns="True" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ItemsSource="{Binding DataTableTimeView}" MinRowHeight="48"  CurrentCellChanged="dataGridCard_CurrentCellChanged" PreviewMouseRightButtonDown="dataGridCard_PreviewMouseRightButtonDown" >
                 <DataGrid.ContextMenu>
-                    <ContextMenu FontSize="14">
+                    <ContextMenu x:Name="menu" FontSize="14">
 
                         <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="Добавить день" Command="{Binding Path=PlacementTarget.DataContext.AddCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
 CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}">
@@ -80,7 +80,7 @@ CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={Re
             <TextBlock Text="Год:" VerticalAlignment="Center" FontSize="28" FontFamily="Nautilus Pompilius" HorizontalAlignment="Center" Grid.Column="2" Height="38" Width="46"/>
             <ut:NumericUpDown Text="{Binding SelectedYear, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" TextAlignment="Center" Style="{StaticResource NumericUpDown}" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Height="34"/>
 
-            <Button Grid.Column="4" Style="{StaticResource RoundCorner}" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" HorizontalAlignment="Right" Command="{Binding AddCommand}" CommandParameter="{Binding ElementName=dataGridCard, Path=SelectedItem}" VerticalAlignment="Center" Margin="0,0,25,0">
+            <Button x:Name="butAdd" Grid.Column="4" Style="{StaticResource RoundCorner}" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" HorizontalAlignment="Right" Command="{Binding AddCommand}" CommandParameter="{Binding ElementName=dataGridCard, Path=SelectedItem}" VerticalAlignment="Center" Margin="0,0,25,0">
                 <StackPanel Orientation="Horizontal">
                     <ut:StaticImage Source="/Pictures/Add1.png" Margin="0,2,25,0" Width="35" Height="35"/>
                     <TextBlock Text="Добавить день для сотдника" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>

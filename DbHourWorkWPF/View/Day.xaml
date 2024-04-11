@@ -52,7 +52,7 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Обозначение"  IsReadOnly="True" Width="1*" Binding="{Binding ShortName}"/>
                 <DataGridTextColumn Header="Описание"  IsReadOnly="True" Width="8*" Binding="{Binding Title}"/>
-                <DataGridTemplateColumn Header="Операции" Width="1*">
+                <DataGridTemplateColumn x:Name="ColOp" Header="Операции" Width="1*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -68,7 +68,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
-                <ContextMenu FontSize="14">
+                <ContextMenu x:Name="menu" FontSize="14">
 
                     <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="Добавить день" Command="{Binding Path=PlacementTarget.DataContext.AddCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}">
                         <MenuItem.Icon>
@@ -114,13 +114,13 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Style="{StaticResource RoundCorner}" Foreground="#E53434" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="5,0,5,0" HorizontalAlignment="Left" Command="{Binding MultiplyDeleteCommand}">
+            <Button x:Name="butDel" Grid.Column="0" Style="{StaticResource RoundCorner}" Foreground="#E53434" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="5,0,5,0" HorizontalAlignment="Left" Command="{Binding MultiplyDeleteCommand}">
                 <StackPanel Orientation="Horizontal">
                     <ut:StaticImage Source="/Pictures/Delete.png" Margin="0,2,25,0" Width="35" Height="35"/>
                     <TextBlock Text="Удалить" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
-            <Button Grid.Column="1" Style="{StaticResource RoundCorner}" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="5,0,5,0" HorizontalAlignment="Right" Command="{Binding AddCommand}">
+            <Button x:Name="butAdd" Grid.Column="1" Style="{StaticResource RoundCorner}" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="5,0,5,0" HorizontalAlignment="Right" Command="{Binding AddCommand}">
                 <StackPanel Orientation="Horizontal">
                     <ut:StaticImage Source="/Pictures/Add1.png" Margin="0,2,25,0" Width="35" Height="35"/>
                     <TextBlock Text="Добавить день" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>

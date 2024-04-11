@@ -30,7 +30,7 @@
 
         <Border Background="#093A5C"  CornerRadius="10" Margin="25,10,25,5" Grid.ColumnSpan="2"/>
 
-        <TextBlock Text="Добавление Должности" VerticalAlignment="Top" FontSize="32" FontFamily="Nautilus Pompilius" HorizontalAlignment="Left" Grid.Row="1" Grid.ColumnSpan="2" Margin="189,15,0,0" Height="43" Width="321"/>
+        <TextBlock x:Name="headerText" Text="Добавление Должности" VerticalAlignment="Top" FontSize="32" FontFamily="Nautilus Pompilius" HorizontalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,15,0,0" Height="Auto" Width="Auto"/>
 
 
         <Border Background="#093A5C"  CornerRadius="18" Grid.Row="1" Grid.Column="1" Margin="5,85,15,50" />
@@ -44,7 +44,7 @@
 
             <TextBlock Text="Должность:" VerticalAlignment="Center" FontSize="20" FontFamily="Nautilus Pompilius" HorizontalAlignment="Left" Margin="20,0,0,0"/>
 
-            <TextBox x:Name="textBoxTitle" Style="{StaticResource HintTextBox}" Tag="Название должности" Text="{Binding Title}"  Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,10,10,10" />
+            <TextBox x:Name="textBoxTitle" MaxLength="30" Style="{StaticResource HintTextBox}" Tag="Название должности" Text="{Binding Title}"  Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,10,10,10" />
 
         </Grid>
 

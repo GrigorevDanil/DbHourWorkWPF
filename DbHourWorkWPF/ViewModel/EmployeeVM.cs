@@ -150,7 +150,7 @@ namespace DbHourWorkWPF.ViewModel
                           DateEmployment = emp.DateEmployment,
                           DateDismissal = emp.DateDismissal,
                       };
-                      ContextEmployee contextEmployee = new ContextEmployee(vm);
+                      ContextEmployee contextEmployee = new ContextEmployee(vm, true);
 
 
                       if (contextEmployee.ShowDialog() == true)
@@ -253,7 +253,7 @@ namespace DbHourWorkWPF.ViewModel
                           Id = post.Id,
                           Title = post.Title,
                       };
-                      ContextPost contextPost = new ContextPost(vm);
+                      ContextPost contextPost = new ContextPost(vm,true);
 
 
                       if (contextPost.ShowDialog() == true)

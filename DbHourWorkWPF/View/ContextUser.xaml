@@ -36,7 +36,7 @@
 
         <Border Background="#093A5C"  CornerRadius="10" Margin="25,10,25,5" Grid.ColumnSpan="2"/>
 
-        <TextBlock Text="Добавление пользователя" VerticalAlignment="Top" FontSize="32" FontFamily="Nautilus Pompilius" HorizontalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,15,0,0"/>
+        <TextBlock x:Name="headerText" Text="Добавление пользователя" VerticalAlignment="Top" FontSize="32" FontFamily="Nautilus Pompilius" HorizontalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,15,0,0" Height="Auto" Width="Auto"/>
 
         <StackPanel Orientation="Vertical" Grid.Row="2">
             <Button  Style="{StaticResource RoundCorner}" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="15,3,10,3" Click="butChangeImage_Click"  >
@@ -79,9 +79,9 @@
             <CheckBox x:Name="checkBoxDateLock" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding IsLock, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Заблокирован:" Grid.Row="6" VerticalAlignment="Center" FontSize="20" FontFamily="Nautilus Pompilius" HorizontalAlignment="Left" Margin="20,0,0,0" Foreground="Black" Checked="CheckBoxLock_CheckedChange" Unchecked="CheckBoxLock_CheckedChange"/>
 
             <ComboBox x:Name="comboBoxRole" Style="{StaticResource ComboboxStyle}" IsReadOnly="True" Grid.Column="1"  Margin="5,5,10,5" FontSize="18" FontFamily="Times New Roman" SelectedItem="{Binding Role}" SelectionChanged="comboBoxRole_SelectionChanged"/>
-            <TextBox x:Name="textBoxLogin" Style="{StaticResource HintTextBox}" Tag="Логин" Text="{Binding Login}" Grid.Row="1" Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
-            <TextBox x:Name="textBoxSurname" Style="{StaticResource HintTextBox}" Tag="Фамилия" Text="{Binding Surname}" Grid.Row="2" Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
-            <TextBox x:Name="textBoxName" Style="{StaticResource HintTextBox}" Tag="Имя" Text="{Binding Name}" Grid.Row="3" Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
+            <TextBox x:Name="textBoxLogin" MaxLength="20" Style="{StaticResource HintTextBox}" Tag="Логин" Text="{Binding Login}" Grid.Row="1" Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
+            <TextBox x:Name="textBoxSurname" MaxLength="50" Style="{StaticResource HintTextBox}" Tag="Фамилия" Text="{Binding Surname}" Grid.Row="2" Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
+            <TextBox x:Name="textBoxName" MaxLength="50" Style="{StaticResource HintTextBox}" Tag="Имя" Text="{Binding Name}" Grid.Row="3" Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" />
             <DatePicker x:Name="datePickerLock" Style="{StaticResource DatePickerStyle}" IsEnabled="False" SelectedDate="{x:Static sys:DateTime.Now}" BorderThickness="0.5" Grid.Row="4" Grid.Column="1" FontSize="18" FontFamily="Times New Roman" Margin="5,5,10,5" SelectedDateChanged="datePickerLock_SelectedDateChanged"/>
         </Grid>
 

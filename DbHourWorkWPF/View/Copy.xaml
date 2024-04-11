@@ -19,17 +19,17 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="71*"/>
-                <RowDefinition Height="322*"/>
-                <RowDefinition Height="80*"/>
-                <RowDefinition Height="189*"/>
-                <RowDefinition Height="80*"/>
+                <RowDefinition Height="233*"/>
+                <RowDefinition Height="81*"/>
+                <RowDefinition Height="281*"/>
+                <RowDefinition Height="81*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="212*"/>
                 <ColumnDefinition Width="523*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Список копий" FontSize="30" FontFamily="Nautilus Pompilius" VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="0,13,0,0" />
+            <TextBlock Text="Список копий" FontSize="30" FontFamily="Nautilus Pompilius" VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="0,13,0,0" Height="40" Width="164" />
 
             <DataGrid x:Name="dataGridDay" Grid.Row="1" Margin="5,5,5,15" ItemsSource="{Binding Files}" SelectedItem="{Binding CurFile}" Grid.RowSpan="4">
                 <DataGrid.Columns>
@@ -84,14 +84,14 @@ CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={Re
             <Border Background="#093A5C"  CornerRadius="15"   Margin="10,10,10,10" Grid.Column="1" Grid.RowSpan="2" />
             <Border Background="AliceBlue" CornerRadius="15"  Margin="15,15,15,15" Grid.Column="1" Grid.RowSpan="2"/>
 
-            <Label Content="Информация о копии" FontSize="30" FontFamily="Nautilus Pompilius" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Center" Margin="0,13,0,0" />
+            <Label Content="Информация о копии" FontSize="30" FontFamily="Nautilus Pompilius" VerticalAlignment="Top" Grid.Column="1" HorizontalAlignment="Center" Margin="0,13,0,0" Height="50" Width="278" />
 
             <Grid Grid.Column="1" Margin="25,9,25,25" Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1.5*"/>
                     <RowDefinition Height="1.5*"/>
                     <RowDefinition Height="1.5*"/>
-                    <RowDefinition Height="1.5*"/>
+
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1.5*"/>
@@ -100,7 +100,6 @@ CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={Re
 
                 <TextBlock Text="Дата/Время создания:" FontSize="26" FontFamily="Nautilus Pompilius" Margin="15,8,10,8" Height="34" Width="251" HorizontalAlignment="Left"  />
                 <TextBlock Text="Дата/Время последнего изменения:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center"  Grid.Row="1" TextWrapping="Wrap" Margin="15,8,10,8"/>
-                <TextBlock Text="Копия создается каждые:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,8,10,8"  Grid.Row="2" TextWrapping="Wrap"/>
                 <TextBlock Text="Путь к текущей папке:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,8,10,8"  Grid.Row="3"  TextWrapping="Wrap"/>
 
                 <TextBlock Text="{Binding CreationTime}" FontSize="22" FontFamily="Nautilus Pompilius" Margin="15,8,10,8" Grid.Column="1" VerticalAlignment="Center" />
@@ -109,7 +108,7 @@ CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={Re
                 <TextBox Style="{StaticResource HintTextBox}" IsReadOnly="True" Text="{Binding PathCopy}" FontSize="16" FontFamily="Times New Roman" Margin="15,8,10,8"  Grid.Row="3"  TextWrapping="Wrap" Grid.Column="1"/>
             </Grid>
 
-            <Button  Style="{StaticResource RoundCorner}" Grid.Column="1" Grid.Row="2" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" Margin="5,15,20,15" Command="{Binding SetPathCommand}" HorizontalAlignment="Right">
+            <Button  Style="{StaticResource RoundCorner}" Grid.Column="1" Grid.Row="2" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" Margin="747,15,0,15" Command="{Binding SetPathCommand}" HorizontalAlignment="Left" Width="279">
                 <StackPanel Orientation="Horizontal">
                     <ut:StaticImage Source="/Pictures/Find.png" Margin="0,2,25,0" Width="35" Height="35"/>
                     <TextBlock Text="Установить папку копий" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>
@@ -118,7 +117,7 @@ CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={Re
 
             <!-- Operation Button -->
 
-            <Button  Style="{StaticResource RoundCorner}" Grid.Column="1" Grid.Row="4" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" Margin="5,15,20,15" Command="{Binding CreateCommand}" HorizontalAlignment="Right">
+            <Button  Style="{StaticResource RoundCorner}" Grid.Column="1" Grid.Row="4" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" Margin="825,15,0,15" Command="{Binding CreateCommand}" HorizontalAlignment="Left" Width="201">
                 <StackPanel Orientation="Horizontal">
                     <ut:StaticImage Source="/Pictures/BackupCreate1.png" Margin="0,2,25,0" Width="35" Height="35"/>
                     <TextBlock Text="Создать копию" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>

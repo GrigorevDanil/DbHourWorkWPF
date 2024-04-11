@@ -22,6 +22,12 @@ namespace DbHourWorkWPF
         public PostForm()
         {
             InitializeComponent();
+            if (App.Account.Role == "Пользователь")
+            {
+                butAddPost.Visibility = Visibility.Collapsed;
+                ColOp.Visibility = Visibility.Collapsed;
+                menu.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void butExit_Click(object sender, RoutedEventArgs e)

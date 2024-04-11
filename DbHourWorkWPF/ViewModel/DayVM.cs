@@ -102,7 +102,7 @@ namespace DbHourWorkWPF.ViewModel
                           ShortName = day.ShortName,
                           Title = day.Title
                       };
-                      ContextDay contextDay = new ContextDay(vm);
+                      ContextDay contextDay = new ContextDay(vm, true);
 
 
                       if (contextDay.ShowDialog() == true)

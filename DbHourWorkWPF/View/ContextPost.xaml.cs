@@ -26,11 +26,12 @@ namespace DbHourWorkWPF
             InitializeComponent();
         }
 
-        public ContextPost(ItemPost post)
+        public ContextPost(ItemPost post, bool flag = false)
         {
             InitializeComponent();
             Post = post;
             DataContext = Post;
+            if (flag) headerText.Text = "Редактирование должности";
         }
 
         private void butEnter_Click(object sender, RoutedEventArgs e)

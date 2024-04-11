@@ -22,6 +22,7 @@ namespace DbHourWorkWPF
         public ContextResetKey()
         {
             InitializeComponent();
+            
         }
 
         private void butEnter_Click(object sender, RoutedEventArgs e)

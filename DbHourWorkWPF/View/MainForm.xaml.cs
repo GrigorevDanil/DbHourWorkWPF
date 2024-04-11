@@ -62,7 +62,6 @@ namespace DbHourWorkWPF
                 tbNick.Text = App.Account.Surname + " " + App.Account.Name;
                 if (App.Account.Role == "Кадровик" || App.Account.Role == "Пользователь")
                 {
-                    butAccount.Visibility = Visibility.Collapsed;
                     butCopy.Visibility = Visibility.Collapsed;
                     butConnect.Visibility = Visibility.Collapsed;
                     menuItemAdmin.Visibility = Visibility.Collapsed;

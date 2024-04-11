@@ -37,6 +37,12 @@ namespace DbHourWorkWPF.View
             comboBoxMoth.Items.Add("Ноябрь");
             comboBoxMoth.Items.Add("Декабрь");
             comboBoxMoth.SelectedIndex = 0;
+
+            if (App.Account.Role == "Пользователь")
+            {
+                butAdd.Visibility = Visibility.Collapsed;
+                menu.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void dataGridCard_CurrentCellChanged(object sender, EventArgs e)

@@ -26,11 +26,12 @@ namespace DbHourWorkWPF
             InitializeComponent();
         }
 
-        public ContextDay(ItemDay day)
+        public ContextDay(ItemDay day, bool flag = false)
         {
             InitializeComponent();
             Day = day;
             DataContext = Day;
+            if (flag) headerText.Text = "Редактирование Дня";
         }
 
         private void butEnter_Click(object sender, RoutedEventArgs e)
