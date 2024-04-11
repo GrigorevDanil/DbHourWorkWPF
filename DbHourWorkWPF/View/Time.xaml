@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
 
         <ScrollViewer HorizontalScrollBarVisibility="Visible" Grid.Row="1" Margin="5,5,5,5">
-            <DataGrid x:Name="dataGridCard" Width="7000" IsReadOnly="True" FontFamily="Times New Roman" FontSize="20"  AutoGenerateColumns="True" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ItemsSource="{Binding DataTableTimeView}" MinRowHeight="48"  CurrentCellChanged="dataGridCard_CurrentCellChanged" >
+            <DataGrid x:Name="dataGridCard" Width="7000" IsReadOnly="True" FontFamily="Times New Roman" FontSize="20"  AutoGenerateColumns="True" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ItemsSource="{Binding DataTableTimeView}" MinRowHeight="48"  CurrentCellChanged="dataGridCard_CurrentCellChanged" PreviewMouseRightButtonDown="dataGridCard_PreviewMouseRightButtonDown" >
                 <DataGrid.ContextMenu>
                     <ContextMenu FontSize="14">
 

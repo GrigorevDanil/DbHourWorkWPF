@@ -52,10 +52,22 @@ namespace DbHourWorkWPF
             if (LoginContext.flagChangeUserServer)
             {
                 tbNick.Text = App.Account.Login;
+                butAccount.Visibility = Visibility.Collapsed;
+                butCopy.Visibility = Visibility.Collapsed;
+                butConnect.Visibility = Visibility.Collapsed;
+                menuItemAdmin.Visibility = Visibility.Collapsed;
             }
             else
             {
                 tbNick.Text = App.Account.Surname + " " + App.Account.Name;
+                if (App.Account.Role == "Кадровик" || App.Account.Role == "Пользователь")
+                {
+                    butAccount.Visibility = Visibility.Collapsed;
+                    butCopy.Visibility = Visibility.Collapsed;
+                    butConnect.Visibility = Visibility.Collapsed;
+                    menuItemAdmin.Visibility = Visibility.Collapsed;
+                }
+
             }
 
         }
@@ -69,15 +81,6 @@ namespace DbHourWorkWPF
         {
             Application.Current.Shutdown();
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-
         private void butAdmin_Click(object sender, RoutedEventArgs e)
         {
             foreach(RadioButton but in panelButton.Children) but.IsChecked = false;

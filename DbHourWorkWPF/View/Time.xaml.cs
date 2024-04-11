@@ -42,13 +42,38 @@ namespace DbHourWorkWPF.View
         private void dataGridCard_CurrentCellChanged(object sender, EventArgs e)
         {
             var grid = sender as DataGrid;
+            if (grid.CurrentCell.Column == null) return;
+            ((TimeVM)DataContext).SelectedCellIndex = grid.CurrentCell.Column.DisplayIndex;
+        }
 
-            try
+        private void dataGridCard_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DataGrid grid = sender as DataGrid;
+            var hitTestInfo = VisualTreeHelper.HitTest(grid, e.GetPosition(grid));
+            var cell = FindVisualParent<DataGridCell>(hitTestInfo.VisualHit);
+
+            if (cell != null)
             {
-                var currentColumnIndex = grid.CurrentCell.Column.DisplayIndex;
-                ((TimeVM)DataContext).SelectedCellIndex = currentColumnIndex;
+                // Выбираем ячейку
+                grid.CurrentCell = new DataGridCellInfo(cell);
+
+                // Переход в обработчик изменения выбранной ячейки
+                dataGridCard_CurrentCellChanged(grid, EventArgs.Empty);
             }
-            catch { }
+        }
+
+        public static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            // Поиск родительского объекта определенного типа
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            T parent = parentObject as T;
+            if (parent != null)
+                return parent;
+            else
+                return FindVisualParent<T>(parentObject);
         }
     }
 }

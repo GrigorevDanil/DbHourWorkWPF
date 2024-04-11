@@ -139,24 +139,25 @@ WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoRes
                     <TextBlock Text="Справочник дней" VerticalAlignment="Center" FontSize="20" Margin="-15,0,0,0" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ut:Btn>
-            <ut:Btn  Style="{StaticResource BtnStyle}" Command="{Binding CopyCommand}" Tag="2" Grid.Row="1" Grid.Column="1" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="5,15,5,15" >
-                <StackPanel Orientation="Horizontal">
-                    <ut:StaticImage Source="/Pictures/BackupEnable.png" HorizontalAlignment="Left" Margin="5,0,25,0" Width="50" Height="40"/>
-                    <TextBlock Text="Резервное копирование" VerticalAlignment="Center" FontSize="20" Margin="-15,0,10,0"/>
-                </StackPanel>
-            </ut:Btn>
-            <ut:Btn  Style="{StaticResource BtnStyle}" Command="{Binding ConnectionCommand}" Tag="3" Grid.Row="1" Grid.Column="1" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="5,15,5,15" >
-                <StackPanel Orientation="Horizontal">
-                    <ut:StaticImage Source="/Pictures/DBEnable.png" HorizontalAlignment="Left" Margin="5,0,25,0" Width="50" Height="40"/>
-                    <TextBlock Text="Связь с базой данных" VerticalAlignment="Center" FontSize="20" Margin="-15,0,10,0"/>
-                </StackPanel>
-            </ut:Btn>
-            <ut:Btn Style="{StaticResource BtnStyle}" Command="{Binding AccountCommand}" Tag="4" Grid.Row="1" Grid.Column="1" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="5,15,5,15" >
+            <ut:Btn x:Name="butAccount" Style="{StaticResource BtnStyle}" Command="{Binding AccountCommand}" Tag="4" Grid.Row="1" Grid.Column="1" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="5,15,5,15" >
                 <StackPanel Orientation="Horizontal">
                     <ut:StaticImage Source="/Pictures/IconUserPanel.png" HorizontalAlignment="Left" Margin="5,0,25,0" Width="50" Height="40"/>
                     <TextBlock Text="Учетная запись" VerticalAlignment="Center" FontSize="20" Margin="-15,0,10,0"/>
                 </StackPanel>
             </ut:Btn>
+            <ut:Btn x:Name="butCopy"  Style="{StaticResource BtnStyle}" Command="{Binding CopyCommand}" Tag="2" Grid.Row="1" Grid.Column="1" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="5,15,5,15" >
+                <StackPanel Orientation="Horizontal">
+                    <ut:StaticImage Source="/Pictures/BackupEnable.png" HorizontalAlignment="Left" Margin="5,0,25,0" Width="50" Height="40"/>
+                    <TextBlock Text="Резервное копирование" VerticalAlignment="Center" FontSize="20" Margin="-15,0,10,0"/>
+                </StackPanel>
+            </ut:Btn>
+            <ut:Btn x:Name="butConnect" Style="{StaticResource BtnStyle}" Command="{Binding ConnectionCommand}" Tag="3" Grid.Row="1" Grid.Column="1" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius"  Margin="5,15,5,15" >
+                <StackPanel Orientation="Horizontal">
+                    <ut:StaticImage Source="/Pictures/DBEnable.png" HorizontalAlignment="Left" Margin="5,0,25,0" Width="50" Height="40"/>
+                    <TextBlock Text="Связь с базой данных" VerticalAlignment="Center" FontSize="20" Margin="-15,0,10,0"/>
+                </StackPanel>
+            </ut:Btn>
+            
         </StackPanel>
 
         <!--PageControl-->

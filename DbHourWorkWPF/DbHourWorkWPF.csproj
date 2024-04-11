@@ -143,8 +143,8 @@
     <Compile Include="Model\EmployeeModel.cs" />
     <Compile Include="Model\PageModel.cs" />
     <Compile Include="Items\ItemEmployee.cs" />
-    <Compile Include="View\MessaageWindow.xaml.cs">
-      <DependentUpon>MessaageWindow.xaml</DependentUpon>
+    <Compile Include="View\MessageWindow.xaml.cs">
+      <DependentUpon>MessageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PostForm.xaml.cs">
       <DependentUpon>PostForm.xaml</DependentUpon>
@@ -257,7 +257,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MessaageWindow.xaml">
+    <Page Include="View\MessageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

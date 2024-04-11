@@ -55,7 +55,7 @@ namespace DbHourWorkWPF.View
             DialogResult = true;
         }
 
-        public ContextCard(ItemCard card, List<string> days, int index, bool flag)
+        public ContextCard(ItemCard card, List<string> days, int indexDay, int indexWork = -1, bool flag = false)
         {
             InitializeComponent();
             Card = card;
@@ -64,11 +64,11 @@ namespace DbHourWorkWPF.View
             App.serviceDb.LoadComboBox(ref comboBoxMark, ref idDay, "Select * From manualday");
             comboBoxDay.ItemsSource = Days;
             comboBoxEmp.SelectedItem = Card.Employee.Surname + " " + Card.Employee.Name + " " + Card.Employee.Lastname;
-            comboBoxDay.SelectedItem = days[index];
+            comboBoxDay.SelectedItem = days[indexDay];
             if (flag)
             {
-                comboBoxMark.SelectedItem = Card.WorkTimes[index].Day.ShortName;
-                textBoxHour.Text = Card.WorkTimes[index].HourWork.ToString();
+                comboBoxMark.SelectedItem = Card.WorkTimes[indexWork].Day.ShortName;
+                textBoxHour.Text = Card.WorkTimes[indexWork].HourWork.ToString();
             }
             DataContext = Card;
 

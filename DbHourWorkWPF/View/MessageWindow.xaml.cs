@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace DbHourWorkWPF.View
 {
     /// <summary>
-    /// Логика взаимодействия для MessaageWindow.xaml
+    /// Логика взаимодействия для MessageWindow.xaml
     /// </summary>
-    public partial class MessaageWindow : Window
+    public partial class MessageWindow : Window
     {
-        public MessaageWindow()
+        public MessageWindow()
         {
             InitializeComponent();
         }

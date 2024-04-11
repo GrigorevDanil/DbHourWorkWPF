@@ -65,8 +65,15 @@ namespace DbHourWorkWPF.ViewModel
         {
             if (DataTableTime == null) return;
             Days.Clear();
-            DataTableTime.Rows.Clear();
-            while (DataTableTime.Columns.Count != 8) DataTableTime.Columns.RemoveAt(8);
+            DataTableTime = new DataTable();
+            DataTableTime.Columns.Add("Фамилия, инициалы", typeof(string));
+            DataTableTime.Columns.Add("Должность", typeof(string));
+            DataTableTime.Columns.Add("Табельный номер", typeof(string));
+            DataTableTime.Columns.Add("Отработано дней", typeof(int));
+            DataTableTime.Columns.Add("Отработано часов", typeof(int));
+            DataTableTime.Columns.Add("Неявочных дней", typeof(int));
+            DataTableTime.Columns.Add("Коды", typeof(string));
+            DataTableTime.Columns.Add("Пропущенные часы", typeof(int));
             for (int i = 1; i <= DateTime.DaysInMonth(SelectedYear, SelectedMonth + 1); i++)
             {
                 DataTableTime.Columns.Add(new DateTime(SelectedYear, SelectedMonth + 1, i).ToString("dd-MM-yyyy ddd", new System.Globalization.CultureInfo("ru-RU")), typeof(string));
@@ -190,16 +197,8 @@ namespace DbHourWorkWPF.ViewModel
             _pageModel = new PageModel();
             SelectedYear = 2024;
             Cards = new List<ItemCard>();
-            DataTableTime = new DataTable();
-            DataTableTime.Columns.Add("Фамилия, инициалы", typeof(string));
-            DataTableTime.Columns.Add("Должность", typeof(string));
-            DataTableTime.Columns.Add("Табельный номер", typeof(string));
-            DataTableTime.Columns.Add("Отработано дней", typeof(int));
-            DataTableTime.Columns.Add("Отработано часов", typeof(int));
-            DataTableTime.Columns.Add("Неявочных дней", typeof(int));
-            DataTableTime.Columns.Add("Коды", typeof(string));
-            DataTableTime.Columns.Add("Пропущенные часы", typeof(int));
             SelectedMonth = 0;
+            DataTableTime = new DataTable();
         }
 
 
@@ -230,7 +229,14 @@ namespace DbHourWorkWPF.ViewModel
                       {
                           if (SelectedCellIndex - 8 < 0) return;
                           int indexRow = ((DataRowView)selectedItem).DataView.Table.Rows.IndexOf(((DataRowView)selectedItem).Row);
-                          ContextCard contextCard = new ContextCard(Cards[indexRow], Days, SelectedCellIndex - 8, false);
+                          int indexCell = Cards[indexRow].WorkTimes.FindIndex(item => item.DateWork == Days[SelectedCellIndex - 8]);
+                          if (indexRow == -1) return;
+                          if (indexCell != -1)
+                          {
+                              editCommand.Execute(selectedItem);
+                              return;
+                          }
+                          ContextCard contextCard = new ContextCard(Cards[indexRow], Days, SelectedCellIndex - 8);
                           if (contextCard.ShowDialog() == true)
                           {
                               string[] param = FillParam(contextCard.Card);
@@ -265,8 +271,13 @@ namespace DbHourWorkWPF.ViewModel
                           if (SelectedCellIndex - 8 < 0) return;
                           int indexRow = ((DataRowView)selectedItem).DataView.Table.Rows.IndexOf(((DataRowView)selectedItem).Row);
                           int indexCell = Cards[indexRow].WorkTimes.FindIndex(item => item.DateWork == Days[SelectedCellIndex - 8]);
-                          if (indexRow == -1 || indexCell == -1) return;
-                          ContextCard contextCard = new ContextCard(Cards[indexRow], Days, indexCell, true);
+                          if (indexRow == -1) return;
+                          if (indexCell == -1)
+                          {
+                              addCommand.Execute(selectedItem);
+                              return;
+                          }
+                          ContextCard contextCard = new ContextCard(Cards[indexRow], Days, SelectedCellIndex - 8, indexCell, true);
                           if (contextCard.ShowDialog() == true)
                           {
                               string[] param = FillParam(contextCard.Card);
@@ -295,7 +306,7 @@ namespace DbHourWorkWPF.ViewModel
                           if (indexRow == -1 || indexCell == -1) return;
                           if (MessageBox.Show("Вы уверены что хотите удалить данную запись?", "Удаление дня", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                           {
-                              App.serviceDb.DeleteRecord(Cards[indexRow].Id.ToString(), "DELETE FROM card WHERE IdCard = @id");
+                              App.serviceDb.DeleteRecord(Cards[indexCell].Id.ToString(), "DELETE FROM card WHERE IdCard = @id");
                               UpdateListCards();
                           }
                       }
