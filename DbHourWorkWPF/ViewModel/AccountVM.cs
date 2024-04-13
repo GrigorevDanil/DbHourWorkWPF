@@ -183,7 +183,7 @@ namespace DbHourWorkWPF.ViewModel
                 return deleteCommand ??
                   (deleteCommand = new RelayCommand((selectedItem) =>
                   {
-                      if (MessageBox.Show("Вы уверены что хотите удалить данную запись?", "Удаление сотрудника", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                      if (new View.MessageWindow("Удаление пользователя", "Вы уверены что хотите удалить данную запись?").ShowDialog() == true)
                       {
                           App.serviceDb.DeleteRecord(CurAccount.Id.ToString(), "DELETE FROM user WHERE user.IdUser = @id");
 

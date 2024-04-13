@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
+using MessageBox = System.Windows.MessageBox;
 
 namespace DbHourWorkWPF.ViewModel
 {
@@ -176,7 +178,7 @@ namespace DbHourWorkWPF.ViewModel
                       // получаем выделенный объект
                       ItemEmployee? emp = selectedItem as ItemEmployee;
                       if (emp == null) return;
-                      if (MessageBox.Show("Вы уверены что хотите удалить данную запись?", "Удаление сотрудника", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                      if (new View.MessageWindow("Удаление сотрудника", "Вы уверены что хотите удалить данную запись?").ShowDialog() == true)
                       {
                           App.serviceDb.DeleteRecord(emp.Id.ToString(), "DELETE FROM employee WHERE employee.IdEmployee = @id");
                           UpdateListEmployee();
@@ -193,7 +195,7 @@ namespace DbHourWorkWPF.ViewModel
                 return _empModel.multiplydeleteCommand ??
                   (_empModel.multiplydeleteCommand = new RelayCommand((obj) =>
                   {
-                      if (MessageBox.Show("Вы уверены что хотите удалить выбранные записи?", "Удаление сотрудника", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                      if (new View.MessageWindow("Удаление сотрудника", "Вы уверены что хотите удалить выбранные записи?").ShowDialog() == true)
                       {
                           foreach (var emp in Employees.Where(e => e.IsSelected).ToList()) App.serviceDb.DeleteRecord(emp.Id.ToString(), "DELETE FROM employee WHERE employee.IdEmployee = @id");
                           UpdateListEmployee();
@@ -278,7 +280,7 @@ namespace DbHourWorkWPF.ViewModel
                       // получаем выделенный объект
                       ItemPost? post = selectedItem as ItemPost;
                       if (post == null) return;
-                      if (MessageBox.Show("Вы уверены что хотите удалить данную запись?", "Удаление сотрудника", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                      if (new View.MessageWindow( "Удаление сотрудника","Вы уверены что хотите удалить данную запись?").ShowDialog() == true)
                       {
                           App.serviceDb.DeleteRecord(post.Id.ToString(), "DELETE FROM manualpost WHERE manualpost.IdPost = @id");
                           UpdateListPosts();

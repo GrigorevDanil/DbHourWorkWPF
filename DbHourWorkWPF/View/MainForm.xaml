@@ -76,14 +76,18 @@ WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoRes
                         <ut:StaticImage RenderOptions.BitmapScalingMode="HighQuality"  Source="/Pictures/IconProgramm.png"  />
                     </MenuItem.Icon>
 
-                    <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="Об авторе" Foreground="#D9D9D9" FontFamily="Nautilus Pompilius" FontSize="16"/>
+                    <MenuItem Style="{StaticResource Sub_MenuItem}" Header="Об авторе" Foreground="#D9D9D9" FontFamily="Nautilus Pompilius" FontSize="16" Command="{Binding OutputAuthorCommand}"/>
+                    <MenuItem Style="{StaticResource Sub_MenuItem}" Header="Справка" Foreground="#D9D9D9" FontFamily="Nautilus Pompilius" FontSize="16"/>
                 </MenuItem>
                 <MenuItem Style="{StaticResource MenuItemStyleWithDropDown}" Header="Отчеты"   FontFamily="Nautilus Pompilius" Foreground="#D9D9D9" FontSize="16">
                     <MenuItem.Icon>
                         <ut:StaticImage RenderOptions.BitmapScalingMode="HighQuality"  Source="/Pictures/IconPrint.png"  />
                     </MenuItem.Icon>
-                    <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="HTML" FontFamily="Nautilus Pompilius" Foreground="#D9D9D9" FontSize="16"/>
-                    <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="Word" FontFamily="Nautilus Pompilius" Foreground="#D9D9D9" FontSize="16"/>
+
+                    <MenuItem x:Name="menuItemHtml" Style="{StaticResource SubMenuItemStyleWithDropDown}" Header="HTML" FontFamily="Nautilus Pompilius" Foreground="#D9D9D9" FontSize="16">
+                        <MenuItem Style="{StaticResource Sub_MenuItem}" Header="Табель учета рабочего времени" Foreground="#D9D9D9" FontFamily="Nautilus Pompilius" FontSize="16" Command="{Binding PrintHtmlCommand}"/>
+                    </MenuItem>
+  
                 </MenuItem>
                 <MenuItem x:Name="menuItemAdmin" Style="{StaticResource MenuItemStyleDefault}" Foreground="#D9D9D9" Header="Администрирование" FontFamily="Nautilus Pompilius" FontSize="16" Command="{Binding AdminCommand}" Click="butAdmin_Click">
                     <MenuItem.Icon>

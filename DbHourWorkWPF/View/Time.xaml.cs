@@ -37,6 +37,7 @@ namespace DbHourWorkWPF.View
             comboBoxMoth.Items.Add("Ноябрь");
             comboBoxMoth.Items.Add("Декабрь");
             comboBoxMoth.SelectedIndex = 0;
+            comboBoxEmp.SelectedIndex = -1;
 
             if (App.Account.Role == "Пользователь")
             {
@@ -81,5 +82,13 @@ namespace DbHourWorkWPF.View
             else
                 return FindVisualParent<T>(parentObject);
         }
+
+        private void checkBoxEmp_CheckedChange(object sender, RoutedEventArgs e)
+        {
+            if (checkBoxEmp.IsChecked == true) comboBoxEmp.SelectedIndex = 0;
+            else comboBoxEmp.SelectedIndex = -1;
+            comboBoxEmp.IsEnabled = (bool)checkBoxEmp.IsChecked;
+        }
+
     }
 }

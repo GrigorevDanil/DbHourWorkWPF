@@ -1,20 +1,8 @@
-﻿using DbHourWorkWPF.Items;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
+
 
 namespace DbHourWorkWPF
 {
@@ -23,7 +11,7 @@ namespace DbHourWorkWPF
     /// </summary>
     public partial class MainForm : Window
     {
-
+        
         private void butResizeWindow_Click(object sender, RoutedEventArgs e)
         {
             if (WindowState == WindowState.Maximized) WindowState = WindowState.Normal;
@@ -41,7 +29,6 @@ namespace DbHourWorkWPF
 
             App.txtNick = tbNick;
             App.imgUser = iconUser;
-
             //Setting Time
             lDateTime.Content = $"Дата: {DateTime.Now:dd.MM.yyyy} Время: {DateTime.Now:HH:mm}";
             DispatcherTimer timer = new DispatcherTimer();
@@ -84,5 +71,6 @@ namespace DbHourWorkWPF
         {
             foreach(RadioButton but in panelButton.Children) but.IsChecked = false;
         }
+
     }
 }

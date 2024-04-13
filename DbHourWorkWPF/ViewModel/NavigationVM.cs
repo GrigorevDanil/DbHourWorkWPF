@@ -6,6 +6,11 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Controls;
+using System.Windows;
+using System.Diagnostics;
+using System;
+using HtmlAgilityPack;
+using DbHourWorkWPF.View;
 
 
 namespace DbHourWorkWPF.ViewModel
@@ -19,7 +24,8 @@ namespace DbHourWorkWPF.ViewModel
             set { _currentView = value; OnPropertyChanged(); }
         }
 
-
+        public RelayCommand? outputAuthorCommand { get; set; }
+        public RelayCommand? printHtmlCommand { get; set; }
 
         public ICommand EmployeeCommand { get; set; }
         public ICommand TimeCommand { get; set; }
@@ -54,6 +60,31 @@ namespace DbHourWorkWPF.ViewModel
             CurrentView = new TimeVM();
         }
 
-        
+        // команда окна автора
+        public RelayCommand OutputAuthorCommand
+        {
+            get
+            {
+                return outputAuthorCommand ??
+                  (outputAuthorCommand = new RelayCommand((o) =>
+                  {
+                      new View.MessageWindow("Об авторе", "Программа была разработана студентом группы ИП-3 Григорьевым Д.В.", MessageBoxButton.OK, MessageBoxImage.Information).ShowDialog();
+                  }));
+            }
+        }
+
+        // команда печати табеля html
+        public RelayCommand PrintHtmlCommand
+        {
+            get
+            {
+                return printHtmlCommand ??
+                  (printHtmlCommand = new RelayCommand((o) =>
+                  {
+                      new ContextPrintCard().ShowDialog();
+                  }));
+            }
+        }
+
     }
 }

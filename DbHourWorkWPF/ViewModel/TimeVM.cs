@@ -2,20 +2,21 @@
 using DbHourWorkWPF.Model;
 using DbHourWorkWPF.Utilities;
 using DbHourWorkWPF.View;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Data.Common;
-using System.Diagnostics.Eventing.Reader;
+using System.Diagnostics;
 using System.Globalization;
-using System.Reflection;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Media;
-using MessageBox = System.Windows.MessageBox;
+using System.Xml.Linq;
+
+
 
 namespace DbHourWorkWPF.ViewModel
 {
@@ -28,11 +29,30 @@ namespace DbHourWorkWPF.ViewModel
         private readonly PageModel _pageModel;
         int selectedMonth, selectedYear, selectedCellIndex;
         List<string> Days = new List<string>();
+        ItemEmployee disEmp;
+        bool flagDis;
 
         DataView dataTableTimeView;
         RelayCommand? addCommand;
         RelayCommand? editCommand;
         RelayCommand? deleteCommand;
+        RelayCommand? printHtmlCommand;
+
+        public ObservableCollection<ItemEmployee> DisEmployees { get; set; }
+
+
+
+
+        public bool FlagDis
+        {
+            get { return flagDis; }
+            set { flagDis = value; OnPropertyChanged(nameof(flagDis)); }
+        }
+        public ItemEmployee DisEmp
+        {
+            get { return disEmp; }
+            set { disEmp = value; OnPropertyChanged(nameof(DisEmp)); UpdateListCards(); }
+        }
 
         public DataView DataTableTimeView
         {
@@ -61,6 +81,26 @@ namespace DbHourWorkWPF.ViewModel
             set { selectedCellIndex = value; OnPropertyChanged(nameof(SelectedCellIndex)); }
         }
 
+        void UpdateListEmployee()
+        {
+            DisEmployees = new ObservableCollection<ItemEmployee>(App.serviceDb.LoadListFromServer("SELECT *, manualpost.Title as 'Post' FROM employee LEFT JOIN manualpost ON manualpost.IdPost = employee.IdPost WHERE DateDismissal IS NOT NULL", reader =>
+            {
+                return new ItemEmployee()
+                {
+                    Id = reader.GetInt32("IdEmployee"),
+                    IdPost = reader.GetInt32("IdPost"),
+                    Post = reader.GetString("Post"),
+                    NumEmployee = reader.GetString("NumEmployee"),
+                    Surname = reader.GetString("Surname"),
+                    Name = reader.GetString("Name"),
+                    Lastname = reader["Lastname"] != DBNull.Value ? reader.GetString("Lastname") : null,
+                    DateEmployment = reader.GetDateTime("DateEmployment").ToString("dd.MM.yyyy"),
+                    DateDismissal = reader["DateDismissal"] != DBNull.Value ? reader.GetDateTime("DateDismissal").ToString("dd.MM.yyyy") : null
+                };
+            }));
+            OnPropertyChanged(nameof(DisEmployees));
+        }
+
         void UpdateListCards()
         {
             if (DataTableTime == null) return;
@@ -80,7 +120,11 @@ namespace DbHourWorkWPF.ViewModel
                 Days.Add(new DateTime(SelectedYear, SelectedMonth + 1, i).ToString("dd-MM-yyyy ddd", new System.Globalization.CultureInfo("ru-RU")));
             }
 
-            Cards = new List<ItemCard>(App.serviceDb.LoadListFromServer($"SELECT `IdCard`, `IdEmployee` FROM `card` WHERE MONTH(card.DateWork) = {SelectedMonth + 1} AND YEAR(card.DateWork) = {SelectedYear} GROUP BY IdEmployee", reader =>
+            string cmdSelect = "";
+            if (FlagDis) cmdSelect = $"SELECT `IdCard`, `IdEmployee` FROM `card` WHERE MONTH(card.DateWork) = {SelectedMonth + 1} AND YEAR(card.DateWork) = {SelectedYear} AND IdEmployee = {DisEmp.Id} GROUP BY IdEmployee";
+            else cmdSelect = $"SELECT `IdCard`, `IdEmployee` FROM `card` WHERE MONTH(card.DateWork) = {SelectedMonth + 1} AND YEAR(card.DateWork) = {SelectedYear} GROUP BY IdEmployee";
+
+            Cards = new List<ItemCard>(App.serviceDb.LoadListFromServer(cmdSelect, reader =>
             {
                 ItemCard item = new ItemCard();
                 item.Id = reader.GetInt32("IdCard");
@@ -138,6 +182,11 @@ namespace DbHourWorkWPF.ViewModel
                 int countHour, workDay, notWorkDay, notWorkHour;
                 for (int i=0; i<Cards.Count;i++)
                 {
+                    if (Cards[i].Employee.DateDismissal != null)
+                    {
+                        if (DateTime.Parse(Cards[i].Employee.DateDismissal).Month <= SelectedMonth + 1) Cards[i].Employee.IsSelected = true;
+                        else continue;
+                    }
                     codesReason = "";
                     countHour = 0;
                     workDay = 0;
@@ -199,6 +248,8 @@ namespace DbHourWorkWPF.ViewModel
             Cards = new List<ItemCard>();
             SelectedMonth = 0;
             DataTableTime = new DataTable();
+            UpdateListEmployee();
+
         }
 
 
@@ -216,7 +267,6 @@ namespace DbHourWorkWPF.ViewModel
 
 
 
-
         // команда добавления
         public RelayCommand AddCommand
         {
@@ -229,6 +279,7 @@ namespace DbHourWorkWPF.ViewModel
                       {
                           if (SelectedCellIndex - 8 < 0) return;
                           int indexRow = ((DataRowView)selectedItem).DataView.Table.Rows.IndexOf(((DataRowView)selectedItem).Row);
+                          if (Cards[indexRow].Employee.IsSelected) return;
                           int indexCell = Cards[indexRow].WorkTimes.FindIndex(item => item.DateWork == Days[SelectedCellIndex - 8]);
                           if (indexRow == -1) return;
                           if (indexCell != -1)
@@ -270,6 +321,7 @@ namespace DbHourWorkWPF.ViewModel
                       {
                           if (SelectedCellIndex - 8 < 0) return;
                           int indexRow = ((DataRowView)selectedItem).DataView.Table.Rows.IndexOf(((DataRowView)selectedItem).Row);
+                          if (Cards[indexRow].Employee.IsSelected) return;
                           int indexCell = Cards[indexRow].WorkTimes.FindIndex(item => item.DateWork == Days[SelectedCellIndex - 8]);
                           if (indexRow == -1) return;
                           if (indexCell == -1)
@@ -304,14 +356,160 @@ namespace DbHourWorkWPF.ViewModel
                           int indexRow = ((DataRowView)selectedItem).DataView.Table.Rows.IndexOf(((DataRowView)selectedItem).Row);
                           int indexCell = Cards[indexRow].WorkTimes.FindIndex(item => item.DateWork == Days[SelectedCellIndex - 8]);
                           if (indexRow == -1 || indexCell == -1) return;
-                          if (MessageBox.Show("Вы уверены что хотите удалить данную запись?", "Удаление дня", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                          if (new View.MessageWindow( "Удаление дня", "Вы уверены что хотите удалить данную запись?").ShowDialog() == true)
                           {
                               App.serviceDb.DeleteRecord(Cards[indexCell].Id.ToString(), "DELETE FROM card WHERE IdCard = @id");
                               UpdateListCards();
                           }
                       }
                   }));
+
             }
+           
         }
+
+
+
+
+        // команда печати табеля html
+        public RelayCommand PrintHtmlCommand
+        {
+            get
+            {
+                return printHtmlCommand ??
+                  (printHtmlCommand = new RelayCommand((o) =>
+                  {
+                      if (Cards.Count == 0)
+                      {
+                          new MessageWindow("Не найдено записей", "По заданной фильтрации не найдено ни одной записи!", MessageBoxButton.OK, MessageBoxImage.Error).ShowDialog();
+                          return;
+                      }
+
+                      HtmlDocument htmldoc = new HtmlDocument();
+
+                      
+
+                      htmldoc.Load(Directory.GetCurrentDirectory() + "/PrintPattern/tableHtml.html", Encoding.GetEncoding("UTF-8"));
+
+                      HtmlNode h2 = htmldoc.DocumentNode.SelectSingleNode("//h2");
+
+                      h2.InnerHtml = $"Табель учета рабочего времени за {DateTime.Parse(Cards[0].WorkTimes[0].DateWork.Substring(1)).ToString("MMMM yyyy год")}";
+
+                      var tbody = htmldoc.DocumentNode.SelectSingleNode("//tbody");
+
+                      string row, codesReason;
+                      int 
+                          hoursWork,
+                          workDay,
+                          notWorkDay,
+                          notWorkHour,
+                          partOneWorkDay,
+                          partTwoWorkDay,
+                          upHour,
+                          feastHour;
+
+                      for (int i=0;i<Cards.Count;i++)
+                      {
+                          row = "";
+                          hoursWork = 0;
+                          notWorkDay = 0;
+                          notWorkHour = 0;
+                          workDay = 0;
+                          upHour = 0;
+                          feastHour = 0;
+                          partOneWorkDay = 0;
+                          partTwoWorkDay = 0;
+                          codesReason = "";
+                          row += $"<tr>  " +
+                          $"<td>{i+1}</td>" +
+                          $"<td>{Cards[i].Employee.Surname + " " + Cards[i].Employee.Name[0] + "." + Cards[i].Employee.Lastname[0] + "."}</td>" +
+                          $"<td>{Cards[i].Employee.Post}</td>" +
+                          $"<td>{Cards[i].Employee.NumEmployee}</td>";
+
+
+
+
+                          Cards[i].WorkTimes = Cards[i].WorkTimes.OrderBy(item => int.Parse(item.DateWork.Substring(0, 2))).ToList();
+
+
+
+
+
+                          int it = 0;
+                          for (int j = 0, k =1 ; k <= 31;k++)
+                          {
+                              if (j < Cards[i].WorkTimes.Count) it = int.Parse(Cards[i].WorkTimes[j].DateWork.Substring(0, 2));
+                              if (it == k)
+                              {
+                                  if (Cards[i].WorkTimes[j].Day.ShortName == "Я")
+                                  {
+                                      row += $"<td>{Cards[i].WorkTimes[j].HourWork}</td>";
+                                      hoursWork += Cards[i].WorkTimes[j].HourWork;
+                                      workDay++;
+
+                                      if (Cards[i].WorkTimes[j].HourWork > 8) upHour += Cards[i].WorkTimes[j].HourWork - 8;
+
+
+                                      if (k < 15) partOneWorkDay++;
+                                      else partTwoWorkDay++;
+                                  }
+                                  else if (Cards[i].WorkTimes[j].Day.ShortName == "В")
+                                  {
+                                      row += $"<td>{Cards[i].WorkTimes[j].Day.ShortName}</td>";
+                                      feastHour += Cards[i].WorkTimes[j].HourWork;
+                                  }
+                                  else
+                                  {
+                                      row += $"<td>{Cards[i].WorkTimes[j].Day.ShortName}</td>";
+                                      notWorkDay++;
+                                      if (codesReason == "") codesReason += Cards[i].WorkTimes[j].Day.ShortName;
+                                      else codesReason += ", " + Cards[i].WorkTimes[j].Day.ShortName;
+                                      notWorkHour = Cards[i].WorkTimes[j].HourWork;
+                                  }
+                                  j++;
+                              }
+                              else row += "<td> </td>";
+
+                              if (k == 15)
+                                  row += $"<td>{partOneWorkDay}</td>";
+                              if (k == 31)
+                                  row += $"<td>{partTwoWorkDay}</td>";
+                              
+
+                          }
+
+                          row += $"<td>{workDay}</td>" +
+                            $"<td>{hoursWork}</td>" +
+                            $"<td>{upHour}</td>" +
+                            $"<td> </td>" +
+                            $"<td>{feastHour}</td>" +
+                            $"<td>{notWorkDay}</td>" +
+                            $"<td>{codesReason}</td>" +
+                            $"<td>{notWorkDay}</td>" +
+                            $"</tr>";
+
+                          tbody.AppendChild(HtmlNode.CreateNode(row));
+                      }
+
+                      string path = Directory.GetCurrentDirectory() + $@"/Documents/Табель {DateTime.Now.ToString("dd_MM_yyyy HH-mm")}.html";
+
+                      htmldoc.Save(path);
+
+                      var p = new Process();
+                      p.StartInfo = new ProcessStartInfo(path)
+                      {
+                          UseShellExecute = true
+                      };
+                      p.Start();
+
+                      
+                  }));
+
+            }
+           
+        }
+
+        
+        
     }
 }

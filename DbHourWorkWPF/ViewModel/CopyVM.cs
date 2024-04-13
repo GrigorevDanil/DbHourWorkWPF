@@ -113,7 +113,7 @@ namespace DbHourWorkWPF.ViewModel
                 return setCommand ??
                   (setCommand = new RelayCommand((seslectedItem) =>
                   {
-                      if (MessageBox.Show("Вы уверены что хотите установить резервную копию? При установке резервной копии текущая БД будет заменена", "Установка резервной копии", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                      if (new View.MessageWindow("Установка резервной копии", "Вы уверены что хотите установить резервную копию? При установке резервной копии текущая БД будет заменена").ShowDialog() == true)
                       {
                           ProcessStartInfo startInfo = new ProcessStartInfo
                           {
@@ -162,7 +162,7 @@ namespace DbHourWorkWPF.ViewModel
                   (deleteCommand = new RelayCommand((selectedItem) =>
                   {
 
-                      if (MessageBox.Show("Вы уверены что хотите удалить данную копию?", "Удаление копии", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                      if (new View.MessageWindow( "Удаление копии", "Вы уверены что хотите удалить данную копию?").ShowDialog() == true)
                       {
                           System.IO.File.Delete(CurFile.FullName);
                           UpdateListFiles();
@@ -171,7 +171,7 @@ namespace DbHourWorkWPF.ViewModel
             }
         }
 
-        // команда удаления
+        // команда установка пути
         public RelayCommand SetPathCommand
         {
             get

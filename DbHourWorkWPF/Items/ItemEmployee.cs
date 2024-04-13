@@ -114,6 +114,11 @@ namespace DbHourWorkWPF.Items
             }
         }
 
+        public override string ToString()
+        {
+            return Surname + " " + Name + " " + Lastname;
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged([CallerMemberName] string prop = "")

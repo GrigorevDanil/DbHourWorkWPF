@@ -60,7 +60,7 @@ namespace DbHourWorkWPF.View
             InitializeComponent();
             Card = card;
             Days = days;
-            App.serviceDb.LoadComboBox(ref comboBoxEmp, ref idEmp, "Select * From employee", 5, 3);
+            App.serviceDb.LoadComboBox(ref comboBoxEmp, ref idEmp, "Select * From employee WHERE DateDismissal IS NULL", 5, 3);
             App.serviceDb.LoadComboBox(ref comboBoxMark, ref idDay, "Select * From manualday");
             comboBoxDay.ItemsSource = Days;
             comboBoxEmp.SelectedItem = Card.Employee.Surname + " " + Card.Employee.Name + " " + Card.Employee.Lastname;
@@ -80,7 +80,7 @@ namespace DbHourWorkWPF.View
             InitializeComponent();
             Card = card;
             Days = days;
-            App.serviceDb.LoadComboBox(ref comboBoxEmp, ref idEmp, "Select * From employee", 5, 3);
+            App.serviceDb.LoadComboBox(ref comboBoxEmp, ref idEmp, "Select * From employee WHERE DateDismissal IS NULL", 5, 3);
             App.serviceDb.LoadComboBox(ref comboBoxMark, ref idDay, "Select * From manualday");
             comboBoxDay.ItemsSource = Days;
             DataContext = Card;

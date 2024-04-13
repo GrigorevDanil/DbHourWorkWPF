@@ -30,21 +30,21 @@
                 <DataGrid.ContextMenu>
                     <ContextMenu x:Name="menu" FontSize="14">
 
-                        <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="Добавить день" Command="{Binding Path=PlacementTarget.DataContext.AddCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                        <MenuItem Style="{StaticResource Sub_MenuItem}" Header="Добавить день" Command="{Binding Path=PlacementTarget.DataContext.AddCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
 CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}">
                             <MenuItem.Icon>
                                 <ut:StaticImage Source="/Pictures/Add1.png" Width="18" Height="18"/>
                             </MenuItem.Icon>
                         </MenuItem>
 
-                        <MenuItem Style="{StaticResource Services_Sub_MenuItem}" Header="Редактировать день" Command="{Binding Path=PlacementTarget.DataContext.EditCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                        <MenuItem Style="{StaticResource Sub_MenuItem}" Header="Редактировать день" Command="{Binding Path=PlacementTarget.DataContext.EditCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
 CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}">
                             <MenuItem.Icon>
                                 <ut:StaticImage Source="/Pictures/Edit.png" Width="18" Height="18"/>
                             </MenuItem.Icon>
                         </MenuItem>
 
-                        <MenuItem Style="{StaticResource Services_Sub_MenuItem}"  Command="{Binding Path=PlacementTarget.DataContext.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                        <MenuItem Style="{StaticResource Sub_MenuItem}"  Command="{Binding Path=PlacementTarget.DataContext.DeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
 CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}">
                             <MenuItem.Icon>
                                 <ut:StaticImage Source="/Pictures/Delete.png" Width="18" Height="18"/>
@@ -68,19 +68,23 @@ CommandParameter="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={Re
 
         <Grid Margin="10,10,7,10" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="106*"/>
-                <ColumnDefinition Width="279*"/>
-                <ColumnDefinition Width="106*"/>
+                <ColumnDefinition Width="95*"/>
+                <ColumnDefinition Width="230*"/>
+                <ColumnDefinition Width="63*"/>
                 <ColumnDefinition Width="216*"/>
-                <ColumnDefinition Width="746*"/>
+                <ColumnDefinition Width="513*"/>
+                <ColumnDefinition Width="336*"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="Месяц:" VerticalAlignment="Center" FontSize="28" FontFamily="Nautilus Pompilius" HorizontalAlignment="Center" Height="38" Width="82" />
             <ComboBox x:Name="comboBoxMoth" Style="{StaticResource ComboboxStyle}" FontSize="16" IsReadOnly="True" FontFamily="Nautilus Pompilius" Grid.Column="1" SelectedIndex="{Binding SelectedMonth}" Margin="15,10,15,10"  />
             <TextBlock Text="Год:" VerticalAlignment="Center" FontSize="28" FontFamily="Nautilus Pompilius" HorizontalAlignment="Center" Grid.Column="2" Height="38" Width="46"/>
             <ut:NumericUpDown Text="{Binding SelectedYear, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" TextAlignment="Center" Style="{StaticResource NumericUpDown}" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Width="200" Height="34"/>
+            <CheckBox x:Name="checkBoxEmp" IsChecked="{Binding FlagDis,UpdateSourceTrigger=PropertyChanged}" Grid.Column="4" Style="{StaticResource chkBullet}" Background="#DB4B4B" Content="Выкл" Tag="Вкл" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Nautilus Pompilius" Height="30" Width="70" Checked="checkBoxEmp_CheckedChange" Unchecked="checkBoxEmp_CheckedChange" Margin="15,0,0,0"/>
+            <TextBlock Text="Уволенный:" VerticalAlignment="Center" FontSize="28" FontFamily="Nautilus Pompilius" HorizontalAlignment="Left" Grid.Column="4" Margin="95,0,0,0"/>
+            <ComboBox x:Name="comboBoxEmp" Style="{StaticResource ComboboxStyle}" FontSize="16" IsReadOnly="True" IsEnabled="False" FontFamily="Nautilus Pompilius" Grid.Column="4" ItemsSource="{Binding DisEmployees}" SelectedItem="{Binding DisEmp}"  Margin="15,10,15,10" HorizontalAlignment="Right" MinWidth="250"  />
 
-            <Button x:Name="butAdd" Grid.Column="4" Style="{StaticResource RoundCorner}" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" HorizontalAlignment="Right" Command="{Binding AddCommand}" CommandParameter="{Binding ElementName=dataGridCard, Path=SelectedItem}" VerticalAlignment="Center" Margin="0,0,25,0">
+            <Button x:Name="butAdd" Grid.Column="5" Style="{StaticResource RoundCorner}" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" HorizontalAlignment="Center" Command="{Binding AddCommand}" CommandParameter="{Binding ElementName=dataGridCard, Path=SelectedItem}" VerticalAlignment="Center" Height="42" Width="308">
                 <StackPanel Orientation="Horizontal">
                     <ut:StaticImage Source="/Pictures/Add1.png" Margin="0,2,25,0" Width="35" Height="35"/>
                     <TextBlock Text="Добавить день для сотдника" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>

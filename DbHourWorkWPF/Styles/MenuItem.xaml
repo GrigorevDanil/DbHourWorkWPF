@@ -210,7 +210,109 @@
         </Setter>
     </Style>
 
-    <Style x:Key="Services_Sub_MenuItem"
+    <Style x:Key="SubMenuItemStyleWithDropDown"
+TargetType="MenuItem">
+        <Setter Property="Margin" Value="0 0 10 0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type MenuItem}">
+                    <Border x:Name="border"
+                        Background="#093A5C"
+                        BorderThickness="0"
+                            Padding="5">
+
+                        <Grid>
+
+                            <!--// Icon //-->
+                            <ContentPresenter ContentSource="Icon"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Height="25"
+                                   Width="25"
+                                   Margin="8,0,0,0" />
+                            <!--// Text //-->
+                            <ContentPresenter ContentSource="Header"
+                                  TextBlock.Foreground="#D3D7DC"
+                                  TextBlock.FontFamily="Rubik Medium"
+                                  TextBlock.FontSize="15"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Center"
+                                  Margin="35,0,0,0" />
+
+                            <!--// Dropdown Icon //-->
+                            <Image Source="/Pictures/ArrowLeft.png"
+                                Stretch="None"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Margin="80,0,0,0" />
+
+                            <Grid x:Name="Indicator"
+                              Height="25"
+                              Width="2"
+                              Background="#FFFFFF"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Center"
+                              Visibility="Collapsed" />
+
+
+                            
+                            
+                            
+                            <!--// Popup //-->
+                            <Popup x:Name="PART_Popup"
+                                AllowsTransparency="True"
+                                IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                Placement="Right"
+                                PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
+
+
+
+                                <Border x:Name="SubMenuBorder"
+                                     Background="#093A5C"
+                                     CornerRadius="5"
+                                     BorderBrush="AliceBlue"
+                                     BorderThickness="1"
+                                     Padding="5">
+
+                                    <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer,TypeInTargetAssembly={x:Type FrameworkElement}}}">
+
+                                        <Grid RenderOptions.ClearTypeHint="Enabled">
+
+                                            <Canvas HorizontalAlignment="Left"
+                                                 VerticalAlignment="Top" />
+
+                                            <ItemsPresenter x:Name="ItemsPresenter" />
+
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+
+
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter Property="Visibility"
+                         TargetName="Indicator"
+                         Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsSuspendingPopupAnimation"
+                             Value="True">
+                            <Setter Property="PopupAnimation"
+                                  TargetName="PART_Popup"
+                                  Value="None" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Sub_MenuItem"
        TargetType="MenuItem">
         <Setter Property="Template">
             <Setter.Value>

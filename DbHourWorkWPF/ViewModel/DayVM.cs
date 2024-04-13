@@ -128,7 +128,7 @@ namespace DbHourWorkWPF.ViewModel
                       // получаем выделенный объект
                       ItemDay? day = selectedItem as ItemDay;
                       if (day == null) return;
-                      if (MessageBox.Show("Вы уверены что хотите удалить данную запись?", "Удаление сотрудника", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                      if (new View.MessageWindow( "Удаление дня", "Вы уверены что хотите удалить данную запись?").ShowDialog() == true)
                       {
                           App.serviceDb.DeleteRecord(day.Id.ToString(), "DELETE FROM manualday WHERE IdDay = @id");
                           UpdateListDays();
@@ -145,7 +145,7 @@ namespace DbHourWorkWPF.ViewModel
                 return multiplydeleteCommand ??
                   (multiplydeleteCommand = new RelayCommand((o) =>
                   {
-                      if (MessageBox.Show("Вы уверены что хотите удалить выбранные записи?", "Удаление сотрудника", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                      if (new View.MessageWindow( "Удаление дня", "Вы уверены что хотите удалить выбранные записи?").ShowDialog() == true)
                       {
                           foreach (var emp in Days.Where(e => e.IsSelected).ToList()) App.serviceDb.DeleteRecord(emp.Id.ToString(), "DELETE FROM manualday WHERE IdDay = @id");
                           UpdateListDays();

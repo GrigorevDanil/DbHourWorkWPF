@@ -250,7 +250,7 @@ namespace DbHourWorkWPF.ViewModel
                 return deleteCommand ??
                   (deleteCommand = new RelayCommand((selectedItem) =>
                   {
-                      if (MessageBox.Show("Вы уверены что хотите удалить данную запись?", "Удаление сотрудника", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                      if (new View.MessageWindow( "Удаление пользователя", "Вы уверены что хотите удалить данную запись?").ShowDialog() == true)
                       {
                           ItemUser? user = selectedItem as ItemUser;
                           if (user == null) return;
@@ -269,7 +269,7 @@ namespace DbHourWorkWPF.ViewModel
                 return multiplydeleteCommand ??
                   (multiplydeleteCommand = new RelayCommand((obj) =>
                   {
-                      if (MessageBox.Show("Вы уверены что хотите удалить выбранные записи?", "Удаление сотрудника", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                      if (new View.MessageWindow( "Удаление пользователя", "Вы уверены что хотите удалить выбранные записи?").ShowDialog() == true)
                       {
                           foreach (var user in Users.Where(u => u.IsSelected).ToList()) App.serviceDb.DeleteRecord(user.Id.ToString(), "DELETE FROM user WHERE user.IdUser = @id");
                           UpdateListUsers();
