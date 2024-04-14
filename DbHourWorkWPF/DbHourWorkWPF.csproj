@@ -104,6 +104,9 @@
     <Compile Include="View\ContextChangeKey.xaml.cs">
       <DependentUpon>ContextChangeKey.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ContextConnection.xaml.cs">
+      <DependentUpon>ContextConnection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ContextDay.xaml.cs">
       <DependentUpon>ContextDay.xaml</DependentUpon>
     </Compile>
@@ -121,9 +124,6 @@
     </Compile>
     <Compile Include="View\ContextUser.xaml.cs">
       <DependentUpon>ContextUser.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\DBForm.xaml.cs">
-      <DependentUpon>DBForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Items\ItemUser.cs" />
     <Compile Include="Items\ItemDay.cs" />
@@ -192,6 +192,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ContextConnection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\ContextPrintCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -229,10 +233,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ContextPost.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\DBForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -507,6 +507,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Pictures\ImagePrint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\iconLock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconHelp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconHost.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

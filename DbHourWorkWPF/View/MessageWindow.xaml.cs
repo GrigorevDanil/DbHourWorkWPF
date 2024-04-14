@@ -55,8 +55,8 @@ namespace DbHourWorkWPF.View
                     }
                     break;
             }
-            ImageMessage.Width = 150;
-            ImageMessage.Height = 150;
+            ImageMessage.Width = 100;
+            ImageMessage.Height = 100;
 
         }
 

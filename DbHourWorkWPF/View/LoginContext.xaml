@@ -12,60 +12,59 @@
         <WindowChrome/>
     </WindowChrome.WindowChrome>
 
-    
+
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="7*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="317*"/>
-            <ColumnDefinition Width="340*"/>
-            <ColumnDefinition Width="43*" />
+            <ColumnDefinition Width="383*"/>
         </Grid.ColumnDefinitions>
 
+        <Border Background="AliceBlue"  Grid.ColumnSpan="2" CornerRadius="15"/>
 
-
-
-        <Border Background="AliceBlue"  Grid.ColumnSpan="3" Grid.RowSpan="2" CornerRadius="15"/>
-
-        <Border Grid.Column ="0" Grid.RowSpan="2"  CornerRadius="15">
+        <Border Grid.Column ="0"  CornerRadius="15">
             <Border.Background>
                 <ImageBrush ImageSource="/Pictures/Back.png" />
             </Border.Background>
         </Border>
 
-        <Border  Grid.Column="1" Background="#093A5C"  CornerRadius="10" Margin="5,5,5,35"/>
 
-
-        <Button x:Name="buttonExit" Grid.Column="1" Grid.ColumnSpan="2" Margin="338,8,0,8" Width="35" Height="35" BorderThickness="0" Background="Transparent" Click="buttonExit_Click" HorizontalAlignment="Left">
-            <ut:StaticImage RenderOptions.BitmapScalingMode="HighQuality" Source="/Pictures/cross.png"  Width="35" Height="35"/>
-        </Button>
-
-
-
-
-        <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+        <Grid Grid.Column="1">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="165*" />
-                <ColumnDefinition Width="57*"/>
-                <ColumnDefinition Width="161*"/>
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="49*"/>
+                <RowDefinition Height="39*"/>
+                <RowDefinition Height="70*"/>
+                <RowDefinition Height="51*"/>
+                <RowDefinition Height="51*"/>
+                <RowDefinition Height="109*"/>
+                <RowDefinition Height="29*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Авторизация"  VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="26" Height="43" Width="166" Margin="14,0,0,0" FontFamily="Nautilus Pompilius" Grid.ColumnSpan="2"/>
-            <CheckBox x:Name="checkBoxServer" Grid.Row="0" Style="{StaticResource chkBullet}" Background="#DB4B4B" Content="Выкл" Tag="Вкл" FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="14,49,0,0" Height="30" Width="70" FontFamily="Nautilus Pompilius" Checked="checkBoxServer_CheckedChange" Unchecked="checkBoxServer_CheckedChange"/>
-            <TextBlock Grid.Row="0" Text="Вход по серверу" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="16" Margin="89,48,0,0" Height="31" Width="131" Grid.ColumnSpan="2" FontFamily="Nautilus Pompilius"/>
-            <TextBox x:Name="textBoxLog" Style="{StaticResource HintTextBox}" Tag="Логин" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="30,30,30,25" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" >
+            <Border  Background="#093A5C"  CornerRadius="10" Margin="5,5,60,0" VerticalAlignment="Top" Height="10"/>
+
+            <Button x:Name="buttonExit" Width="35" BorderThickness="0" Background="Transparent" Click="buttonExit_Click" HorizontalAlignment="Left" Margin="333,7,0,7">
+                <ut:StaticImage RenderOptions.BitmapScalingMode="HighQuality" Source="/Pictures/cross.png"  Width="35" Height="35"/>
+            </Button>
+
+            <TextBlock  Grid.Row="1" Text="Авторизация"  VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="26" Height="44" Width="166" Margin="14,0,0,0" FontFamily="Nautilus Pompilius"/>
+
+            <WrapPanel Orientation="Horizontal" Grid.Row="2">
+                <CheckBox x:Name="checkBoxServer"  Style="{StaticResource chkBullet}" Background="#DB4B4B" Content="Выкл" Tag="Вкл" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Nautilus Pompilius" Checked="checkBoxServer_CheckedChange" Unchecked="checkBoxServer_CheckedChange" Margin="15,0,0,0"/>
+                <TextBlock Text="Вход по серверу" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontFamily="Nautilus Pompilius" Margin="5,0,0,0"/>
+            </WrapPanel>
+
+            <ut:StaticImage x:Name="imgEmp" Grid.Row="3"  Source="/Pictures/ImageEmployee.png" Width="30" Height="30" HorizontalAlignment="Left" Margin="17,0,0,5" VerticalAlignment="Top"/>
+
+            <TextBox x:Name="textBoxLog" Style="{StaticResource HintTextBox}" Tag="Логин" Grid.Row="3" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" HorizontalAlignment="Left" Width="306" Margin="62,0,0,0" VerticalAlignment="Top" Height="31" >
                 <TextBox.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="5"/>
@@ -73,38 +72,46 @@
                 </TextBox.Resources>
             </TextBox>
 
-            <ComboBox x:Name="comboBoxLogin" Style="{StaticResource ComboboxStyle}" IsReadOnly="True" Visibility="Hidden" Opacity="0.0" Grid.Row="1" Grid.ColumnSpan="2" Margin="30,30,37,25" FontSize="20" FontFamily="Times New Roman" SelectionChanged="comboBoxLogin_SelectionChanged" />
+            <ut:StaticImage x:Name="imgHost" Grid.Row="3"  Source="/Pictures/IconHost.png" Width="30" Height="30" Visibility="Hidden" Opacity="0.0"  HorizontalAlignment="Left" Margin="192,0,0,0" VerticalAlignment="Top"/>
 
-            <TextBox x:Name="textBoxHost"  Style="{StaticResource HintTextBox}" Visibility="Hidden" Opacity="0.0" Tag="Хост" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="25,30,30,25" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" >
-                <TextBox.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </TextBox.Resources>
-            </TextBox>
+            <ComboBox x:Name="comboBoxLogin" Style="{StaticResource ComboboxStyle}" IsReadOnly="True"   Grid.Row="3" Visibility="Hidden" Opacity="0.0" FontSize="20" FontFamily="Times New Roman" SelectionChanged="comboBoxLogin_SelectionChanged" HorizontalAlignment="Left" Margin="62,0,0,0" Width="118" VerticalAlignment="Top" Height="31" />
 
-            <Grid Grid.Row="2" Grid.ColumnSpan="3" Margin="30,0,81,54">
-                <PasswordBox x:Name="passwordBox" Style="{StaticResource RoundedPasswordBoxStyle}" FontSize="20" FontFamily="Times New Roman" LostFocus="passwordBox_LostFocus"/>
-                <TextBox x:Name="textBoxPass"  Style="{StaticResource HintTextBox}" Tag="Пароль" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" GotFocus="textBoxPass_GotFocus">
+            <TextBox x:Name="textBoxHost"  Style="{StaticResource HintTextBox}" Tag="Хост" Grid.Row="3" TextAlignment="Left"  Visibility="Hidden" Opacity="0.0" FontSize="20" FontFamily="Times New Roman" HorizontalAlignment="Left" Margin="233,0,0,0" Width="135" Height="31" VerticalAlignment="Top"/>
+
+
+            <Grid Grid.Row="4">
+
+                <ut:StaticImage Source="/Pictures/IconLock.png" Width="35" Height="35" HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Center"/>
+
+                <PasswordBox x:Name="passwordBox" Style="{StaticResource RoundedPasswordBoxStyle}" FontSize="20" FontFamily="Times New Roman" LostFocus="passwordBox_LostFocus" Margin="0,10,0,10" HorizontalAlignment="Center" Width="260"/>
+                <TextBox x:Name="textBoxPass"  Style="{StaticResource HintTextBox}" Tag="Пароль" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" GotFocus="textBoxPass_GotFocus" Width="260" Margin="0,10,0,10" HorizontalAlignment="Center">
                     <TextBox.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="5"/>
                         </Style>
                     </TextBox.Resources>
                 </TextBox>
+
+                <ToggleButton x:Name="buttonEye" Grid.Row="4" Background="Transparent" BorderThickness="0" Checked="buttonEye_CheckedChange" Unchecked="buttonEye_CheckedChange" HorizontalAlignment="Right" Height="35" Margin="0,0,15,0">
+                    <ut:StaticImage x:Name="imageEye" Source="/Pictures/inVisible.png" Width="35" Height="35" HorizontalAlignment="Left"/>
+                </ToggleButton>
             </Grid>
 
+            <Button x:Name="buttonHelp" Style="{StaticResource RoundCorner}" Grid.Row="5" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" Click="buttonEnter_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="150" Height="28" Margin="25,0,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <ut:StaticImage Source="/Pictures/IconHelp.png" Width="20" Height="20" HorizontalAlignment="Left" Margin="0,2,25,0"/>
+                    <TextBlock Text="Справка" VerticalAlignment="Center" Margin="0,0,25,0" FontSize="18"/>
+                </StackPanel>
+            </Button>
 
-
-            <Button x:Name="buttonEnter" Style="{StaticResource RoundCorner}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="25,25,30,25" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" Click="buttonEnter_Click">
+            <Button x:Name="buttonEnter" Style="{StaticResource RoundCorner}" Grid.Row="5" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius" Click="buttonEnter_Click" VerticalAlignment="Bottom" Margin="0,0,25,0" HorizontalAlignment="Right" Width="150" Height="28">
                 <StackPanel Orientation="Horizontal">
                     <ut:StaticImage Source="/Pictures/exit1.png" Width="20" Height="20" HorizontalAlignment="Left" Margin="0,2,25,0"/>
                     <TextBlock Text="Войти" VerticalAlignment="Center" Margin="0,0,25,0" FontSize="18"/>
                 </StackPanel>
             </Button>
-            <ToggleButton x:Name="buttonEye" Width="35" Height="35" Margin="90,86,36,54" Grid.Row="1" Grid.Column="2"  Grid.RowSpan="2" Background="Transparent" BorderThickness="0" Checked="buttonEye_CheckedChange" Unchecked="buttonEye_CheckedChange">
-                <ut:StaticImage x:Name="imageEye" Source="/Pictures/inVisible.png" Width="33" Height="33" HorizontalAlignment="Left"/>
-            </ToggleButton>
+
+
 
         </Grid>
 

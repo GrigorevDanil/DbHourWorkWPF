@@ -26,7 +26,7 @@
         <Border Background="#093A5C"  CornerRadius="18" Grid.RowSpan="3" Grid.ColumnSpan="2"/>
         <Border Background="AliceBlue"  CornerRadius="15" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="5,5,5,5"/>
 
-        <ut:StaticImage x:Name="ImageMessage" Grid.Row="1" Source="/Pictures/IconWarning.png" VerticalAlignment="Center" HorizontalAlignment="Center" Width="150" Height="150"/>
+        <ut:StaticImage x:Name="ImageMessage" Grid.Row="1" Source="/Pictures/IconWarning.png" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100" Height="100"/>
 
         <Border Background="#093A5C"  CornerRadius="10" Margin="25,10,25,5" Grid.ColumnSpan="2"/>
 

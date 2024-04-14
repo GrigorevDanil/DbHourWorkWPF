@@ -56,7 +56,7 @@ namespace DbHourWorkWPF
         private void butChangeImage_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+            dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg";
 
             if (dlg.ShowDialog() == true)
             {

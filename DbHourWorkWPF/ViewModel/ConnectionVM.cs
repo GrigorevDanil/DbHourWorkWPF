@@ -43,6 +43,7 @@ namespace DbHourWorkWPF.ViewModel
             set { pass = value; OnPropertyChanged(nameof(Password)); }
         }
 
+
         RelayCommand? editCommand;
         RelayCommand? resetCommand;
 
@@ -52,9 +53,20 @@ namespace DbHourWorkWPF.ViewModel
         {
             _pageModel = new PageModel();
 
+            try { App.serviceDb.openConnection(); }
+            catch
+            {
+                Server = App.db.stringConnection.Server;
+                Port = App.db.stringConnection.Port.ToString();
+                DbName = App.db.stringConnection.Database;
+                User = App.db.stringConnection.UserID.ToString();
+                Password = App.db.stringConnection.Password;
+                return;
+            }
+
             Users = new ObservableCollection<string>();
 
-            App.serviceDb.openConnection();
+           
 
             //Взятие всех пользователей на сервере
             using (MySqlCommand command = new MySqlCommand("SELECT User FROM mysql.user", App.serviceDb.getConnection()))
@@ -63,6 +75,8 @@ namespace DbHourWorkWPF.ViewModel
             }
 
             App.serviceDb.closeConnection();
+
+
 
             Server = App.db.stringConnection.Server;
             Port = App.db.stringConnection.Port.ToString();

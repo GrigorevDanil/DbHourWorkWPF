@@ -12,16 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace DbHourWorkWPF
+namespace DbHourWorkWPF.View
 {
     /// <summary>
-    /// Логика взаимодействия для DBForm.xaml
+    /// Логика взаимодействия для ContextConnection.xaml
     /// </summary>
-    public partial class DBForm : Window
+    public partial class ContextConnection : Window
     {
-        public DBForm()
+        public ContextConnection()
         {
             InitializeComponent();
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext != null)
+            { ((dynamic)this.DataContext).Password = ((PasswordBox)sender).Password; }
         }
     }
 }

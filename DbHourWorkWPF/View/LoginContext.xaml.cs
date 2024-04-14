@@ -1,6 +1,7 @@
 ﻿using DbHourWorkWPF.Items;
 using DbHourWorkWPF.Properties;
 using DbHourWorkWPF.Utilities;
+using DbHourWorkWPF.View;
 using DBHourWorkWPF.Utilities;
 using MySqlConnector;
 using System;
@@ -50,7 +51,7 @@ namespace DbHourWorkWPF
             {
                 if (exp.Message == $"Unknown database \'{App.db.connection.Database}\'")
                 {
-                    if (MessageBox.Show("База данных не найдена? Создать базу данных по умолчанию?", "Отсутствует база данных!", MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.Yes)
+                    if (new View.MessageWindow("Отсутствует база данных!", "База данных не найдена? Создать базу данных по умолчанию?", MessageBoxButton.OKCancel, MessageBoxImage.Error).ShowDialog() == true)
                     {
                         //Создание базы данных
                         ProcessStartInfo startInfo = new ProcessStartInfo
@@ -78,12 +79,10 @@ namespace DbHourWorkWPF
                 else
                 {
                     //Форма настройки базы данных
-                    if (MessageBox.Show("Перейти к настройкам подключения с базой данных?", "Отсутствует соединение с сервером MySql!", MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.Yes) new DBForm().ShowDialog();
+                    if (new View.MessageWindow("Отсутствует соединение с сервером MySql!", "Перейти к настройкам подключения с базой данных?", MessageBoxButton.OKCancel, MessageBoxImage.Error).ShowDialog() == true) new ContextConnection().ShowDialog();
+                    else return;
                 }
             }
-            finally { App.serviceDb.closeConnection(); }
-
-            App.serviceDb.openConnection();
 
             //Взятие всех пользователей на сервере
             using (MySqlCommand command = new MySqlCommand("SELECT User, Host FROM mysql.user", App.serviceDb.getConnection()))
@@ -99,10 +98,19 @@ namespace DbHourWorkWPF
             }
 
             App.serviceDb.closeConnection();
+
         }
 
         private async void buttonEnter_Click(object sender, RoutedEventArgs e)
         {
+
+            try { App.serviceDb.openConnection(); }
+            catch
+            {
+                new MessageWindow("Произошла ошибка!", "Отсутвует подключение к серверу!", MessageBoxButton.OK, MessageBoxImage.Error).ShowDialog();
+                return;
+            }
+
             //Текущий пользователь
             App.Account = new ItemUser();
 
@@ -278,6 +286,8 @@ namespace DbHourWorkWPF
                 AnimateElementDownUp(textBoxLog, 10, TimeSpan.FromSeconds(0.5), true);
                 AnimateElementDownUp(textBoxHost, -10, TimeSpan.FromSeconds(0.5), false);
                 AnimateElementDownUp(comboBoxLogin, -10, TimeSpan.FromSeconds(0.5), false);
+                AnimateElementDownUp(imgHost, -10, TimeSpan.FromSeconds(0.5), false);
+                AnimateElementDownUp(imgEmp, -10, TimeSpan.FromSeconds(0.5), false);
             }
             else
             {
@@ -285,6 +295,8 @@ namespace DbHourWorkWPF
                 AnimateElementDownUp(textBoxLog, -10, TimeSpan.FromSeconds(0.5), false);
                 AnimateElementDownUp(textBoxHost, 10, TimeSpan.FromSeconds(0.5), true);
                 AnimateElementDownUp(comboBoxLogin, 10, TimeSpan.FromSeconds(0.5), true);
+                AnimateElementDownUp(imgHost, 10, TimeSpan.FromSeconds(0.5), true);
+                AnimateElementDownUp(imgEmp, -10, TimeSpan.FromSeconds(0.5), false);
             }
         }
 

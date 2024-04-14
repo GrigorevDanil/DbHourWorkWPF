@@ -275,9 +275,8 @@ namespace DbHourWorkWPF.ViewModel
                 return addCommand ??
                   (addCommand = new RelayCommand((selectedItem) =>
                   {
-                      if (selectedItem is DataRowView)
+                      if (selectedItem is DataRowView && SelectedCellIndex - 8 > 0)
                       {
-                          if (SelectedCellIndex - 8 < 0) return;
                           int indexRow = ((DataRowView)selectedItem).DataView.Table.Rows.IndexOf(((DataRowView)selectedItem).Row);
                           if (Cards[indexRow].Employee.IsSelected) return;
                           int indexCell = Cards[indexRow].WorkTimes.FindIndex(item => item.DateWork == Days[SelectedCellIndex - 8]);
@@ -317,9 +316,8 @@ namespace DbHourWorkWPF.ViewModel
                 return editCommand ??
                   (editCommand = new RelayCommand((selectedItem) =>
                   {
-                      if (selectedItem is DataRowView)
+                      if (selectedItem is DataRowView && SelectedCellIndex - 8 > 0)
                       {
-                          if (SelectedCellIndex - 8 < 0) return;
                           int indexRow = ((DataRowView)selectedItem).DataView.Table.Rows.IndexOf(((DataRowView)selectedItem).Row);
                           if (Cards[indexRow].Employee.IsSelected) return;
                           int indexCell = Cards[indexRow].WorkTimes.FindIndex(item => item.DateWork == Days[SelectedCellIndex - 8]);
