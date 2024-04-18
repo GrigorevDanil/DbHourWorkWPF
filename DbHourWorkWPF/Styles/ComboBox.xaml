@@ -39,6 +39,7 @@
     <Style x:Key="ComboboxStyle" TargetType="{x:Type ComboBox}">
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="Black"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
@@ -48,28 +49,30 @@
                             <ColumnDefinition MaxWidth="18"/>
                         </Grid.ColumnDefinitions>
                         <TextBox Name="PART_EditableTextBox"  
-        Style="{StaticResource ComboboxTextBoxStyle}"  
-        Padding="5,0,0,0"  
-        Height="{TemplateBinding Height}"/>
+                            Style="{StaticResource ComboboxTextBoxStyle}"  
+                            Padding="5,0,0,0"  
+                            Height="{TemplateBinding Height}"/>
                         <ToggleButton Grid.Column="1" Margin="0"  
-       Height="{TemplateBinding Height}"  
-       Style="{StaticResource ComboboxButtonStyle}"  
-       Focusable="False"  
-       IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"  
-       ClickMode="Press">
+                           Height="{TemplateBinding Height}"  
+                           Style="{StaticResource ComboboxButtonStyle}"  
+                           Focusable="False"  
+                           IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"  
+                           ClickMode="Press">
                             <Path Grid.Column="1"  
-          HorizontalAlignment="Center"  
-          VerticalAlignment="Center"  
-          Data="M 0 0 L 4 4 L 8 0 Z"  
-          Fill="DodgerBlue" />
+                              HorizontalAlignment="Center"  
+                              VerticalAlignment="Center"  
+                              Data="M 0 0 L 4 4 L 8 0 Z"  
+                              Fill="DodgerBlue" />
                         </ToggleButton>
+                        
                         <ContentPresenter Name="ContentSite"  
-       Content="{TemplateBinding SelectionBoxItem}"  
-       ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"  
-       ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"  
-       VerticalAlignment="Center"  
-       HorizontalAlignment="Left"  
-       Margin="5,0,0,0"/>
+                           Content="{TemplateBinding SelectionBoxItem}"  
+                           ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"  
+                           ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"  
+                           VerticalAlignment="Center"  
+                           HorizontalAlignment="Left"  
+                           Margin="5,0,0,0"/>
+                        
                         <Popup Name="Popup"  
        Placement="Bottom"  
        IsOpen="{TemplateBinding IsDropDownOpen}"  
@@ -87,7 +90,7 @@
            BorderBrush="Black"
            Background="White"/>
                                 <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
-                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    <StackPanel IsItemsHost="True" TextElement.Foreground="{TemplateBinding Foreground}" KeyboardNavigation.DirectionalNavigation="Contained" />
                                 </ScrollViewer>
                             </Grid>
                         </Popup>

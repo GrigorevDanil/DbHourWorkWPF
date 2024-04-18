@@ -7,6 +7,7 @@
         xmlns:ut="clr-namespace:DbHourWorkWPF.Utilities"
         xmlns:vm="clr-namespace:DbHourWorkWPF.ViewModel"
         mc:Ignorable="d"
+        Title="Должности"
         Style="{StaticResource SpringAnimation}"
         WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" WindowStyle="None" Background="Transparent"
         Height="500" Width="700">
@@ -20,14 +21,14 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="55*"/>
-            <RowDefinition Height="685*"/>
+            <RowDefinition Height="12*"/>
+            <RowDefinition Height="95*"/>
             <RowDefinition Height="72"/>
         </Grid.RowDefinitions>
 
         <Border Background="#093A5C"  CornerRadius="15" Grid.RowSpan="3" />
         <Border Background="AliceBlue"  CornerRadius="15" Grid.RowSpan="3" Margin="5,5,5,5" />
-        <Border Background="#093A5C"  CornerRadius="18"   Margin="15,10,15,25"/>
+        <Border Background="#093A5C"  CornerRadius="18"   Margin="15,10,15,24"/>
 
 
         <!--Post-->
@@ -82,7 +83,7 @@
         </DataGrid>
 
         <Border Background="#093A5C"  CornerRadius="18" Grid.Row="2"  Margin="15,0,15,15"/>
-        <Border Background="AliceBlue"  CornerRadius="15" Grid.Row="2" Margin="18,3,18,18"/>
+        <Border Background="AliceBlue"  CornerRadius="15" Grid.Row="2" Margin="20,5,20,20"/>
 
 
         <Button x:Name="butAddPost" x:FieldModifier="public" Style="{StaticResource RoundCorner}" Grid.Row="2" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius"  HorizontalAlignment="Left" Command="{Binding AddPostCommand}" VerticalAlignment="Center" Margin="25,0,0,15">
@@ -92,7 +93,7 @@
             </StackPanel>
         </Button>
 
-        <Button Style="{StaticResource RoundCorner}" Grid.Row="2" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius"  HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,0,25,15" Click="butExit_Click">
+        <Button Style="{StaticResource RoundCorner}" Grid.Row="2" Foreground="#D9D9D9" FontSize="16" FontFamily="Nautilus Pompilius"  HorizontalAlignment="Right" IsCancel="True" Height="40" Width="137" Margin="0,0,25,15">
             <StackPanel Orientation="Horizontal">
                 <ut:StaticImage Source="/Pictures/Exit1.png" Margin="0,2,25,0" Width="35" Height="35"/>
                 <TextBlock Text="Выход" Margin="0,0,25,0" FontSize="18" VerticalAlignment="Center"/>

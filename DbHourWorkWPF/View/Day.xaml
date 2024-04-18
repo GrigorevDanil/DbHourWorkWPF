@@ -30,13 +30,7 @@
 
         <!--Employee-->
 
-        <TextBox Style="{StaticResource HintTextBox}" Text="{Binding InputTextFilter, UpdateSourceTrigger=PropertyChanged}" Tag="Поиск" FontFamily="Times New Roman" FontSize="20" Margin="5,8,5,7" Grid.ColumnSpan="2">
-            <TextBox.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="5"/>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>
+        <TextBox Style="{StaticResource HintTextBox}" Text="{Binding InputTextFilter, UpdateSourceTrigger=PropertyChanged}" Tag="Поиск" FontFamily="Times New Roman" FontSize="20" Margin="5,8,5,7" Grid.ColumnSpan="2"/>
 
         <DataGrid x:Name="dataGridDay" Grid.Row="1" Margin="5,5,5,15" ItemsSource="{Binding Days}" Grid.ColumnSpan="2">
             <DataGrid.Columns>

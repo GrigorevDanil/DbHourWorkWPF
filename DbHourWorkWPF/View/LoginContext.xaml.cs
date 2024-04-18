@@ -74,13 +74,28 @@ namespace DbHourWorkWPF
                         process.Start();
                         process.StandardInput.WriteLine($"SetBackup.bat {pathXampp} {Directory.GetCurrentDirectory()} DefaultBackup.sql");
                         process.WaitForExit();
+
+                        // Создаем новый процесс (новый экземпляр приложения)
+                        ProcessStartInfo restart = new ProcessStartInfo(Process.GetCurrentProcess().MainModule.FileName);
+
+                        // Запускаем новый процесс
+                        Process.Start(restart);
+
+                        // Закрываем текущее приложение
+                        Application.Current.Shutdown();
+
                     }
                 }
                 else
                 {
                     //Форма настройки базы данных
                     if (new View.MessageWindow("Отсутствует соединение с сервером MySql!", "Перейти к настройкам подключения с базой данных?", MessageBoxButton.OKCancel, MessageBoxImage.Error).ShowDialog() == true) new ContextConnection().ShowDialog();
-                    else return;
+                    else
+                    {
+                        tbStatus.Text = "Отсутвует подключение";
+                        tbStatus.Foreground = Brushes.Red;
+                        return;
+                    }
                 }
             }
 
@@ -101,7 +116,7 @@ namespace DbHourWorkWPF
 
         }
 
-        private async void buttonEnter_Click(object sender, RoutedEventArgs e)
+        private void buttonEnter_Click(object sender, RoutedEventArgs e)
         {
 
             try { App.serviceDb.openConnection(); }
@@ -226,20 +241,11 @@ namespace DbHourWorkWPF
                         return;
                     }
 
-                    buttonEnter.Content = "Успешно!";
-                    await Task.Delay(500);
                     MainForm form = new MainForm();
                     form.Show();
                     textBoxLog.Text = "";
                     textBoxPass.Text = "";
-                    buttonEnter.Content = "Войти";
                     this.Hide();
-                }
-                else
-                {
-                    buttonEnter.Content = "Пользователь не найден!";
-                    await Task.Delay(1000);
-                    buttonEnter.Content = "Вход";
                 }
 
             }
@@ -266,13 +272,10 @@ namespace DbHourWorkWPF
                 }
                 App.Account.Login = comboBoxLogin.SelectedItem.ToString();
                 App.Account.Image = new BitmapImage(new Uri("ImageEmployee.png", UriKind.Relative));
-                buttonEnter.Content = "Успешно!";
-                await Task.Delay(500);
                 MainForm form = new MainForm();
                 form.Show();
                 textBoxLog.Text = "";
                 textBoxPass.Text = "";
-                buttonEnter.Content = "Вход";
                 this.Hide();
             }
 
@@ -409,6 +412,43 @@ namespace DbHourWorkWPF
         private void buttonExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void butUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            //Проверка подключения
+            try { 
+                App.serviceDb.openConnection();
+            }
+            catch
+            {
+                tbStatus.Text = "Отсутвует подключение";
+                tbStatus.Foreground = Brushes.Red;
+                return;
+            }
+            tbStatus.Text = "Подключение установлено";
+            tbStatus.Foreground = Brushes.LightGreen;
+
+            comboBoxLogin.Items.Clear();
+            listNameHost.Clear();
+            //Взятие всех пользователей на сервере
+            using (MySqlCommand command = new MySqlCommand("SELECT User, Host FROM mysql.user", App.serviceDb.getConnection()))
+            {
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        comboBoxLogin.Items.Add(reader.GetString(0));
+                        listNameHost.Add(reader.GetString(1));
+                    }
+                }
+            }
+
+        }
+
+        private void butHelp_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(Directory.GetCurrentDirectory() + "/Help/help5.chm");
         }
     }
 }

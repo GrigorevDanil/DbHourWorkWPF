@@ -94,6 +94,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Items\ItemCard.cs" />
+    <Compile Include="Utilities\ColorConverter.cs" />
     <Compile Include="Utilities\NumericUpDown.cs" />
     <Compile Include="View\ContextAccount.xaml.cs">
       <DependentUpon>ContextAccount.xaml</DependentUpon>
@@ -103,6 +104,9 @@
     </Compile>
     <Compile Include="View\ContextChangeKey.xaml.cs">
       <DependentUpon>ContextChangeKey.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ContextClearCard.xaml.cs">
+      <DependentUpon>ContextClearCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ContextConnection.xaml.cs">
       <DependentUpon>ContextConnection.xaml</DependentUpon>
@@ -149,9 +153,6 @@
     <Compile Include="Utilities\DatabaseService.cs" />
     <Compile Include="Utilities\INIManager.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
-    <Compile Include="Utilities\RoundedBorder.xaml.cs">
-      <DependentUpon>RoundedBorder.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Utilities\RoundProgressPathConverter.cs" />
     <Compile Include="Utilities\ViewModelBase.cs" />
     <Compile Include="ViewModel\AccountVM.cs" />
@@ -189,6 +190,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ContextCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ContextClearCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -329,10 +334,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\TextBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Utilities\RoundedBorder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -516,6 +517,39 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Pictures\IconHost.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconMain.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconFormUser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconFormDay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconFormKey.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconFormDB.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconFormDay2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconFormPost.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconFormPrint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconFormMessage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconClear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pictures\IconFormClear.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -7,10 +7,16 @@
         xmlns:ut="clr-namespace:DbHourWorkWPF.Utilities"
         mc:Ignorable="d"
         Style="{StaticResource SpringAnimation}"
-        Title="MainWindow" Height="400" Width="700" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" WindowStyle="None" Background="Transparent">
+        Title="Окно дня"
+        Icon="/Pictures/IconFormDay.png"
+        Height="400" Width="700" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" WindowStyle="None" Background="Transparent">
     <WindowChrome.WindowChrome>
         <WindowChrome/>
     </WindowChrome.WindowChrome>
+
+    <Window.Resources>
+        <ut:ColorConverter x:Key="ColorConverter"/>
+    </Window.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -53,7 +59,23 @@
             <TextBlock Text="Обозначение:" VerticalAlignment="Center" FontSize="20" FontFamily="Nautilus Pompilius" HorizontalAlignment="Left" Margin="20,0,0,0" Grid.Row="2"/>
             <TextBlock Text="Часы:" VerticalAlignment="Center" FontSize="20" FontFamily="Nautilus Pompilius" HorizontalAlignment="Left" Margin="20,0,0,0" Grid.Row="3"/>
 
-            <ComboBox x:Name="comboBoxEmp" Style="{StaticResource ComboboxStyle}" IsReadOnly="True" Grid.Column="1"  Margin="5,10,10,10" FontSize="20" FontFamily="Times New Roman"  />
+            <ComboBox x:Name="comboBoxEmp" Style="{StaticResource ComboboxStyle}" IsReadOnly="True" Grid.Column="1"  Margin="5,10,10,10" FontSize="20" FontFamily="Times New Roman">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected}" Value="False">
+                                            <Setter Property="Foreground" Value="#E53434"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <ComboBox x:Name="comboBoxDay" Style="{StaticResource ComboboxStyle}" IsReadOnly="True" Grid.Column="1" Margin="5,10,10,10" FontSize="20" FontFamily="Times New Roman" Grid.Row="1"/>
             <ComboBox x:Name="comboBoxMark" Style="{StaticResource ComboboxStyle}" IsReadOnly="True" Grid.Column="1" Margin="5,10,10,10" FontSize="20" FontFamily="Times New Roman" Grid.Row="2"/>
             <TextBox x:Name="textBoxHour" Style="{StaticResource HintTextBox}" Tag="Количество часов"  Grid.Column="1" TextAlignment="Left" FontSize="18" FontFamily="Times New Roman" Margin="5,10,10,10" Grid.Row="3" MaxLength="11" PreviewTextInput="textBoxHour_PreviewTextInput" />

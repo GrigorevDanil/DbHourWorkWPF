@@ -31,7 +31,7 @@
 
             <TextBlock Text="Список копий" FontSize="30" FontFamily="Nautilus Pompilius" VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="0,13,0,0" Height="40" Width="164" />
 
-            <DataGrid x:Name="dataGridDay" Grid.Row="1" Margin="5,5,5,15" ItemsSource="{Binding Files}" SelectedItem="{Binding CurFile}" Grid.RowSpan="4">
+            <DataGrid x:Name="dataGridFile" Grid.Row="1" Margin="5,5,5,15" ItemsSource="{Binding Files}" SelectedItem="{Binding CurFile}" Grid.RowSpan="4">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название копии"  IsReadOnly="True" Width="1.5*" Binding="{Binding Name}"/>
                     <DataGridTemplateColumn Header="Операции" Width="1*">

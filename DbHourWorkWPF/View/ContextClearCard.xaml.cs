@@ -10,19 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DbHourWorkWPF.Utilities
+namespace DbHourWorkWPF.View
 {
     /// <summary>
-    /// Логика взаимодействия для RoundedBorder.xaml
+    /// Логика взаимодействия для ContextClearCard.xaml
     /// </summary>
-    public partial class RoundedBorder : UserControl
+    public partial class ContextClearCard : Window
     {
-        public RoundedBorder()
+        public ContextClearCard()
         {
             InitializeComponent();
+        }
+
+        private void butEnter_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
         }
     }
 }

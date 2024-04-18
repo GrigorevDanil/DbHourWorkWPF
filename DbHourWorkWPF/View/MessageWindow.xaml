@@ -7,7 +7,9 @@
         xmlns:ut="clr-namespace:DbHourWorkWPF.Utilities"
         mc:Ignorable="d"
         Style="{StaticResource SpringAnimation}"
-        Title="MainWindow" Height="300" Width="700" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" WindowStyle="None" Background="Transparent">
+        Title="Диалоговое окно"
+        Icon="/Pictures/IconFormMessage.png"
+        Height="300" Width="700" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" WindowStyle="None" Background="Transparent">
     <WindowChrome.WindowChrome>
         <WindowChrome/>
     </WindowChrome.WindowChrome>
@@ -37,7 +39,7 @@
         <Border Background="AliceBlue"  CornerRadius="15" Grid.Row="1" Grid.Column="1" Margin="10,80,20,30" />
 
 
-        <TextBlock x:Name="Text" TextWrapping="Wrap" Text="Произошла ну пипец важная ошибка" FontSize="20" Padding="5" FontFamily="Nautilus Pompilius" Grid.Row="1" Grid.Column="1" Margin="20,85,30,35"/>
+        <TextBlock x:Name="Text" TextWrapping="Wrap" Text="Текст ошибки" FontSize="20" Padding="5" FontFamily="Nautilus Pompilius" Grid.Row="1" Grid.Column="1" Margin="20,85,30,35"/>
 
 
         <Border Background="#093A5C"  CornerRadius="18" Grid.Row="2" Grid.ColumnSpan="2" Margin="10,10,10,10" />

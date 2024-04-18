@@ -8,8 +8,10 @@
         xmlns:ut="clr-namespace:DbHourWorkWPF.Utilities"
         mc:Ignorable="d"
         Style="{StaticResource SpringAnimation}"
-        Title="MainWindow" Height="1000" Width="1500"
-WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" WindowStyle="None" Background="Transparent" Closed="Window_Closed">
+        Title="Главное окно" 
+        Icon="/Pictures/IconMain.png"
+        Height="1000" Width="1500"
+        WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" WindowStyle="None" Background="Transparent" Closed="Window_Closed">
     <WindowChrome.WindowChrome>
         <WindowChrome/>
     </WindowChrome.WindowChrome>
@@ -77,7 +79,7 @@ WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoRes
                     </MenuItem.Icon>
 
                     <MenuItem Style="{StaticResource Sub_MenuItem}" Header="Об авторе" Foreground="#D9D9D9" FontFamily="Nautilus Pompilius" FontSize="16" Command="{Binding OutputAuthorCommand}"/>
-                    <MenuItem Style="{StaticResource Sub_MenuItem}" Header="Справка" Foreground="#D9D9D9" FontFamily="Nautilus Pompilius" FontSize="16"/>
+                    <MenuItem Style="{StaticResource Sub_MenuItem}" Header="Справка" Foreground="#D9D9D9" FontFamily="Nautilus Pompilius" FontSize="16" Command="{Binding HelpCommand}"/>
                 </MenuItem>
                 <MenuItem Style="{StaticResource MenuItemStyleWithDropDown}" Header="Отчеты"   FontFamily="Nautilus Pompilius" Foreground="#D9D9D9" FontSize="16">
                     <MenuItem.Icon>

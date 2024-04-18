@@ -23,7 +23,7 @@ namespace DbHourWorkWPF.ViewModel
     class TimeVM : Utilities.ViewModelBase
     {
         string 
-           cmdAdd = "INSERT INTO card VALUES (NULL,@idEmp,@_idDay,@date, @hour)",
+           cmdAdd = "START TRANSACTION; INSERT INTO card VALUES (NULL,@idEmp,@_idDay,@date, @hour) COMMIT;",
            cmdEdit = "UPDATE card SET IdEmployee = @idEmp, IdDay = @_idDay, DateWork = @date, HourWork = @hour WHERE IdCard = @_idCard";
 
         private readonly PageModel _pageModel;
@@ -36,6 +36,7 @@ namespace DbHourWorkWPF.ViewModel
         RelayCommand? addCommand;
         RelayCommand? editCommand;
         RelayCommand? deleteCommand;
+        RelayCommand? multiplyDeleteCommand;
         RelayCommand? printHtmlCommand;
 
         public ObservableCollection<ItemEmployee> DisEmployees { get; set; }
@@ -121,6 +122,7 @@ namespace DbHourWorkWPF.ViewModel
             }
 
             string cmdSelect = "";
+
             if (FlagDis) cmdSelect = $"SELECT `IdCard`, `IdEmployee` FROM `card` WHERE MONTH(card.DateWork) = {SelectedMonth + 1} AND YEAR(card.DateWork) = {SelectedYear} AND IdEmployee = {DisEmp.Id} GROUP BY IdEmployee";
             else cmdSelect = $"SELECT `IdCard`, `IdEmployee` FROM `card` WHERE MONTH(card.DateWork) = {SelectedMonth + 1} AND YEAR(card.DateWork) = {SelectedYear} GROUP BY IdEmployee";
 
@@ -275,7 +277,7 @@ namespace DbHourWorkWPF.ViewModel
                 return addCommand ??
                   (addCommand = new RelayCommand((selectedItem) =>
                   {
-                      if (selectedItem is DataRowView && SelectedCellIndex - 8 > 0)
+                      if (selectedItem is DataRowView && SelectedCellIndex - 8 >= 0)
                       {
                           int indexRow = ((DataRowView)selectedItem).DataView.Table.Rows.IndexOf(((DataRowView)selectedItem).Row);
                           if (Cards[indexRow].Employee.IsSelected) return;
@@ -316,7 +318,7 @@ namespace DbHourWorkWPF.ViewModel
                 return editCommand ??
                   (editCommand = new RelayCommand((selectedItem) =>
                   {
-                      if (selectedItem is DataRowView && SelectedCellIndex - 8 > 0)
+                      if (selectedItem is DataRowView && SelectedCellIndex - 8 >= 0)
                       {
                           int indexRow = ((DataRowView)selectedItem).DataView.Table.Rows.IndexOf(((DataRowView)selectedItem).Row);
                           if (Cards[indexRow].Employee.IsSelected) return;
@@ -364,6 +366,29 @@ namespace DbHourWorkWPF.ViewModel
 
             }
            
+        }
+
+        // команда удаления
+        public RelayCommand MultiplyDeleteCommand
+        {
+            get
+            {
+                return multiplyDeleteCommand ??
+                  (multiplyDeleteCommand = new RelayCommand((selectedItem) =>
+                  {
+                      ContextClearCard contextClearCard = new ContextClearCard();
+                      if (contextClearCard.ShowDialog() == true)
+                      {
+                          if (new View.MessageWindow("Удаление дня", "Вы уверены что хотите удалить данные записи?").ShowDialog() == true)
+                          {
+                              App.serviceDb.OperationOnRecord("CALL DeleteOldRecordCard(@date)", [(contextClearCard.datePicker.SelectedDate.Value.ToString("yyyy-MM-dd"))]);
+                              UpdateListCards();
+                          }
+                      }
+                  }));
+
+            }
+
         }
 
 

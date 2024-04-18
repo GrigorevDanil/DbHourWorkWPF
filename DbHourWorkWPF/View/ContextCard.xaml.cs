@@ -20,9 +20,8 @@ namespace DbHourWorkWPF.View
     {
         public ItemCard Card { get;private set; }
         public List<string> Days { get; private set; }
-        List<int>
-            idEmp = new List<int>(),
-            idDay = new List<int>();
+        public List<ItemEmployee> Employees { get; private set; }   
+        List<int> idDay = new List<int>();
 
         private void textBoxHour_PreviewTextInput(object sender, TextCompositionEventArgs e) => e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
 
@@ -37,13 +36,13 @@ namespace DbHourWorkWPF.View
                 return;
             }
 
-            if (App.serviceDb.OperationSelect("SELECT * FROM card WHERE IdEmployee = @idEmp AND DateWork = @date", [idEmp[comboBoxEmp.SelectedIndex].ToString(), DateTime.Parse(comboBoxDay.SelectedItem.ToString().Substring(0)).ToString("yyyy-MM-dd")]).Rows.Count > 0)
+            if (App.serviceDb.OperationSelect("SELECT * FROM card WHERE IdEmployee = @idEmp AND DateWork = @date", [Employees[comboBoxEmp.SelectedIndex].Id.ToString(), DateTime.Parse(comboBoxDay.SelectedItem.ToString().Substring(0)).ToString("yyyy-MM-dd")]).Rows.Count > 0)
             {
                 MessageBox.Show("Дубликат записи!", "Произошла ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            Card.Employee.Id = idEmp[comboBoxEmp.SelectedIndex];
+            Card.Employee.Id = Employees[comboBoxEmp.SelectedIndex].Id;
             Card.WorkTimes.Add(new WorkTime());
             Card.WorkTimes[0].Day.Id = idDay[comboBoxMark.SelectedIndex];
             Card.WorkTimes[0].DateWork = comboBoxDay.SelectedItem.ToString();
@@ -60,7 +59,30 @@ namespace DbHourWorkWPF.View
             InitializeComponent();
             Card = card;
             Days = days;
-            App.serviceDb.LoadComboBox(ref comboBoxEmp, ref idEmp, "Select * From employee WHERE DateDismissal IS NULL", 5, 3);
+
+
+            Employees = App.serviceDb.LoadListFromServer($"SELECT IdEmployee, Surname, Name, Lastname FROM employee WHERE DateDismissal IS NULL", reader =>
+            {
+                return new ItemEmployee()
+                {
+                    Id = reader.GetInt32("IdEmployee"),
+                    Surname = reader.GetString("Surname"),
+                    Name = reader.GetString("Name"),
+                    Lastname = reader["Lastname"] != DBNull.Value ? reader.GetString("Lastname") : null,
+                };
+            });
+
+            
+            DateTime startDate = DateTime.Parse(Days[0].Substring(0));
+            DateTime endDate = DateTime.Parse(Days[Days.Count-1].Substring(0));
+
+            for (int i=0; i < Employees.Count;i++)
+            {
+                Employees[i].IsSelected = (bool) App.serviceDb.OperationSelect( "SELECT CheckWorkEmployee(@idEmp, @start,@end)" , [Employees[i].Id.ToString(), startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd")]).Rows[0][0];
+            }
+           
+            
+            
             App.serviceDb.LoadComboBox(ref comboBoxMark, ref idDay, "Select * From manualday");
             comboBoxDay.ItemsSource = Days;
             comboBoxEmp.SelectedItem = Card.Employee.Surname + " " + Card.Employee.Name + " " + Card.Employee.Lastname;
@@ -72,7 +94,8 @@ namespace DbHourWorkWPF.View
                 textBoxHour.Text = Card.WorkTimes[indexWork].HourWork.ToString();
             }
             DataContext = Card;
-
+            comboBoxEmp.ItemsSource = Employees;
+            comboBoxEmp.SelectedItem = Employees.Where(item => item.Id == Card.Employee.Id).First();
         }
 
         public ContextCard(ItemCard card, List<string> days)
@@ -80,11 +103,31 @@ namespace DbHourWorkWPF.View
             InitializeComponent();
             Card = card;
             Days = days;
-            App.serviceDb.LoadComboBox(ref comboBoxEmp, ref idEmp, "Select * From employee WHERE DateDismissal IS NULL", 5, 3);
+
+            Employees = App.serviceDb.LoadListFromServer($"SELECT IdEmployee, Surname, Name, Lastname FROM employee WHERE DateDismissal IS NULL", reader =>
+            {
+                return new ItemEmployee()
+                {
+                    Id = reader.GetInt32("IdEmployee"),
+                    Surname = reader.GetString("Surname"),
+                    Name = reader.GetString("Name"),
+                    Lastname = reader["Lastname"] != DBNull.Value ? reader.GetString("Lastname") : null,
+                };
+            });
+
+
+            DateTime startDate = DateTime.Parse(Days[0].Substring(0));
+            DateTime endDate = DateTime.Parse(Days[Days.Count - 1].Substring(0));
+
+            for (int i = 0; i < Employees.Count; i++)
+            {
+                Employees[i].IsSelected = (bool)App.serviceDb.OperationSelect("SELECT CheckWorkEmployee(@idEmp, @start,@end)", [Employees[i].Id.ToString(), startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd")]).Rows[0][0];
+            }
+
             App.serviceDb.LoadComboBox(ref comboBoxMark, ref idDay, "Select * From manualday");
             comboBoxDay.ItemsSource = Days;
             DataContext = Card;
-
+            comboBoxEmp.ItemsSource = Employees;
         }
     }
 }

@@ -7,7 +7,9 @@
         xmlns:ut="clr-namespace:DbHourWorkWPF.Utilities"
         mc:Ignorable="d"
         Style="{StaticResource SpringAnimation}"
-        Title="MainWindow" Height="500" Width="700" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" WindowStyle="None" Background="Transparent">
+        Title="Окно дня"
+        Icon="/Pictures/IconFormDay2.png"
+        Height="500" Width="700" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" WindowStyle="None" Background="Transparent">
     <WindowChrome.WindowChrome>
         <WindowChrome/>
     </WindowChrome.WindowChrome>

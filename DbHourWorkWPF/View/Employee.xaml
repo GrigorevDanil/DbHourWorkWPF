@@ -58,13 +58,7 @@
 
         <!--Employee-->
 
-        <TextBox Style="{StaticResource HintTextBox}" Text="{Binding InputTextFilter, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Tag="Поиск" FontFamily="Times New Roman" FontSize="20" Margin="5,5,5,5" Grid.ColumnSpan="2">
-            <TextBox.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="5"/>
-                </Style>
-            </TextBox.Resources>
-        </TextBox>
+        <TextBox Style="{StaticResource HintTextBox}" Text="{Binding InputTextFilter, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Tag="Поиск" FontFamily="Times New Roman" FontSize="20" Margin="5,5,5,5" Grid.ColumnSpan="2"/>
 
         <DataGrid x:Name="dataGridEmployee" Grid.Row="2" Margin="5,5,5,15" ItemsSource="{Binding Employees}" Grid.ColumnSpan="2">
             <DataGrid.Columns>

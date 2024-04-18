@@ -7,8 +7,10 @@
         xmlns:ut="clr-namespace:DbHourWorkWPF.Utilities"
         xmlns:vm="clr-namespace:DbHourWorkWPF.ViewModel"
         mc:Ignorable="d"
-         Style="{StaticResource SpringAnimation}"
- Title="MainWindow" Height="400" Width="700" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" WindowStyle="None" Background="Transparent">
+        Style="{StaticResource SpringAnimation}"
+        Title="Окно печати"
+        Icon="/Pictures/IconFormPrint.png"
+        Height="400" Width="700" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="NoResize" WindowStyle="None" Background="Transparent">
 
     <Window.DataContext>
         <vm:TimeVM />

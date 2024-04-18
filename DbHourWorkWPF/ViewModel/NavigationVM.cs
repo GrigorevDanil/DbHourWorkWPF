@@ -26,6 +26,7 @@ namespace DbHourWorkWPF.ViewModel
 
         public RelayCommand? outputAuthorCommand { get; set; }
         public RelayCommand? printHtmlCommand { get; set; }
+        public RelayCommand? helpCommand { get; set; }
 
         public ICommand EmployeeCommand { get; set; }
         public ICommand TimeCommand { get; set; }
@@ -82,6 +83,19 @@ namespace DbHourWorkWPF.ViewModel
                   (printHtmlCommand = new RelayCommand((o) =>
                   {
                       new ContextPrintCard().ShowDialog();
+                  }));
+            }
+        }
+
+        // команда открытия справки html
+        public RelayCommand HelpCommand
+        {
+            get
+            {
+                return helpCommand ??
+                  (helpCommand = new RelayCommand((o) =>
+                  {
+                      Process.Start(Directory.GetCurrentDirectory() + "/Help/help5.chm");
                   }));
             }
         }

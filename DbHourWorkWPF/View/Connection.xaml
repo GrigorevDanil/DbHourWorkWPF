@@ -56,11 +56,11 @@
             <TextBlock Text="Пользователь:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0"  Grid.Row="3"/>
             <TextBlock Text="Пароль:" FontSize="26" FontFamily="Nautilus Pompilius" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,0,0,0"  Grid.Row="4"/>
 
-            <TextBox x:Name="textBoxServer" Style="{StaticResource HintTextBox}" Text="{Binding Server, UpdateSourceTrigger=PropertyChanged}" Tag="Адрес сервера" Grid.Row="0" Grid.Column="1" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" Margin="5,8,5,8" />
-            <TextBox x:Name="textBoxPort" Style="{StaticResource HintTextBox}" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" Tag="Номер порта" Grid.Row="1" Grid.Column="1" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" Margin="5,8,5,8" />
-            <TextBox x:Name="textBoxDB" Style="{StaticResource HintTextBox}" Text="{Binding DbName, UpdateSourceTrigger=PropertyChanged}"  Tag="Название базы данных" Grid.Row="2" Grid.Column="1" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" Margin="5,8,5,8" />
-            <ComboBox x:Name="comboBoxLogin" Style="{StaticResource ComboboxStyle}" ItemsSource="{Binding Users}" SelectedItem="{Binding User}" IsReadOnly="True"  Margin="5,8,5,8" FontSize="20" FontFamily="Times New Roman" Grid.Row="3" Grid.Column="1" />
-            <PasswordBox x:Name="passwordBox" Style="{StaticResource RoundedPasswordBoxStyle}" PasswordChanged="PasswordBox_PasswordChanged" FontSize="20" FontFamily="Times New Roman" Grid.Row="4" Grid.Column="1" Margin="5,8,5,8"/>
+            <TextBox Style="{StaticResource HintTextBox}" Text="{Binding Server, UpdateSourceTrigger=PropertyChanged}" Tag="Адрес сервера" Grid.Row="0" Grid.Column="1" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" Margin="5,8,5,8" />
+            <TextBox Style="{StaticResource HintTextBox}" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" Tag="Номер порта" Grid.Row="1" Grid.Column="1" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" Margin="5,8,5,8" />
+            <TextBox Style="{StaticResource HintTextBox}" Text="{Binding DbName, UpdateSourceTrigger=PropertyChanged}"  Tag="Название базы данных" Grid.Row="2" Grid.Column="1" TextAlignment="Left" FontSize="20" FontFamily="Times New Roman" Margin="5,8,5,8" />
+            <ComboBox Style="{StaticResource ComboboxStyle}" ItemsSource="{Binding Users}" SelectedItem="{Binding User}" IsReadOnly="True"  Margin="5,8,5,8" FontSize="20" FontFamily="Times New Roman" Grid.Row="3" Grid.Column="1" />
+            <PasswordBox  Style="{StaticResource RoundedPasswordBoxStyle}" PasswordChanged="PasswordBox_PasswordChanged" FontSize="20" FontFamily="Times New Roman" Grid.Row="4" Grid.Column="1" Margin="5,8,5,8"/>
         </Grid>
 
         <!-- Operation Button -->
