@@ -150,11 +150,11 @@ namespace DbHourWorkWPF
                     flagChangeUserServer = false;
                 }
 
-                //Вспомогательные таблицы
-                DataTable table, tableCheckPass;
+                //Вспомогательная таблица
+                DataTable table;
 
                 //Попытка найти пользователя в таблице
-                table = App.serviceDb.OperationSelect("SELECT * FROM user WHERE Login = @login;", [ textBoxLog.Text, curPass ]);
+                table = App.serviceDb.OperationSelect("SELECT * FROM user WHERE Login = @login;", [textBoxLog.Text, curPass]);
 
 
                 if (table.Rows.Count > 0)
@@ -180,8 +180,8 @@ namespace DbHourWorkWPF
                         else
                         {
                             //Разблокировка пользователя и установка счетчика на 3 попытки
-                            App.serviceDb.OperationOnRecord("UPDATE user SET DateLock = @date, CountAttemp = @count WHERE Login = @login;", [ null, "3", textBoxLog.Text]);
-                            table = App.serviceDb.OperationSelect("SELECT * FROM user WHERE Login = @login;", [ textBoxLog.Text]);
+                            App.serviceDb.OperationOnRecord("UPDATE user SET DateLock = @date, CountAttemp = @count WHERE Login = @login;", [null, "3", textBoxLog.Text]);
+                            table = App.serviceDb.OperationSelect("SELECT * FROM user WHERE Login = @login;", [textBoxLog.Text]);
                             row = table.Rows[0];
                         }
                     }
@@ -220,7 +220,7 @@ namespace DbHourWorkWPF
                     App.Account.Salt = row["Salt"].ToString();
 
                     //Проверка логина и пароля
-                    
+
                     string tempPassHash = App.HashPassword(curPass, App.Account.Salt);
 
                     if (App.Account.PasswordHash != tempPassHash)
@@ -228,14 +228,14 @@ namespace DbHourWorkWPF
                         if (tempCount == 0)
                         {
                             //Блокировка пользователя
-                            App.serviceDb.OperationOnRecord("UPDATE user SET DateLock = @date WHERE IdUser = @idUser;", [  DateTime.Now.ToString("yyyy-MM-dd"), App.Account.Id.ToString() ]);
+                            App.serviceDb.OperationOnRecord("UPDATE user SET DateLock = @date WHERE IdUser = @idUser;", [DateTime.Now.ToString("yyyy-MM-dd"), App.Account.Id.ToString()]);
                             App.serviceDb.openConnection();
                             MessageBox.Show($"Пользователь {textBoxLog.Text} был заблокирован на 1 минуту. Повторите попытку позже ", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                             return;
                         }
 
                         //Уменьшение счетчика на 1 при неправильном пароле
-                        App.serviceDb.OperationOnRecord("UPDATE user SET CountAttemp = CountAttemp-1 WHERE IdUser = @idUser;", [ App.Account.Id.ToString() ]);
+                        App.serviceDb.OperationOnRecord("UPDATE user SET CountAttemp = CountAttemp-1 WHERE IdUser = @idUser;", [App.Account.Id.ToString()]);
                         App.serviceDb.openConnection();
                         MessageBox.Show($"Неверный пароль! Осталось попыток входа: {tempCount}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
@@ -266,10 +266,7 @@ namespace DbHourWorkWPF
                     MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
-                finally
-                {
-                    App.serviceDb.closeConnection();
-                }
+                App.serviceDb.closeConnection();
                 App.Account.Login = comboBoxLogin.SelectedItem.ToString();
                 App.Account.Image = new BitmapImage(new Uri("ImageEmployee.png", UriKind.Relative));
                 MainForm form = new MainForm();
@@ -285,7 +282,7 @@ namespace DbHourWorkWPF
         {
             if (checkBoxServer.IsChecked == true)
             {
-                //Анимация смены полей
+                //Анимация смены полей для входа по серверу
                 AnimateElementDownUp(textBoxLog, 10, TimeSpan.FromSeconds(0.5), true);
                 AnimateElementDownUp(textBoxHost, -10, TimeSpan.FromSeconds(0.5), false);
                 AnimateElementDownUp(comboBoxLogin, -10, TimeSpan.FromSeconds(0.5), false);
@@ -294,7 +291,7 @@ namespace DbHourWorkWPF
             }
             else
             {
-                //Анимация смены полей
+                //Анимация смены полей для программного входа
                 AnimateElementDownUp(textBoxLog, -10, TimeSpan.FromSeconds(0.5), false);
                 AnimateElementDownUp(textBoxHost, 10, TimeSpan.FromSeconds(0.5), true);
                 AnimateElementDownUp(comboBoxLogin, 10, TimeSpan.FromSeconds(0.5), true);
@@ -416,10 +413,8 @@ namespace DbHourWorkWPF
 
         private void butUpdate_Click(object sender, RoutedEventArgs e)
         {
-            //Проверка подключения
-            try { 
-                App.serviceDb.openConnection();
-            }
+            // Попытка открытия подключения к базе данных
+            try { App.serviceDb.openConnection(); }
             catch
             {
                 tbStatus.Text = "Отсутвует подключение";

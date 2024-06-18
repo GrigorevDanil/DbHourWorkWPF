@@ -23,7 +23,7 @@ namespace DbHourWorkWPF.ViewModel
     class TimeVM : Utilities.ViewModelBase
     {
         string 
-           cmdAdd = "START TRANSACTION; INSERT INTO card VALUES (NULL,@idEmp,@_idDay,@date, @hour) COMMIT;",
+           cmdAdd = "START TRANSACTION; INSERT INTO card VALUES (NULL,@idEmp,@_idDay,@date, @hour); COMMIT;",
            cmdEdit = "UPDATE card SET IdEmployee = @idEmp, IdDay = @_idDay, DateWork = @date, HourWork = @hour WHERE IdCard = @_idCard";
 
         private readonly PageModel _pageModel;

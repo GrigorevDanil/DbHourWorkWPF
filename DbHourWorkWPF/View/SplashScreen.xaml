@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DbHourWorkWPF"
-        xmlns:ut="clr-namespace:DbHourWorkWPF.Utilities"
         mc:Ignorable="d"
         Style="{StaticResource SpringAnimation}"
         Title="Стартовое окно"
